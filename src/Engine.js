@@ -6,7 +6,8 @@ import _ from 'lodash'
 import Promise from 'bluebird'
 import debug from 'debug'
 
-const log = debug('uci:Engine')
+// const log = debug('uci:Engine')
+const log = console.log
 
 //dem regexes
 const REGEX = {
@@ -69,7 +70,52 @@ function parseOption(line) {
 	}
 }
 
-function engineParser(fn) {
+function goCommand(options) {
+	let cmd = 'go'
+	let commands = [
+		'searchmoves', //[moves]
+		'ponder', //bool
+		'wtime', //msec
+		'btime', //msec
+		'winc', //msec
+		'binc', //msec
+		'movestogo', //>0
+		'depth', //>0
+		'nodes', //>0
+		'mate', //>0
+		'movetime', //msec
+		'infinite' //bool
+	]
+
+	commands.forEach((command) => {
+		if( ! options[command] ) return;
+		switch( command ) {
+			//array
+			case 'searchmoves':
+				if( options[command].length ) {
+					cmd += ' searchmoves ' + options[command].join(' ')
+				}
+				break;
+			//bool
+			case 'ponder':
+			case 'infinite':
+				if( options[command] ) {
+					cmd += ` ${command}`
+				}
+				break;
+			//rest are >= 0
+			default:
+				if( options[command] >= 0 ) {
+					cmd += ` ${command} ${options[command]}`
+				}
+		}
+	})
+
+	return `${cmd}${EOL}`
+}
+
+//create an engine listener - convenience
+function engineListenerCreator(fn) {
 	return (buffer) => {
 		let lines = getLines(buffer)
 
@@ -138,7 +184,7 @@ export default class Engine {
 			}
 
 			this.proc.stdout
-			.on('data', engineParser(parser))
+			.on('data', engineListenerCreator(parser))
 
 			this.proc.stdin.write(`uci${EOL}`)
 		})
@@ -166,7 +212,7 @@ export default class Engine {
 					reject(new Error(`unexpected line: expecting "readyok", got: "${line}"`))
 				}
 			}
-			this.proc.stdout.once('data', engineParser(listener))
+			this.proc.stdout.once('data', engineListenerCreator(listener))
 			this.proc.stdin.write(`isready${EOL}`)
 		})
 	}
@@ -209,54 +255,9 @@ export default class Engine {
 		return this.sendCmd(`position ${cmd}`)
 	}
 
-	go() {
-		let cmd = 'go'
-		let commands = [
-			'searchmoves', //[moves]
-			'ponder', //bool
-			'wtime', //msec
-			'btime', //msec
-			'winc', //msec
-			'binc', //msec
-			'movestogo', //>0
-			'depth', //>0
-			'nodes', //>0
-			'mate', //>0
-			'movetime', //msec
-			'infinite' //bool
-		]
-
-		commands.forEach((command) => {
-			if( ! options[command] ) return;
-			switch( command ) {
-				//array
-				case 'searchmoves':
-					if( options[command].length ) {
-						cmd += ' searchmoves ' + options[command].join(' ')
-					}
-					break;
-				//bool
-				case 'ponder':
-				case 'infinite':
-					if( options[command] ) {
-						cmd += ` ${command}`
-					}
-					break;
-				//rest are >= 0
-				default:
-					if( options[command] >= 0 ) {
-						cmd += ` ${command} ${options[command]}`
-					}
-			}
-		})
-
-		if( options.searchmoves.length ) {
-			cmd += ' searchmoves ' + options.searchmoves.join(' ')
-		}
-
-		if( options.ponder ) {
-			cmd += 'ponder'
-		}
-		return this.sendCmd(`go ..`)
+	go(options) {
+		let cmd = goCommand(options)
+		log('cmd', cmd)
+		return this.isready()
 	}
 }
