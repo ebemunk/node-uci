@@ -374,6 +374,15 @@ describe('EngineAnalysis', () => {
 		})
 
 		describe('go', (options) => {
+			it('', () => {
+				let opts = {
+					depth: 3,
+					wtime: 1231,
+					btime: 12312
+				}
+				engine.go(opts)
+				// expect(engine.sendCmd).to.have.been.calledWith(`go infinite${EOL}`)
+			})
 		})
 	})
 
