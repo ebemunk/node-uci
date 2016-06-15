@@ -7,17 +7,17 @@
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-register --require babel-polyfill --recursive ./**/*.test.js",
     "test:watch": "npm test -- --watch",
     "test:cov": "cross-env NODE_ENV=test istanbul cover _mocha -- --compilers js:babel-register --require babel-polyfill --recursive ./**/*.test.js",
-    "f": "ve"
+    "empty": ""
   },
   "repository": {
     "type": "git",
-    "url": "tea"
+    "url": "test.com"
   },
   "keywords": [
-    "bab",
-    "tok"
+    "key",
+    "words"
   ],
-  "author": "bgae",
+  "author": "ebemunk",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.9.1",
