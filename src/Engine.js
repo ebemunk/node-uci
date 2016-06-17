@@ -6,8 +6,8 @@ import _ from 'lodash'
 import Promise from 'bluebird'
 import debug from 'debug'
 
-// const log = debug('uci:Engine')
-const log = console.log
+const log = debug('uci:Engine')
+// const log = console.log
 
 //dem regexes
 const REGEX = {
