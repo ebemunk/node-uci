@@ -141,6 +141,14 @@ describe('EngineAnalysis', () => {
 				})
 			})
 		})
+
+		describe('goCommand', () => {
+			let goCommand = Engine.__get__('goCommand')
+
+			it('should ...', () => {
+
+			})
+		})
 	})
 
 	describe('constructor', () => {
@@ -374,14 +382,13 @@ describe('EngineAnalysis', () => {
 		})
 
 		describe('go', (options) => {
-			it('', () => {
+			it('go test', () => {
 				let opts = {
 					depth: 3,
 					wtime: 1231,
 					btime: 12312
 				}
 				engine.go(opts)
-				// expect(engine.sendCmd).to.have.been.calledWith(`go infinite${EOL}`)
 			})
 		})
 	})
