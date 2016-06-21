@@ -8,7 +8,8 @@ import expect from './Chai'
 import Engine from '../src'
 import {childProcessMock} from './util'
 
-const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
+// const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
+const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
 
 Promise.onPossiblyUnhandledRejection(_.noop)
 
@@ -445,35 +446,31 @@ describe('EngineAnalysis', () => {
 			})
 		})
 	})
+})
 
-	// it.only('should load it bro', async () => {
-	xit('should load it bro', async (done) => {
+describe.only('yea', () => {
+	it('should load it bro', async () => {
 		// let game = new Chess()
 		// game.load_pgn(pgn)
 
 		let engine = new Engine(enginePath)
-
 		let rez = await engine.init()
 		await engine.isready()
 
-		// console.log('enji7n', engine)
-		// console.log('re', engine.id, engine.options)
+		console.log('engine ready', engine.id, engine.options)
 
 		await engine.quit()
-
-		console.log('rez', rez.options);
-
 
 		//ideal
 		// let engine = new Engine(enginePath)
 		//
-		let sad = await engine
-		.chain()
-		.init()
-		.isready()
-		.ucinewgame()
-		.quit()
-		.commit()
-		console.log('REZZZ',sad.options);
+		// let sad = await engine
+		// .chain()
+		// .init()
+		// .isready()
+		// .ucinewgame()
+		// .quit()
+		// .commit()
+		// console.log('REZZZ',sad.options);
 	})
 })
