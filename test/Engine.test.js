@@ -145,8 +145,61 @@ describe('EngineAnalysis', () => {
 		describe('goCommand', () => {
 			let goCommand = Engine.__get__('goCommand')
 
-			it('should ...', () => {
+			it('should ignore invalid options', () => {
+				let cmd = goCommand({
+					derpy: 'yep',
+					ponder: false,
+					lolol: -2.84,
+					searchmoves: {obj: 'yes'},
+					infinite: false
+				})
+				expect(cmd).to.equal(`go${EOL}`)
+			})
 
+			it('should not validate options', () => {
+				//infinite & depth are incompatible, we don't care
+				let cmd = goCommand({infinite: true, depth: 3})
+				expect(cmd).to.equal(`go depth 3 infinite${EOL}`)
+			})
+
+			it('should append searchmoves correctly', () => {
+				let cmd = goCommand({
+					searchmoves: ['e2e4', 'd7d5', 'e4d5', 'd8d5']
+				})
+				expect(cmd).to.equal(`go searchmoves e2e4 d7d5 e4d5 d8d5${EOL}`)
+			})
+
+			it('should include ponder and inifinite flag', () => {
+				let cmd = goCommand({ponder: 27, infinite: true})
+				expect(cmd).to.equal(`go ponder infinite${EOL}`)
+			})
+
+			it('should include ponder and infinite only if true', () => {
+				let cmd = goCommand({ponder: false, infinite: NaN})
+				expect(cmd).to.equal(`go${EOL}`)
+			})
+
+			it('should include all the rest of the options if they are > 0', () => {
+				let cmd = goCommand({
+					wtime: 1,
+					btime: -1,
+					winc: 2,
+					binc: -2,
+					movestogo: 3,
+					depth: -3,
+					nodes: 4,
+					mate: -4,
+					movetime: 5
+				})
+				expect(cmd).to.contain('wtime 1')
+				expect(cmd).to.not.contain('btime')
+				expect(cmd).to.contain('winc 2')
+				expect(cmd).to.not.contain('binc')
+				expect(cmd).to.contain('movestogo 3')
+				expect(cmd).to.not.contain('depth')
+				expect(cmd).to.contain('nodes 4')
+				expect(cmd).to.not.contain('mate')
+				expect(cmd).to.contain('movetime 5')
 			})
 		})
 	})
