@@ -69,6 +69,7 @@ function parseOption(line) {
 	}
 }
 
+//construct go command from options
 function goCommand(options) {
 	let cmd = 'go'
 	let commands = [
@@ -117,7 +118,6 @@ function goCommand(options) {
 function engineListenerCreator(fn) {
 	return (buffer) => {
 		let lines = getLines(buffer)
-
 		lines.forEach(fn)
 	}
 }
@@ -137,7 +137,7 @@ export default class Engine {
 	}
 
 	init() {
-		return	new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			this.proc = spawn(this.filePath)
 			this.proc
 			.on('close', reject)
