@@ -30,7 +30,7 @@ if( process.env.NODE_ENV === 'production' ) {
 			},
 			comments: false
 		})
-	);
+	)
 }
 
 export default config
