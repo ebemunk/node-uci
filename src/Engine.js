@@ -22,7 +22,6 @@ function getLines(buffer) {
 	.toString()
 	.split(/\r?\n/g)
 	.filter(line => !!line.length)
-
 	return lines
 }
 
@@ -88,7 +87,7 @@ function goCommand(options) {
 	]
 
 	commands.forEach((command) => {
-		if( ! options[command] ) return;
+		if( ! options.hasOwnProperty(command) ) return;
 		switch( command ) {
 			//array
 			case 'searchmoves':
