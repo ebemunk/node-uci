@@ -2,7 +2,7 @@
   "name": "node-uci",
   "version": "0.0.1",
   "description": "UCI",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-register --require babel-polyfill --recursive ./**/*.test.js",
     "test:watch": "npm test -- --watch",
@@ -11,11 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "test.com"
+    "url": "https://github.com/ebemunk/node-uci"
   },
   "keywords": [
-    "key",
-    "words"
+    "universal",
+    "chess",
+    "interface",
+    "uci",
+    "engine"
   ],
   "author": "ebemunk",
   "license": "MIT",
