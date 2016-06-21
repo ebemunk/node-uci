@@ -13,7 +13,7 @@ const log = debug('uci:Engine')
 const REGEX = {
 	cmdType: /^(id|option|uciok$)/,
 	id: /^id (name|author) (.+)$/,
-	option: /^option name (.+) type (\w+)(?: default ([A-Za-z0-9._\\\:<>/]+))?(?: min (\w+))?(?: max (\w+))?(?: var (.+))*$/
+	option: /^option name (.+) type (\w+)(?: default ([A-Za-z0-9._\\\:<>/]+))?(?: min (-?\w+))?(?: max (-?\w+))?(?: var (.+))*$/
 }
 
 //get a Buffer and split the newlines
