@@ -13,7 +13,12 @@ const log = debug('uci:Engine')
 const REGEX = {
 	cmdType: /^(id|option|uciok$)/,
 	id: /^id (name|author) (.+)$/,
-	option: /^option name (.+) type (\w+)(?: default ([A-Za-z0-9._\\\:<>/]+))?(?: min (-?\w+))?(?: max (-?\w+))?(?: var (.+))*$/
+	option: /^option name (.+) type (\w+)(?: default ([A-Za-z0-9._\\\:<>/]+))?(?: min (-?\w+))?(?: max (-?\w+))?(?: var (.+))*$/,
+	info: {
+		depth: /\bdepth (\d+)/,
+		seldepth: /\bseldepth (\d+)/,
+		time: /\btime (\d+)/
+	}
 }
 
 //get a Buffer and split the newlines
@@ -114,6 +119,18 @@ function goCommand(options) {
 	return `${cmd}${EOL}`
 }
 
+function parseInfo(line) {
+	log('parseInfo')
+	log('line', line)
+	let info = {}
+	_.forEach(REGEX.info, (val, key) => {
+		let parsed = val.exec(line)
+		if( ! parsed ) return
+		info[key] = parsed[1]
+	})
+	log('info', info, EOL)
+}
+
 //create an engine listener - convenience
 function engineListenerCreator(fn) {
 	return (buffer) => {
@@ -145,11 +162,12 @@ export default class Engine {
 
 			//the parser fn that will interpret engine output
 			let parser = (line) => {
-				log('line:', line)
+			// function parser(line) {
+				log('init: line', line)
 				let cmdType = _.get(REGEX.cmdType.exec(line), 1)
 				if( ! cmdType ) {
 					//couldn't parse, ignore
-					log('ignoring', EOL)
+					log('init: ignoring', EOL)
 					return
 				}
 
@@ -176,6 +194,7 @@ export default class Engine {
 						log('uciok')
 						//init done, cleanup listener and resolve
 						this.proc.stdout.removeListener('data', parser)
+						// this.proc.stdout.removeAllListeners()
 						//resolve `this` in case handler doesn't have a ref to engine
 						resolve(this)
 						break
@@ -255,8 +274,14 @@ export default class Engine {
 	}
 
 	go(options) {
-		let cmd = goCommand(options)
-		log('cmd', cmd)
-		return this.isready()
+		return new Promise((resolve, reject) => {
+			if( ! this.proc ) reject(new Error('cannot call "go()": engine process not running'))
+			let listener = (line) => {
+				let info = parseInfo(line)
+			}
+			let command = goCommand(options)
+			this.proc.stdout.on('data', engineListenerCreator(listener))
+			this.proc.stdin.write(command)
+		})
 	}
 }

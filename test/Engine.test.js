@@ -459,6 +459,9 @@ describe.only('yea', () => {
 
 		console.log('engine ready', engine.id, engine.options)
 
+		let go = await engine.go({depth: 10})
+		console.log('go', go);
+
 		await engine.quit()
 
 		//ideal
