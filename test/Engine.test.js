@@ -455,11 +455,12 @@ describe.only('yea', () => {
 
 		let engine = new Engine(enginePath)
 		let rez = await engine.init()
+		await engine.setoption('MultiPV', '4')
 		await engine.isready()
 
 		console.log('engine ready', engine.id, engine.options)
 
-		let go = await engine.go({depth: 10})
+		let go = await engine.go({depth: 15})
 		console.log('go', go);
 
 		await engine.quit()
