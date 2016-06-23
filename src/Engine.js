@@ -17,7 +17,20 @@ const REGEX = {
 	info: {
 		depth: /\bdepth (\d+)/,
 		seldepth: /\bseldepth (\d+)/,
-		time: /\btime (\d+)/
+		time: /\btime (\d+)/,
+		nodes: /\bnodes (\d+)/,
+		currmove: /\bcurrmove (\w+)/,
+		currmovenumber: /\bcurrmovenumber (\d+)/,
+		hashfull: /\bhashfull (\d+)/,
+		nps: /\bnps (\d+)/,
+		tbhits: /\btbhits (\d+)/,
+		cpuload: /\bcpuload (\d+)/,
+		score: /\bscore (cp|mate|lowerbound|upperbound) (\d+)/,
+		multipv: /\bmultipv (\d+)/,
+		pv: /\bpv (.+)/,
+		string: /\bstring (.+)/,
+		refutation: /\brefutation (.+)/,
+		currline: /\bcurrline (.+)/
 	}
 }
 
@@ -126,17 +139,19 @@ function parseInfo(line) {
 	_.forEach(REGEX.info, (val, key) => {
 		let parsed = val.exec(line)
 		if( ! parsed ) return
-		info[key] = parsed[1]
+		switch( key ) {
+		case 'score':
+			info[key] = {
+				unit: parsed[1],
+				value: parsed[2]
+			}
+			break;
+		default:
+			info[key] = parsed[1]
+		}
 	})
 	log('info', info, EOL)
-}
-
-//create an engine listener - convenience
-function engineListenerCreator(fn) {
-	return (buffer) => {
-		let lines = getLines(buffer)
-		lines.forEach(fn)
-	}
+	return info
 }
 
 export default class Engine {
