@@ -161,48 +161,48 @@ export default class Engine {
 			.on('error', reject)
 
 			//the parser fn that will interpret engine output
-			let parser = (line) => {
-			// function parser(line) {
-				log('init: line', line)
-				let cmdType = _.get(REGEX.cmdType.exec(line), 1)
-				if( ! cmdType ) {
-					//couldn't parse, ignore
-					log('init: ignoring', EOL)
-					return
-				}
+			let parser = (buffer) => {
+				let lines = getLines(buffer)
+				lines.forEach(line => {
+					log('init: line', line)
+					let cmdType = _.get(REGEX.cmdType.exec(line), 1)
+					if( ! cmdType ) {
+						//couldn't parse, ignore
+						log('init: ignoring', EOL)
+						return
+					}
 
-				switch( cmdType ) {
-					case 'id':
-						try {
-							let id = parseId(line)
-							this.id[id.key] = id.value
-							log('id:', id, EOL)
-						} catch (err) {
-							log('id: ignoring: parse error', EOL)
-						}
-						break
-					case 'option':
-						try {
-							let option = parseOption(line)
-							this.options.set(option.key, option.value)
-							log('option:', option, EOL)
-						} catch (err) {
-							log('option: ignoring: parse error', EOL)
-						}
-						break
-					case 'uciok':
-						log('uciok')
-						//init done, cleanup listener and resolve
-						this.proc.stdout.removeListener('data', parser)
-						// this.proc.stdout.removeAllListeners()
-						//resolve `this` in case handler doesn't have a ref to engine
-						resolve(this)
-						break
-				}
+					switch( cmdType ) {
+						case 'id':
+							try {
+								let id = parseId(line)
+								this.id[id.key] = id.value
+								log('id:', id, EOL)
+							} catch (err) {
+								log('id: ignoring: parse error', EOL)
+							}
+							break
+						case 'option':
+							try {
+								let option = parseOption(line)
+								this.options.set(option.key, option.value)
+								log('option:', option, EOL)
+							} catch (err) {
+								log('option: ignoring: parse error', EOL)
+							}
+							break
+						case 'uciok':
+							log('uciok')
+							//init done, cleanup listener and resolve
+							this.proc.stdout.removeListener('data', parser)
+							resolve(this)
+							break
+					}
+				})
 			}
 
 			this.proc.stdout
-			.on('data', engineListenerCreator(parser))
+			.on('data', parser)
 
 			this.proc.stdin.write(`uci${EOL}`)
 		})
@@ -223,14 +223,17 @@ export default class Engine {
 	isready() {
 		return new Promise((resolve, reject) => {
 			if( ! this.proc ) reject(new Error('cannot call "isready()": engine process not running'))
-			let listener = (line) => {
-				if( line === 'readyok') {
-					resolve(this)
-				} else {
-					reject(new Error(`unexpected line: expecting "readyok", got: "${line}"`))
-				}
+			let listener = (buffer) => {
+				let lines = getLines(buffer)
+				lines.forEach(line => {
+					if( line === 'readyok') {
+						resolve(this)
+					} else {
+						reject(new Error(`unexpected line: expecting "readyok", got: "${line}"`))
+					}
+				})
 			}
-			this.proc.stdout.once('data', engineListenerCreator(listener))
+			this.proc.stdout.once('data', listener)
 			this.proc.stdin.write(`isready${EOL}`)
 		})
 	}
@@ -276,11 +279,14 @@ export default class Engine {
 	go(options) {
 		return new Promise((resolve, reject) => {
 			if( ! this.proc ) reject(new Error('cannot call "go()": engine process not running'))
-			let listener = (line) => {
-				let info = parseInfo(line)
+			let listener = buffer => {
+				let lines = getLines(buffer)
+				lines.forEach(line => {
+					let info = parseInfo(line)
+				})
 			}
 			let command = goCommand(options)
-			this.proc.stdout.on('data', engineListenerCreator(listener))
+			this.proc.stdout.on('data', listener)
 			this.proc.stdin.write(command)
 		})
 	}
