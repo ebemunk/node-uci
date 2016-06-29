@@ -17,7 +17,7 @@ describe('EngineAnalysis', () => {
 	let cpMock
 
 	function engineInit() {
-		let p = new Engine('').init()
+		const p = new Engine('').init()
 		cpMock.uciok()
 		return p
 	}
@@ -32,37 +32,37 @@ describe('EngineAnalysis', () => {
 
 	describe('private', () => {
 		describe('getLines', () => {
-			let getLines = Engine.__get__('getLines')
+			const getLines = Engine.__get__('getLines')
 
 			it('should throw if no param given', () => {
 				expect(() => getLines()).to.throw
 			})
 
 			it('should always return an array', () => {
-				let r = getLines('')
+				const r = getLines('')
 				expect(r).to.be.an.array
 			})
 
 			it('should split by newline', () => {
-				let r = getLines('1\n2\n3')
+				const r = getLines('1\n2\n3')
 				expect(r.length).to.equal(3)
 			})
 
 			it('should not contain empty lines', () => {
-				let r = getLines('1\n\n\n2\n\n3\n')
+				const r = getLines('1\n\n\n2\n\n3\n')
 				expect(r.length).to.equal(3)
 			})
 		})
 
 		describe('parseId', () => {
-			let parseId = Engine.__get__('parseId')
+			const parseId = Engine.__get__('parseId')
 
 			it('should throw if invalid cmd', () => {
 				expect(() => parseId('id lololo kekeke')).to.throw
 			})
 
 			it('should parse "name"', () => {
-				let r = parseId('id name Stockfish 7 64')
+				const r = parseId('id name Stockfish 7 64')
 				expect(r).to.be.deep.equal({
 					key: 'name',
 					value: 'Stockfish 7 64'
@@ -70,7 +70,7 @@ describe('EngineAnalysis', () => {
 			})
 
 			it('should parse "author"', () => {
-				let r = parseId('id author T. Romstad, M. Costalba, J. Kiiski, G. Linscott')
+				const r = parseId('id author T. Romstad, M. Costalba, J. Kiiski, G. Linscott')
 				expect(r).to.be.deep.equal({
 					key: 'author',
 					value: 'T. Romstad, M. Costalba, J. Kiiski, G. Linscott'
@@ -79,14 +79,14 @@ describe('EngineAnalysis', () => {
 		})
 
 		describe('parseOption', () => {
-			let parseOption = Engine.__get__('parseOption')
+			const parseOption = Engine.__get__('parseOption')
 
 			it('should throw if invalid cmd', () => {
 				expect(() => parseOption('option fafa lolol')).to.throw
 			})
 
 			it('should parse "check"', () => {
-				let r = parseOption('option name Nullmove type check default true')
+				const r = parseOption('option name Nullmove type check default true')
 				expect(r).to.have.properties({
 					key: 'Nullmove',
 					value: {
@@ -97,7 +97,7 @@ describe('EngineAnalysis', () => {
 			})
 
 			it('should parse "spin"', () => {
-				let r = parseOption('option name Selectivity type spin default 2 min 0 max 4')
+				const r = parseOption('option name Selectivity type spin default 2 min 0 max 4')
 				expect(r).to.have.properties({
 					key: 'Selectivity',
 					value: {
@@ -110,7 +110,7 @@ describe('EngineAnalysis', () => {
 			})
 
 			it('should parse "combo"', () => {
-				let r = parseOption('option name Style type combo default Normal var Solid var Normal var Risky')
+				const r = parseOption('option name Style type combo default Normal var Solid var Normal var Risky')
 				expect(r).to.have.properties({
 					key: 'Style',
 					value: {
@@ -122,7 +122,7 @@ describe('EngineAnalysis', () => {
 			})
 
 			it('should parse "string"', () => {
-				let r = parseOption('option name NalimovPath type string default c:\\')
+				const r = parseOption('option name NalimovPath type string default c:\\')
 				expect(r).to.have.properties({
 					key: 'NalimovPath',
 					value: {
@@ -133,7 +133,7 @@ describe('EngineAnalysis', () => {
 			})
 
 			it('should parse "button"', () => {
-				let r = parseOption('option name Clear Hash type button')
+				const r = parseOption('option name Clear Hash type button')
 				expect(r).to.have.properties({
 					key: 'Clear Hash',
 					value: {
@@ -144,10 +144,10 @@ describe('EngineAnalysis', () => {
 		})
 
 		describe('goCommand', () => {
-			let goCommand = Engine.__get__('goCommand')
+			const goCommand = Engine.__get__('goCommand')
 
 			it('should ignore invalid options', () => {
-				let cmd = goCommand({
+				const cmd = goCommand({
 					derpy: 'yep',
 					ponder: false,
 					lolol: -2.84,
@@ -159,29 +159,29 @@ describe('EngineAnalysis', () => {
 
 			it('should not validate options', () => {
 				//infinite & depth are incompatible, we don't care
-				let cmd = goCommand({infinite: true, depth: 3})
+				const cmd = goCommand({infinite: true, depth: 3})
 				expect(cmd).to.equal(`go depth 3 infinite${EOL}`)
 			})
 
 			it('should append searchmoves correctly', () => {
-				let cmd = goCommand({
+				const cmd = goCommand({
 					searchmoves: ['e2e4', 'd7d5', 'e4d5', 'd8d5']
 				})
 				expect(cmd).to.equal(`go searchmoves e2e4 d7d5 e4d5 d8d5${EOL}`)
 			})
 
 			it('should include ponder and inifinite flag', () => {
-				let cmd = goCommand({ponder: 27, infinite: true})
+				const cmd = goCommand({ponder: 27, infinite: true})
 				expect(cmd).to.equal(`go ponder infinite${EOL}`)
 			})
 
 			it('should include ponder and infinite only if true', () => {
-				let cmd = goCommand({ponder: false, infinite: NaN})
+				const cmd = goCommand({ponder: false, infinite: NaN})
 				expect(cmd).to.equal(`go${EOL}`)
 			})
 
 			it('should include all the rest of the options if they are > 0', () => {
-				let cmd = goCommand({
+				const cmd = goCommand({
 					wtime: 1,
 					btime: -1,
 					winc: 2,
@@ -213,43 +213,43 @@ describe('EngineAnalysis', () => {
 
 	describe('init', () => {
 		it('should return a promise', () => {
-			let p = new Engine('').init()
+			const p = new Engine('').init()
 			expect(p).to.be.an.instanceof(Promise)
 		})
 
 		it('should reject if "error" is sent', () => {
-			let p = new Engine('').init()
+			const p = new Engine('').init()
 			cpMock.emit('error', 'test')
 			return expect(p).to.be.rejectedWith('test')
 		})
 
 		it('should reject if "close" is sent', () => {
-			let p = new Engine('').init()
+			const p = new Engine('').init()
 			cpMock.emit('close', 'test')
 			return expect(p).to.be.rejectedWith('test')
 		})
 
 		it('should send "uci" command to proc stdout', () => {
-			let p = new Engine('').init()
+			const p = new Engine('').init()
 			expect(cpMock.stdin.write).to.have.been.calledWithExactly(`uci${EOL}`)
 		})
 
 		it('should resolve when "uciok" is sent', () => {
-			let p = new Engine('').init()
+			const p = new Engine('').init()
 			cpMock.uciok()
 			return expect(p).to.be.fulfilled
 		})
 
 		it('should resolve to itself (Engine)', async () => {
-				let e = new Engine('')
-				let p = e.init()
+				const e = new Engine('')
+				const p = e.init()
 				cpMock.uciok()
-				let ref = await p
+				const ref = await p
 				expect(ref).to.be.deep.equal(e)
 		})
 
 		it('should parse "id" and "options" correctly', async () => {
-			let data = [
+			const data = [
 				//ignore
 				'bad command: ignore',
 				//id
@@ -269,8 +269,8 @@ describe('EngineAnalysis', () => {
 				//resolve
 				'uciok'
 			]
-			let e = new Engine('')
-			let p = e.init()
+			const e = new Engine('')
+			const p = e.init()
 			cpMock.stdout.emit('data', data.join(EOL))
 			await p
 			expect(e.id).to.have.keys('name', 'author')
@@ -278,7 +278,7 @@ describe('EngineAnalysis', () => {
 		})
 
 		it('should remove listener after resolving', async () => {
-			let p = new Engine('').init()
+			const p = new Engine('').init()
 			cpMock.uciok()
 			await p
 			expect(cpMock.stdout.listenerCount('on')).to.be.equal(0)
@@ -287,27 +287,27 @@ describe('EngineAnalysis', () => {
 
 	describe('quit', () => {
 		it('should return a promise', () => {
-			let p = new Engine('').quit()
+			const p = new Engine('').quit()
 			expect(p).to.be.an.instanceof(Promise)
 		})
 
 		it('should reject if process not running', () => {
-			let p = new Engine('').quit()
+			const p = new Engine('').quit()
 			return expect(p).to.be.rejected
 		})
 
 		it('should send "quit" command to proc stdout', async () => {
-			let p = await engineInit()
+			const p = await engineInit()
 			p.quit()
 			expect(cpMock.stdin.write).to.have.been.calledWithExactly(`quit${EOL}`)
 		})
 
 		it('should clean up after process exits', async () => {
-			let p = await engineInit()
+			const p = await engineInit()
 			p.quit()
 			cpMock.emit('close')
-			p = await p
-			expect(p.proc).to.be.undefined
+			let p2 = await p
+			expect(p2.proc).to.be.undefined
 		})
 
 		it('should resolve (code, signal)', async () => {
@@ -321,12 +321,12 @@ describe('EngineAnalysis', () => {
 
 	describe('isready', () => {
 		it('should return a promise', () => {
-			let p = new Engine('').isready()
+			const p = new Engine('').isready()
 			expect(p).to.be.an.instanceof(Promise)
 		})
 
 		it('should reject if process not running', () => {
-			let p = new Engine('').isready()
+			const p = new Engine('').isready()
 			return expect(p).to.be.rejected
 		})
 
@@ -354,23 +354,23 @@ describe('EngineAnalysis', () => {
 
 	describe('sendCmd', () => {
 		it('should return a promise', () => {
-			let p = new Engine('').sendCmd('test')
+			const p = new Engine('').sendCmd('test')
 			expect(p).to.be.an.instanceof(Promise)
 		})
 
 		it('should reject if process not running', () => {
-			let p = new Engine('').sendCmd('test')
+			const p = new Engine('').sendCmd('test')
 			return expect(p).to.be.rejected
 		})
 
 		it('should send cmd to proc stdout', async () => {
-			let p = await engineInit()
+			const p = await engineInit()
 			p.sendCmd('test 123')
 			expect(cpMock.stdin.write).to.have.been.calledWithExactly(`test 123${EOL}`)
 		})
 
 		it('should resolve this.isready', async () => {
-			let p = await engineInit()
+			const p = await engineInit()
 			sinon.spy(p, 'isready')
 			p.sendCmd('test 123')
 			expect(p.isready).to.have.been.calledOnce
@@ -435,40 +435,43 @@ describe('EngineAnalysis', () => {
 			})
 		})
 
-		describe('go', (options) => {
-			it('go test', () => {
-				let opts = {
-					depth: 3,
-					wtime: 1231,
-					btime: 12312
-				}
-				engine.go(opts)
-			})
+	})
+
+	describe('go', () => {
+		it('go test', async () => {
+			const engine = await engineInit()
+
+			const opts = {
+				depth: 3,
+				wtime: 1231,
+				btime: 12312
+			}
+			engine.go(opts)
 		})
 	})
 })
 
-describe.only('yea', () => {
+describe.skip('yea', () => {
 	it('should load it bro', async () => {
-		// let game = new Chess()
+		// const game = new Chess()
 		// game.load_pgn(pgn)
 
-		let engine = new Engine(enginePath)
-		let rez = await engine.init()
+		const engine = new Engine(enginePath)
+		const rez = await engine.init()
 		await engine.setoption('MultiPV', '4')
 		await engine.isready()
 
 		console.log('engine ready', engine.id, engine.options)
 
-		let go = await engine.go({depth: 15})
+		const go = await engine.go({depth: 15})
 		console.log('go', go);
 
 		await engine.quit()
 
 		//ideal
-		// let engine = new Engine(enginePath)
+		// const engine = new Engine(enginePath)
 		//
-		// let sad = await engine
+		// const sad = await engine
 		// .chain()
 		// .init()
 		// .isready()

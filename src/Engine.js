@@ -36,7 +36,7 @@ const REGEX = {
 
 //get a Buffer and split the newlines
 function getLines(buffer) {
-	let lines = buffer
+	const lines = buffer
 	.toString()
 	.split(/\r?\n/g)
 	.filter(line => !!line.length)
@@ -45,7 +45,7 @@ function getLines(buffer) {
 
 //parse an "id" command
 function parseId(line) {
-	let parsed = REGEX.id.exec(line)
+	const parsed = REGEX.id.exec(line)
 	return {
 		key: parsed[1],
 		value: parsed[2]
@@ -54,8 +54,8 @@ function parseId(line) {
 
 //parse an "option" command
 function parseOption(line) {
-	let parsed = REGEX.option.exec(line)
-	let option = {
+	const parsed = REGEX.option.exec(line)
+	const option = {
 		type: parsed[2]
 	}
 
@@ -90,7 +90,7 @@ function parseOption(line) {
 //construct go command from options
 function goCommand(options) {
 	let cmd = 'go'
-	let commands = [
+	const commands = [
 		'searchmoves', //[moves]
 		'ponder', //bool
 		'wtime', //msec
@@ -135,9 +135,9 @@ function goCommand(options) {
 function parseInfo(line) {
 	log('parseInfo')
 	log('line', line)
-	let info = {}
+	const info = {}
 	_.forEach(REGEX.info, (val, key) => {
-		let parsed = val.exec(line)
+		const parsed = val.exec(line)
 		if( ! parsed ) return
 		switch( key ) {
 		case 'score':
@@ -176,11 +176,11 @@ export default class Engine {
 			.on('error', reject)
 
 			//the parser fn that will interpret engine output
-			let parser = (buffer) => {
-				let lines = getLines(buffer)
+			const parser = (buffer) => {
+				const lines = getLines(buffer)
 				lines.forEach(line => {
 					log('init: line', line)
-					let cmdType = _.get(REGEX.cmdType.exec(line), 1)
+					const cmdType = _.get(REGEX.cmdType.exec(line), 1)
 					if( ! cmdType ) {
 						//couldn't parse, ignore
 						log('init: ignoring', EOL)
@@ -190,7 +190,7 @@ export default class Engine {
 					switch( cmdType ) {
 						case 'id':
 							try {
-								let id = parseId(line)
+								const id = parseId(line)
 								this.id[id.key] = id.value
 								log('id:', id, EOL)
 							} catch (err) {
@@ -199,7 +199,7 @@ export default class Engine {
 							break
 						case 'option':
 							try {
-								let option = parseOption(line)
+								const option = parseOption(line)
 								this.options.set(option.key, option.value)
 								log('option:', option, EOL)
 							} catch (err) {
@@ -238,8 +238,8 @@ export default class Engine {
 	isready() {
 		return new Promise((resolve, reject) => {
 			if( ! this.proc ) reject(new Error('cannot call "isready()": engine process not running'))
-			let listener = (buffer) => {
-				let lines = getLines(buffer)
+			const listener = (buffer) => {
+				const lines = getLines(buffer)
 				lines.forEach(line => {
 					if( line === 'readyok') {
 						resolve(this)
@@ -284,7 +284,7 @@ export default class Engine {
 		}
 
 		if( moves && moves.length ) {
-			let movesStr = moves.join(' ')
+			const movesStr = moves.join(' ')
 			cmd += ` moves ${movesStr}`
 		}
 
@@ -294,13 +294,13 @@ export default class Engine {
 	go(options) {
 		return new Promise((resolve, reject) => {
 			if( ! this.proc ) reject(new Error('cannot call "go()": engine process not running'))
-			let listener = buffer => {
-				let lines = getLines(buffer)
+			const listener = buffer => {
+				const lines = getLines(buffer)
 				lines.forEach(line => {
-					let info = parseInfo(line)
+					const info = parseInfo(line)
 				})
 			}
-			let command = goCommand(options)
+			const command = goCommand(options)
 			this.proc.stdout.on('data', listener)
 			this.proc.stdin.write(command)
 		})
