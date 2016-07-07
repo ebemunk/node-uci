@@ -5,5 +5,10 @@
 	],
 	"plugins": [
 		"babel-plugin-rewire"
-	]
+	],
+	"env": {
+		"development": {
+			"plugins": []
+		}
+	}
 }
