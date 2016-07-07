@@ -7,13 +7,13 @@ import Promise from 'bluebird'
 import debug from 'debug'
 
 const log = debug('uci:Engine')
-// const log = console.log
 
 //dem regexes
 const REGEX = {
 	cmdType: /^(id|option|uciok$)/,
 	id: /^id (name|author) (.+)$/,
 	option: /^option name (.+) type (\w+)(?: default ([A-Za-z0-9._\\\:<>/]+))?(?: min (-?\w+))?(?: max (-?\w+))?(?: var (.+))*$/,
+	bestmove: /^bestmove (\w+)(?: ponder (\w+))?$/,
 	info: {
 		depth: /\bdepth (\d+)/,
 		seldepth: /\bseldepth (\d+)/,
@@ -312,10 +312,23 @@ export default class Engine {
 	go(options) {
 		return new Promise((resolve, reject) => {
 			if( ! this.proc ) reject(new Error('cannot call "go()": engine process not running'))
+			const infoArray = []
 			const listener = buffer => {
 				const lines = getLines(buffer)
 				lines.forEach(line => {
+					const bestmove = REGEX.bestmove.exec(line)
+					if( bestmove && bestmove[1] ) {
+						const result = {
+							bestmove: bestmove[1],
+							info: infoArray
+						}
+						if( bestmove[2] ) {
+							result.ponder = bestmove[2]
+						}
+						return resolve(result)
+					}
 					const info = parseInfo(line)
+					if( ! _.isEmpty(info) ) infoArray.push(info)
 				})
 			}
 			const command = goCommand(options)
