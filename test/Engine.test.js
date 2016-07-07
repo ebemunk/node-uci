@@ -9,7 +9,7 @@ import Engine from '../src'
 import {childProcessMock} from './util'
 
 // const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
-const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
+// const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
 
 Promise.onPossiblyUnhandledRejection(_.noop)
 
@@ -204,7 +204,7 @@ describe('EngineAnalysis', () => {
 			})
 		})
 
-		describe.only('parseInfo', () => {
+		describe('parseInfo', () => {
 			const parseInfo = Engine.__get__('parseInfo')
 
 			it('should parse correctly', () => {
@@ -461,15 +461,59 @@ describe('EngineAnalysis', () => {
 	})
 
 	describe('go', () => {
-		it('go test', async () => {
+		it('should return a promise', async () => {
 			const engine = await engineInit()
+			const p = engine.go({depth: 20})
+			expect(p).to.be.an.instanceof(Promise)
+		})
 
-			const opts = {
-				depth: 3,
-				wtime: 1231,
-				btime: 12312
-			}
-			engine.go(opts)
+		it('should reject if process not running', () => {
+			const p = new Engine('').go({depth: 3})
+			return expect(p).to.be.rejected
+		})
+
+		it('should ignore unparseable info lines', async () => {
+			const engine = await engineInit()
+			let p = engine.go({depth: 2})
+			cpMock.stdout.emit('data', `info derpyherp 76 lolcakes 28${EOL}bestmove e2e4`)
+			p = await p
+			expect(p).to.contain.property('info')
+			expect(p.info).to.have.length(0)
+		})
+
+		it('should resolve bestmove object after "bestmove"', async () => {
+			const engine = await engineInit()
+			let p = engine.go({depth: 5})
+			cpMock.stdout.emit('data', `info currmove e2e4${EOL}info tbhits 7 score mate 3${EOL}bestmove e2e4${EOL}`)
+			p = await p
+			expect(p).to.deep.equal({
+				bestmove: 'e2e4',
+				info: [
+					{
+						currmove: 'e2e4'
+					},
+					{
+						tbhits: 7,
+						score: {
+							unit: 'mate',
+							value: 3
+						}
+					}
+				]
+			})
+			expect(p).to.not.have.property('ponder')
+		})
+
+		it('should include ponder result if available', async () => {
+			const engine = await engineInit()
+			let p = engine.go({depth: 5})
+			cpMock.stdout.emit('data', `bestmove e2e4 ponder e7e5${EOL}`)
+			p = await p
+			expect(p).to.deep.equal({
+				bestmove: 'e2e4',
+				ponder: 'e7e5',
+				info: []
+			})
 		})
 	})
 })
