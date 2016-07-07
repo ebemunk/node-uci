@@ -25,7 +25,7 @@ const REGEX = {
 		nps: /\bnps (\d+)/,
 		tbhits: /\btbhits (\d+)/,
 		cpuload: /\bcpuload (\d+)/,
-		score: /\bscore (cp|mate|lowerbound|upperbound) (\d+)/,
+		score: /\bscore (cp|mate|lowerbound|upperbound) (-?\d+)/,
 		multipv: /\bmultipv (\d+)/,
 		pv: /\bpv (.+)/,
 		string: /\bstring (.+)/,
@@ -33,6 +33,19 @@ const REGEX = {
 		currline: /\bcurrline (.+)/
 	}
 }
+
+const INFO_NUMBER_TYPES = [
+	'depth',
+	'seldepth',
+	'time',
+	'nodes',
+	'currmovenumber',
+	'hashfull',
+	'nps',
+	'tbhits',
+	'cpuload',
+	'multipv',
+]
 
 //get a Buffer and split the newlines
 function getLines(buffer) {
@@ -132,6 +145,7 @@ function goCommand(options) {
 	return `${cmd}${EOL}`
 }
 
+//parse an "info" command
 function parseInfo(line) {
 	log('parseInfo')
 	log('line', line)
@@ -143,11 +157,15 @@ function parseInfo(line) {
 		case 'score':
 			info[key] = {
 				unit: parsed[1],
-				value: parsed[2]
+				value: parseFloat(parsed[2])
 			}
 			break;
 		default:
-			info[key] = parsed[1]
+			if( INFO_NUMBER_TYPES.includes(key) ) {
+				info[key] = parseFloat(parsed[1])
+			} else {
+				info[key] = parsed[1]
+			}
 		}
 	})
 	log('info', info, EOL)
