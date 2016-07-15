@@ -3,12 +3,12 @@
 		"es2015",
 		"stage-0"
 	],
-	"plugins": [
-		"babel-plugin-rewire"
-	],
+	"plugins": [],
 	"env": {
-		"development": {
-			"plugins": []
+		"test": {
+			"plugins": [
+				"babel-plugin-rewire"
+			]
 		}
 	}
 }
