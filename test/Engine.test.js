@@ -515,6 +515,14 @@ describe('EngineAnalysis', () => {
 				info: []
 			})
 		})
+
+		it('should remove listener after resolving', async () => {
+			const engine = await engineInit()
+			let p = engine.go({depth: 3})
+			cpMock.stdout.emit('data', `bestmove e2e4 ponder e7e5${EOL}`)
+			p = await p
+			expect(cpMock.stdout.listenerCount('on')).to.be.equal(0)
+		})
 	})
 })
 

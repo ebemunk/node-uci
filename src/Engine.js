@@ -325,6 +325,8 @@ export default class Engine {
 						if( bestmove[2] ) {
 							result.ponder = bestmove[2]
 						}
+						//cleanup
+						this.proc.stdout.removeListener('data', listener)
 						return resolve(result)
 					}
 					const info = parseInfo(line)
