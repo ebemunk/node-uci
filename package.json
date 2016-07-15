@@ -4,9 +4,9 @@
   "description": "UCI",
   "main": "src/index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test mocha --compilers js:babel-register --require babel-polyfill --recursive ./**/*.test.js",
+    "test": "cross-env NODE_ENV=test mocha",
     "test:watch": "npm test -- --watch",
-    "test:cov": "cross-env NODE_ENV=test istanbul cover _mocha -- --compilers js:babel-register --require babel-polyfill --recursive ./**/*.test.js",
+    "test:cov": "cross-env NODE_ENV=test istanbul cover _mocha",
     "empty": ""
   },
   "repository": {
