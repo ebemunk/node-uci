@@ -45,5 +45,19 @@
     "bluebird": "^3.4.0",
     "debug": "^2.2.0",
     "lodash": "^4.13.1"
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-0"
+    ],
+    "plugins": [],
+    "env": {
+      "test": {
+        "plugins": [
+          "babel-plugin-rewire"
+        ]
+      }
+    }
+  },
   }
 }
