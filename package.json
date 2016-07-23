@@ -1,7 +1,7 @@
 {
   "name": "node-uci",
   "version": "0.0.1",
-  "description": "UCI",
+  "description": "Universal Chess Interface",
   "main": "src/index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha",
@@ -14,14 +14,18 @@
     "url": "https://github.com/ebemunk/node-uci"
   },
   "keywords": [
-    "universal",
-    "chess",
-    "interface",
+    "universal chess interface",
     "uci",
+    "chess",
     "engine"
   ],
   "author": "ebemunk",
   "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.0",
+    "debug": "^2.2.0",
+    "lodash": "^4.13.1"
+  },
   "devDependencies": {
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",
@@ -41,10 +45,6 @@
     "sinon-chai": "^2.8.0",
     "webpack": "^1.13.1"
   },
-  "dependencies": {
-    "bluebird": "^3.4.0",
-    "debug": "^2.2.0",
-    "lodash": "^4.13.1"
   "babel": {
     "presets": [
       "es2015",
