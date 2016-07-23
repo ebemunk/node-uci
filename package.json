@@ -8,7 +8,7 @@
     "test": "cross-env NODE_ENV=test mocha",
     "test:watch": "npm test -- --watch",
     "test:cov": "cross-env NODE_ENV=test istanbul cover _mocha",
-    "test:ci": "npm run test:cov && ./coverage/lcov.info | codeclimate-test-reporter",
+    "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter",
     "empty": ""
   },
   "repository": {
