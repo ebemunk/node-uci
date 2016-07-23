@@ -8,9 +8,6 @@ import expect from './Chai'
 import Engine from '../src'
 import {childProcessMock} from './util'
 
-// const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
-// const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
-
 Promise.onPossiblyUnhandledRejection(_.noop)
 
 describe('EngineAnalysis', () => {
@@ -369,7 +366,7 @@ describe('EngineAnalysis', () => {
 		it('should resolve itself (Engine) if "readyok"', async () => {
 			let p = await engineInit()
 			p = p.isready()
-			cpMock.stdout.emit('data', `readyok${EOL}`)
+			cpMock.readyok()
 			p = await p
 			expect(p).to.be.an.instanceof(Engine)
 		})
@@ -538,6 +535,8 @@ describe('EngineAnalysis', () => {
 })
 
 /* eslint-disable */
+// const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
+// const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
 describe.skip('yea', () => {
 	it('should load it bro', async () => {
 		// const game = new Chess()

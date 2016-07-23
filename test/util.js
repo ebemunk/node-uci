@@ -14,6 +14,7 @@ export function childProcessMock() {
 			write: sinon.spy()
 		},
 		uciok: () => cpMock.stdout.emit('data', `uciok${EOL}`),
+		readyok: () => cpMock.stdout.emit('data', `readyok${EOL}`),
 		destroy: () => Engine.__ResetDependency__('spawn')
 	})
 
