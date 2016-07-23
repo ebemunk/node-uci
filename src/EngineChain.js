@@ -1,5 +1,3 @@
-import {EOL} from 'os'
-
 import Promise from 'bluebird'
 import debug from 'debug'
 
@@ -9,6 +7,7 @@ const CHAINABLE = ['init', 'isready', 'ucinewgame', 'quit', 'position']
 
 export default class EngineChain {
 	constructor(engine) {
+		log('chain init')
 		this._engine = engine
 		this._queue = []
 

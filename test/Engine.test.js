@@ -253,7 +253,7 @@ describe('EngineAnalysis', () => {
 		})
 
 		it('should send "uci" command to proc stdout', () => {
-			const p = new Engine('').init()
+			new Engine('').init()
 			expect(cpMock.stdin.write).to.have.been.calledWithExactly(`uci${EOL}`)
 		})
 
@@ -264,11 +264,11 @@ describe('EngineAnalysis', () => {
 		})
 
 		it('should resolve to itself (Engine)', async () => {
-				const e = new Engine('')
-				const p = e.init()
-				cpMock.uciok()
-				const ref = await p
-				expect(ref).to.be.deep.equal(e)
+			const e = new Engine('')
+			const p = e.init()
+			cpMock.uciok()
+			const ref = await p
+			expect(ref).to.be.deep.equal(e)
 		})
 
 		it('should parse "id" and "options" correctly', async () => {
@@ -362,7 +362,7 @@ describe('EngineAnalysis', () => {
 
 		it('should send "isready" command to proc stdout', async () => {
 			let p = await engineInit()
-			p = p.isready()
+			p.isready()
 			expect(cpMock.stdin.write).to.have.been.calledWithExactly(`isready${EOL}`)
 		})
 
@@ -416,12 +416,12 @@ describe('EngineAnalysis', () => {
 		describe('setoption', () => {
 			it('should call this.sendCmd("setoption name <id>")', () => {
 				engine.setoption('optName')
-				expect(engine.sendCmd).to.have.been.calledWithExactly(`setoption name optName`)
+				expect(engine.sendCmd).to.have.been.calledWithExactly('setoption name optName')
 			})
 
 			it('should call this.sendCmd("setoption name <id> value <x>")', () => {
 				engine.setoption('optName', '39')
-				expect(engine.sendCmd).to.have.been.calledWithExactly(`setoption name optName value 39`)
+				expect(engine.sendCmd).to.have.been.calledWithExactly('setoption name optName value 39')
 			})
 		})
 
@@ -442,7 +442,7 @@ describe('EngineAnalysis', () => {
 		describe('position', () => {
 			it('should call this.sendCmd("position startpos")', () => {
 				engine.position('startpos')
-				expect(engine.sendCmd).to.have.been.calledWithExactly(`position startpos`)
+				expect(engine.sendCmd).to.have.been.calledWithExactly('position startpos')
 			})
 
 			it('should call this.sendCmd("position startpos moves <move1> ... <moven>")', () => {
@@ -454,10 +454,9 @@ describe('EngineAnalysis', () => {
 
 			it('should call this.sendCmd("position fen")', () => {
 				engine.position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3')
-				expect(engine.sendCmd).to.have.been.calledWithExactly(`position fen r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3`)
+				expect(engine.sendCmd).to.have.been.calledWithExactly('position fen r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3')
 			})
 		})
-
 	})
 
 	describe('go', () => {
@@ -465,6 +464,11 @@ describe('EngineAnalysis', () => {
 			const engine = await engineInit()
 			const p = engine.go({depth: 20})
 			expect(p).to.be.an.instanceof(Promise)
+		})
+
+		it('should reject if infinite flag is set', () => {
+			const p = new Engine('').go({infinite: true})
+			return expect(p).to.be.rejected
 		})
 
 		it('should reject if process not running', () => {
@@ -520,12 +524,13 @@ describe('EngineAnalysis', () => {
 			const engine = await engineInit()
 			let p = engine.go({depth: 3})
 			cpMock.stdout.emit('data', `bestmove e2e4 ponder e7e5${EOL}`)
-			p = await p
+			await p
 			expect(cpMock.stdout.listenerCount('on')).to.be.equal(0)
 		})
 	})
 })
 
+/* eslint-disable */
 describe.skip('yea', () => {
 	it('should load it bro', async () => {
 		// const game = new Chess()

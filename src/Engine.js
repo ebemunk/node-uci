@@ -6,6 +6,8 @@ import _ from 'lodash'
 import Promise from 'bluebird'
 import debug from 'debug'
 
+import EngineChain from './EngineChain'
+
 const log = debug('uci:Engine')
 
 //dem regexes
@@ -73,25 +75,25 @@ function parseOption(line) {
 	}
 
 	switch( parsed[2] ) {
-		case 'check':
-			option.default = parsed[3] === 'true'
-			break
-		case 'spin':
-			option.default = parseInt(parsed[3])
-			option.min = parseInt(parsed[4])
-			option.max = parseInt(parsed[5])
-			break
-		case 'combo':
-			log(parsed)
-			option.default = parsed[3]
-			option.options = parsed[6].split(/ ?var ?/g)
-			break //combo breaker?
-		case 'string':
-			option.default = parsed[3]
-			break
-		case 'button':
-			//no other info
-			break
+	case 'check':
+		option.default = parsed[3] === 'true'
+		break
+	case 'spin':
+		option.default = parseInt(parsed[3])
+		option.min = parseInt(parsed[4])
+		option.max = parseInt(parsed[5])
+		break
+	case 'combo':
+		log(parsed)
+		option.default = parsed[3]
+		option.options = parsed[6].split(/ ?var ?/g)
+		break //combo breaker?
+	case 'string':
+		option.default = parsed[3]
+		break
+	case 'button':
+		//no other info
+		break
 	}
 
 	return {
@@ -119,26 +121,26 @@ function goCommand(options) {
 	]
 
 	commands.forEach((command) => {
-		if( ! options.hasOwnProperty(command) ) return;
+		if( ! options.hasOwnProperty(command) ) return
 		switch( command ) {
-			//array
-			case 'searchmoves':
-				if( options[command].length ) {
-					cmd += ' searchmoves ' + options[command].join(' ')
-				}
-				break;
-			//bool
-			case 'ponder':
-			case 'infinite':
-				if( options[command] ) {
-					cmd += ` ${command}`
-				}
-				break;
-			//rest are >= 0
-			default:
-				if( options[command] >= 0 ) {
-					cmd += ` ${command} ${options[command]}`
-				}
+		//array
+		case 'searchmoves':
+			if( options[command].length ) {
+				cmd += ' searchmoves ' + options[command].join(' ')
+			}
+			break
+		//bool
+		case 'ponder':
+		case 'infinite':
+			if( options[command] ) {
+				cmd += ` ${command}`
+			}
+			break
+		//rest are >= 0
+		default:
+			if( options[command] >= 0 ) {
+				cmd += ` ${command} ${options[command]}`
+			}
 		}
 	})
 
@@ -159,7 +161,7 @@ function parseInfo(line) {
 				unit: parsed[1],
 				value: parseFloat(parsed[2])
 			}
-			break;
+			break
 		default:
 			if( INFO_NUMBER_TYPES.includes(key) ) {
 				info[key] = parseFloat(parsed[1])
@@ -206,30 +208,30 @@ export default class Engine {
 					}
 
 					switch( cmdType ) {
-						case 'id':
-							try {
-								const id = parseId(line)
-								this.id[id.key] = id.value
-								log('id:', id, EOL)
-							} catch (err) {
-								log('id: ignoring: parse error', EOL)
-							}
-							break
-						case 'option':
-							try {
-								const option = parseOption(line)
-								this.options.set(option.key, option.value)
-								log('option:', option, EOL)
-							} catch (err) {
-								log('option: ignoring: parse error', EOL)
-							}
-							break
-						case 'uciok':
-							log('uciok')
-							//init done, cleanup listener and resolve
-							this.proc.stdout.removeListener('data', parser)
-							resolve(this)
-							break
+					case 'id':
+						try {
+							const id = parseId(line)
+							this.id[id.key] = id.value
+							log('id:', id, EOL)
+						} catch (err) {
+							log('id: ignoring: parse error', EOL)
+						}
+						break
+					case 'option':
+						try {
+							const option = parseOption(line)
+							this.options.set(option.key, option.value)
+							log('option:', option, EOL)
+						} catch (err) {
+							log('option: ignoring: parse error', EOL)
+						}
+						break
+					case 'uciok':
+						log('uciok')
+						//init done, cleanup listener and resolve
+						this.proc.stdout.removeListener('data', parser)
+						resolve(this)
+						break
 					}
 				})
 			}
@@ -310,6 +312,9 @@ export default class Engine {
 	}
 
 	go(options) {
+		if( options.infinite ) {
+			return Promise.reject(new Error('go() does not support infinite search, use goInfinite()'))
+		}
 		return new Promise((resolve, reject) => {
 			if( ! this.proc ) reject(new Error('cannot call "go()": engine process not running'))
 			const infoArray = []
@@ -337,5 +342,10 @@ export default class Engine {
 			this.proc.stdout.on('data', listener)
 			this.proc.stdin.write(command)
 		})
+	}
+
+	goInfinite(options) {
+		const cmd = goCommand(options)
+		log(cmd)
 	}
 }
