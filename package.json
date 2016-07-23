@@ -4,6 +4,7 @@
   "description": "Universal Chess Interface",
   "main": "src/index.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "cross-env NODE_ENV=test mocha",
     "test:watch": "npm test -- --watch",
     "test:cov": "cross-env NODE_ENV=test istanbul cover _mocha",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.9.1",
+    "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-rewire": "^1.0.0-rc-3",
     "babel-polyfill": "^6.9.1",
@@ -38,6 +40,7 @@
     "chai-as-promised": "^5.3.0",
     "chai-properties": "^1.2.1",
     "cross-env": "^1.0.8",
+    "eslint": "^3.1.1",
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^2.5.3",
     "rimraf": "^2.5.2",
@@ -59,5 +62,34 @@
       }
     }
   },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true,
+      "mocha": true
+    },
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "rules": {
+      "indent": [
+        "error",
+        "tab"
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "never"
+      ]
+    }
   }
 }
