@@ -1,12 +1,14 @@
 {
   "name": "node-uci",
   "version": "0.0.1",
-  "description": "UCI",
+  "description": "Universal Chess Interface",
   "main": "src/index.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "cross-env NODE_ENV=test mocha",
     "test:watch": "npm test -- --watch",
     "test:cov": "cross-env NODE_ENV=test istanbul cover _mocha",
+    "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter",
     "empty": ""
   },
   "repository": {
@@ -14,16 +16,21 @@
     "url": "https://github.com/ebemunk/node-uci"
   },
   "keywords": [
-    "universal",
-    "chess",
-    "interface",
+    "universal chess interface",
     "uci",
+    "chess",
     "engine"
   ],
   "author": "ebemunk",
   "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.0",
+    "debug": "^2.2.0",
+    "lodash": "^4.13.1"
+  },
   "devDependencies": {
     "babel-core": "^6.9.1",
+    "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-rewire": "^1.0.0-rc-3",
     "babel-polyfill": "^6.9.1",
@@ -33,7 +40,9 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "chai-properties": "^1.2.1",
+    "codeclimate-test-reporter": "^0.3.3",
     "cross-env": "^1.0.8",
+    "eslint": "^3.1.1",
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^2.5.3",
     "rimraf": "^2.5.2",
@@ -41,9 +50,48 @@
     "sinon-chai": "^2.8.0",
     "webpack": "^1.13.1"
   },
-  "dependencies": {
-    "bluebird": "^3.4.0",
-    "debug": "^2.2.0",
-    "lodash": "^4.13.1"
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-0"
+    ],
+    "plugins": [],
+    "env": {
+      "test": {
+        "plugins": [
+          "babel-plugin-rewire"
+        ]
+      }
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true,
+      "mocha": true
+    },
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "rules": {
+      "indent": [
+        "error",
+        "tab"
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "never"
+      ]
+    }
   }
 }

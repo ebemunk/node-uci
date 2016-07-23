@@ -1,5 +1,4 @@
 import EventEmitter from 'events'
-import Stream from 'stream'
 import {EOL} from 'os'
 
 import sinon from 'sinon'
