@@ -287,6 +287,10 @@ export default class Engine {
 		let cmd = `name ${name}`
 		if( value ) cmd += ` value ${value}`
 		return this.sendCmd(`setoption ${cmd}`)
+		.then(p => {
+			this.options.set(name, value)
+			return p
+		})
 	}
 
 	ucinewgame() {

@@ -423,6 +423,13 @@ describe('EngineAnalysis', () => {
 				engine.setoption('optName', '39')
 				expect(engine.sendCmd).to.have.been.calledWithExactly('setoption name optName value 39')
 			})
+
+			it('should update this.options with new option on success', async () => {
+				let p = engine.setoption('opt', -24)
+				cpMock.readyok()
+				p = await p
+				expect(engine.options.get('opt')).to.equal(-24)
+			})
 		})
 
 		describe('ucinewgame', () => {
