@@ -245,7 +245,8 @@ export default class Engine {
 
 	quit() {
 		return new Promise((resolve, reject) => {
-			if( ! this.proc ) reject(new Error('cannot call "quit()": engine process not running'))
+			if( ! this.proc )
+				return reject(new Error('cannot call "quit()": engine process not running'))
 			this.proc.on('close', (code, sig) => {
 				this.proc.removeAllListeners()
 				delete this.proc
@@ -257,7 +258,8 @@ export default class Engine {
 
 	isready() {
 		return new Promise((resolve, reject) => {
-			if( ! this.proc ) reject(new Error('cannot call "isready()": engine process not running'))
+			if( ! this.proc )
+				return reject(new Error('cannot call "isready()": engine process not running'))
 			const listener = (buffer) => {
 				const lines = getLines(buffer)
 				lines.forEach(line => {
@@ -312,11 +314,11 @@ export default class Engine {
 	}
 
 	go(options) {
-		if( options.infinite ) {
-			return Promise.reject(new Error('go() does not support infinite search, use goInfinite()'))
-		}
 		return new Promise((resolve, reject) => {
-			if( ! this.proc ) reject(new Error('cannot call "go()": engine process not running'))
+			if( ! this.proc )
+				return reject(new Error('cannot call "go()": engine process not running'))
+			if( options.infinite )
+				return reject(new Error('go() does not support infinite search, use goInfinite()'))
 			const infoArray = []
 			const listener = buffer => {
 				const lines = getLines(buffer)
