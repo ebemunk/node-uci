@@ -407,4 +407,22 @@ export default class Engine {
 		return this.emitter
 	}
 
+	stop() {
+		return new Promise((resolve, reject) => {
+			const listener = buffer => {
+				const lines = getLines(buffer)
+				lines.forEach(line => {
+					const bestmove = parseBestmove(line)
+					if( bestmove ) {
+						this.proc.stdout.removeListener('data', listener)
+						return resolve(bestmove)
+					}
+				})
+			}
+
+			this.proc.stdout.on('data', listener)
+			this.write(`stop${EOL}`)
+			this.emitter.emit('stop')
+		})
+	}
 }
