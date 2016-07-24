@@ -3,7 +3,15 @@ import debug from 'debug'
 
 const log = debug('uci:EngineChain')
 
-const CHAINABLE = ['init', 'isready', 'ucinewgame', 'quit', 'position']
+const CHAINABLE = [
+	'init',
+	'isready',
+	'ucinewgame',
+	'quit',
+	'position',
+	'goInfinite',
+	'go'
+]
 
 export default class EngineChain {
 	constructor(engine) {
