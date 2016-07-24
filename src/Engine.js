@@ -52,7 +52,6 @@ const INFO_NUMBER_TYPES = [
 //get a Buffer and split the newlines
 function getLines(buffer) {
 	const lines = buffer
-	.toString()
 	.split(/\r?\n/g)
 	.filter(line => !!line.length)
 	return lines
@@ -191,6 +190,7 @@ export default class Engine {
 	init() {
 		return new Promise((resolve, reject) => {
 			this.proc = spawn(this.filePath)
+			this.proc.stdout.setEncoding('utf8')
 			this.proc
 			.on('close', reject)
 			.on('error', reject)
