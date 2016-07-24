@@ -1,6 +1,7 @@
 import {spawn} from 'child_process'
 import path from 'path'
 import {EOL} from 'os'
+import {EventEmitter} from 'events'
 
 import _ from 'lodash'
 import Promise from 'bluebird'
@@ -377,8 +378,33 @@ export default class Engine {
 		})
 	}
 
-	goInfinite(options) {
-		const cmd = goCommand(options)
-		log(cmd)
+	goInfinite(options = {}) {
+		if( ! this.proc )
+			return reject(new Error('cannot call "goInfinite()": engine process not running'))
+		if( options.depth )
+			return reject(new Error('goInfinite() does not support depth search, use go()'))
+		//set up emitter
+		this.emitter = new EventEmitter()
+		this.emitter.on('stop', () => {
+			//cleanup
+			this.proc.stdout.removeListener('data', listener)
+		})
+		const listener = buffer => {
+			const lines = getLines(buffer)
+			lines.forEach(line => {
+				const info = parseInfo(line)
+				if( info )
+					return this.emitter.emit('data', info)
+				const bestmove = parseBestmove(line)
+				if( bestmove )
+					return this.emitter.emit('data', bestmove)
+			})
+		}
+		options.infinite = true
+		const command = goCommand(options)
+		this.proc.stdout.on('data', listener)
+		this.write(command)
+		return this.emitter
 	}
+
 }
