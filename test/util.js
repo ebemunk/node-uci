@@ -17,6 +17,7 @@ export function childProcessMock() {
 		readyok: () => cpMock.stdout.emit('data', `readyok${EOL}`),
 		destroy: () => Engine.__ResetDependency__('spawn')
 	})
+	cpMock.stdout.setEncoding = () => {}
 
 	Engine.__Rewire__('spawn', () => cpMock)
 
