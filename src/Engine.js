@@ -9,6 +9,7 @@ import debug from 'debug'
 import EngineChain from './EngineChain'
 
 const log = debug('uci:Engine')
+const engineLog = debug('uci:Engine:log')
 
 //dem regexes
 const REGEX = {
@@ -183,6 +184,11 @@ export default class Engine {
 		this.options = new Map()
 	}
 
+	write(command) {
+		this.proc.stdin.write(command)
+		engineLog('to engine:', command, EOL)
+	}
+
 	chain() {
 		return new EngineChain(this)
 	}
@@ -195,15 +201,18 @@ export default class Engine {
 			.on('close', reject)
 			.on('error', reject)
 
+			this.proc.stdout.on('data', lines => {
+				engineLog('from engine:', lines, EOL)
+			})
+
 			//the parser fn that will interpret engine output
 			const parser = (buffer) => {
 				const lines = getLines(buffer)
 				lines.forEach(line => {
-					log('init: line', line)
 					const cmdType = _.get(REGEX.cmdType.exec(line), 1)
 					if( ! cmdType ) {
 						//couldn't parse, ignore
-						log('init: ignoring', EOL)
+						log('init() ignoring:', line, EOL)
 						return
 					}
 
@@ -239,7 +248,7 @@ export default class Engine {
 			this.proc.stdout
 			.on('data', parser)
 
-			this.proc.stdin.write(`uci${EOL}`)
+			this.write(`uci${EOL}`)
 		})
 	}
 
@@ -252,7 +261,7 @@ export default class Engine {
 				delete this.proc
 				resolve(code, sig)
 			})
-			this.proc.stdin.write(`quit${EOL}`)
+			this.write(`quit${EOL}`)
 		})
 	}
 
@@ -271,7 +280,7 @@ export default class Engine {
 				})
 			}
 			this.proc.stdout.once('data', listener)
-			this.proc.stdin.write(`isready${EOL}`)
+			this.write(`isready${EOL}`)
 		})
 	}
 
@@ -279,7 +288,8 @@ export default class Engine {
 		if( ! this.proc )
 			return Promise.reject(new Error(`cannot call "${cmd}()": engine process not running`))
 
-		this.proc.stdin.write(`${cmd}${EOL}`)
+		log('sendCmd', cmd)
+		this.write(`${cmd}${EOL}`)
 		return this.isready()
 	}
 
@@ -346,7 +356,7 @@ export default class Engine {
 			}
 			const command = goCommand(options)
 			this.proc.stdout.on('data', listener)
-			this.proc.stdin.write(command)
+			this.write(command)
 		})
 	}
 
