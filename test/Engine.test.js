@@ -535,24 +535,37 @@ describe('EngineAnalysis', () => {
 })
 
 /* eslint-disable */
-// const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
+const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
 // const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
-describe.skip('yea', () => {
+describe.only('yea', () => {
 	it('should load it bro', async () => {
 		// const game = new Chess()
 		// game.load_pgn(pgn)
 
+		// const engine = new Engine(enginePath)
+		// const rez = await engine.init()
+		// await engine.setoption('MultiPV', '4')
+		// await engine.isready()
+		//
+		// console.log('engine ready', engine.id, engine.options)
+		//
+		// const go = await engine.go({depth: 15})
+		// console.log('go', go);
+		//
+		// await engine.quit()
+
 		const engine = new Engine(enginePath)
-		const rez = await engine.init()
-		await engine.setoption('MultiPV', '4')
+		await engine.init()
 		await engine.isready()
-
-		console.log('engine ready', engine.id, engine.options)
-
-		const go = await engine.go({depth: 15})
-		console.log('go', go);
-
-		await engine.quit()
+		const ee = engine.goInfinite()
+		ee.on('data', a => {
+			// console.log(a);
+		})
+		setTimeout(async () => {
+			console.log('stoppng');
+			await engine.stop()
+			await engine.quit()
+		}, 3000)
 
 		//ideal
 		// const engine = new Engine(enginePath)
