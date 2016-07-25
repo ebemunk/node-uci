@@ -14,7 +14,7 @@ import {
 	parseId,
 	parseOption,
 	goCommand,
-	parseInfo,
+	parseInfo,initListener,createListener
 } from './parseUtil'
 
 const log = debug('uci:Engine')
@@ -39,8 +39,12 @@ export default class Engine {
 		return new EngineChain(this)
 	}
 
-	init() {
-		return new Promise((resolve, reject) => {
+	async init() {
+		if( this.proc )
+			throw new Error('cannot call "init()": already initialized')
+
+		let listener
+		const p = new Promise((resolve, reject) => {
 			this.proc = spawn(this.filePath)
 			this.proc.stdout.setEncoding('utf8')
 			this.proc
@@ -51,64 +55,34 @@ export default class Engine {
 				engineLog('from engine:', lines, EOL)
 			})
 
-			//the parser fn that will interpret engine output
-			const parser = (buffer) => {
-				const lines = getLines(buffer)
-				lines.forEach(line => {
-					const cmdType = _.get(REGEX.cmdType.exec(line), 1)
-					if( ! cmdType ) {
-						//couldn't parse, ignore
-						log('init() ignoring:', line, EOL)
-						return
-					}
-
-					switch( cmdType ) {
-					case 'id':
-						try {
-							const id = parseId(line)
-							this.id[id.key] = id.value
-							log('id:', id, EOL)
-						} catch (err) {
-							log('id: ignoring: parse error', EOL)
-						}
-						break
-					case 'option':
-						try {
-							const option = parseOption(line)
-							this.options.set(option.key, option.value)
-							log('option:', option, EOL)
-						} catch (err) {
-							log('option: ignoring: parse error', EOL)
-						}
-						break
-					case 'uciok':
-						log('uciok')
-						//init done, cleanup listener and resolve
-						this.proc.stdout.removeListener('data', parser)
-						resolve(this)
-						break
-					}
-				})
-			}
-
-			this.proc.stdout
-			.on('data', parser)
+			listener = createListener(initListener, resolve, reject)
+			this.proc.stdout.on('data', listener)
 
 			this.write(`uci${EOL}`)
 		})
+
+		const {id, options} = await p
+		this.id = id
+		this.options = options
+		this.proc.stdout.removeListener('data', listener)
+		return this
 	}
 
-	quit() {
-		return new Promise((resolve, reject) => {
-			if( ! this.proc )
-				return reject(new Error('cannot call "quit()": engine process not running'))
-			this.proc.on('close', (code, sig) => {
-				this.proc.removeAllListeners()
-				delete this.proc
-				resolve(code, sig)
-			})
+	async quit() {
+		if( ! this.proc )
+			throw new Error('cannot call "quit()": engine process not running')
+
+		const p = new Promise((resolve, reject) => {
+			this.proc.on('close', resolve)
 			this.write(`quit${EOL}`)
 		})
+
+		const a = await p
+		console.log('fa',a);
+		this.proc.removeAllListeners()
+		console.log('deyleytin');
+		delete this.proc
+		return this
 	}
 
 	isready() {

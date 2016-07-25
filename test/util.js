@@ -1,4 +1,5 @@
 import EventEmitter from 'events'
+import stream from 'stream'
 import {EOL} from 'os'
 
 import sinon from 'sinon'
@@ -6,9 +7,12 @@ import sinon from 'sinon'
 import Engine from '../src'
 
 export function childProcessMock() {
+	const stdoutMock = new stream.Readable()
+	stdoutMock._read = x => x
+
 	let cpMock = new EventEmitter()
 	Object.assign(cpMock, {
-		stdout: new EventEmitter(),
+		stdout: stdoutMock,
 		stderr: new EventEmitter(),
 		stdin: {
 			write: sinon.spy()
@@ -17,7 +21,6 @@ export function childProcessMock() {
 		readyok: () => cpMock.stdout.emit('data', `readyok${EOL}`),
 		destroy: () => Engine.__ResetDependency__('spawn')
 	})
-	cpMock.stdout.setEncoding = () => {}
 
 	Engine.__Rewire__('spawn', () => cpMock)
 

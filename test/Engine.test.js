@@ -33,7 +33,7 @@ describe('EngineAnalysis', () => {
 		})
 	})
 
-	describe('init', () => {
+	describe.only('init', () => {
 		it('should return a promise', () => {
 			const p = new Engine('').init()
 			expect(p).to.be.an.instanceof(Promise)
@@ -49,6 +49,13 @@ describe('EngineAnalysis', () => {
 			const p = new Engine('').init()
 			cpMock.emit('close', 'test')
 			return expect(p).to.be.rejectedWith('test')
+		})
+
+		it('should reject if already initialized', async () => {
+			let p = new Engine('').init()
+			cpMock.uciok()
+			p = await p
+			return expect(p.init()).to.be.rejected
 		})
 
 		it('should send "uci" command to proc stdout', () => {
@@ -94,16 +101,18 @@ describe('EngineAnalysis', () => {
 			const e = new Engine('')
 			const p = e.init()
 			cpMock.stdout.emit('data', data.join(EOL))
+			cpMock.uciok()
 			await p
 			expect(e.id).to.have.keys('name', 'author')
-			expect(e.options.size).to.equal(5)
+			expect(Object.keys(e.options)).to.have.length(5)
 		})
 
 		it('should remove listener after resolving', async () => {
 			const p = new Engine('').init()
+			expect(cpMock.stdout.listenerCount('data')).to.equal(2)
 			cpMock.uciok()
 			await p
-			expect(cpMock.stdout.listenerCount('on')).to.be.equal(0)
+			expect(cpMock.stdout.listenerCount('data')).to.equal(1)
 		})
 	})
 
@@ -125,11 +134,13 @@ describe('EngineAnalysis', () => {
 		})
 
 		it('should clean up after process exits', async () => {
-			const p = await engineInit()
-			p.quit()
+			let p = await engineInit()
+			p = p.quit()
 			cpMock.emit('close')
-			let p2 = await p
-			expect(p2.proc).to.be.undefined
+			await p
+			console.log(p);
+			expect(p.proc).to.be.undefined
+			expect(cpMock.stdout.listenerCount('data')).to.equal(0)
 		})
 
 		it('should resolve (code, signal)', async () => {

@@ -15,50 +15,6 @@ export function getLines(buffer) {
 	return lines
 }
 
-//parse an "id" command
-export function parseId(line) {
-	const parsed = REGEX.id.exec(line)
-	return {
-		key: parsed[1],
-		value: parsed[2]
-	}
-}
-
-//parse an "option" command
-export function parseOption(line) {
-	const parsed = REGEX.option.exec(line)
-	const option = {
-		type: parsed[2]
-	}
-
-	switch( parsed[2] ) {
-	case 'check':
-		option.default = parsed[3] === 'true'
-		break
-	case 'spin':
-		option.default = parseInt(parsed[3])
-		option.min = parseInt(parsed[4])
-		option.max = parseInt(parsed[5])
-		break
-	case 'combo':
-		log(parsed)
-		option.default = parsed[3]
-		option.options = parsed[6].split(/ ?var ?/g)
-		break //combo breaker?
-	case 'string':
-		option.default = parsed[3]
-		break
-	case 'button':
-		//no other info
-		break
-	}
-
-	return {
-		key: parsed[1],
-		value: option
-	}
-}
-
 //construct go command from options
 export function goCommand(options) {
 	let cmd = 'go'
@@ -146,4 +102,90 @@ export function parseBestmove(line) {
 		parsed.ponder = bestmove[2]
 	}
 	return parsed
+}
+
+export function createListener(fn, resolve, reject) { return (buffer) => {
+		const lines = getLines(buffer)
+		const result = {}
+		const partialFn = _.partial(fn, resolve, reject, result)
+		lines.forEach(partialFn)
+	}
+}
+
+//parse an "id" command
+export function parseId(line) {
+	const parsed = REGEX.id.exec(line)
+	return {
+		key: parsed[1],
+		value: parsed[2]
+	}
+}
+
+//parse an "option" command
+export function parseOption(line) {
+	const parsed = REGEX.option.exec(line)
+	const option = {
+		type: parsed[2]
+	}
+
+	switch( parsed[2] ) {
+	case 'check':
+		option.default = parsed[3] === 'true'
+		break
+	case 'spin':
+		option.default = parseInt(parsed[3])
+		option.min = parseInt(parsed[4])
+		option.max = parseInt(parsed[5])
+		break
+	case 'combo':
+		log(parsed)
+		option.default = parsed[3]
+		option.options = parsed[6].split(/ ?var ?/g)
+		break //combo breaker?
+	case 'string':
+		option.default = parsed[3]
+		break
+	case 'button':
+		//no other info
+		break
+	}
+
+	return {
+		key: parsed[1],
+		value: option
+	}
+}
+
+export function initListener(resolve, reject, result, line) {
+	const cmdType = _.get(REGEX.cmdType.exec(line), 1)
+	if( ! cmdType ) {
+		//couldn't parse, ignore
+		log('init() ignoring:', line, EOL)
+		return
+	}
+
+	switch( cmdType ) {
+		case 'id':
+			try {
+				const id = parseId(line)
+				_.set(result, `id.${id.key}`, id.value)
+				log('id:', id, EOL)
+			} catch (err) {
+				log('id: ignoring: parse error', EOL)
+			}
+			break
+		case 'option':
+			try {
+				const option = parseOption(line)
+				_.set(result, `options.${option.key}`, option.value)
+				log('option:', option, EOL)
+			} catch (err) {
+				log('option: ignoring: parse error', EOL)
+			}
+			break
+		case 'uciok':
+			log('uciok')
+			resolve(result)
+			break
+	}
 }
