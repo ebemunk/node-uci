@@ -1,8 +1,5 @@
 import {EOL} from 'os'
 
-import _ from 'lodash'
-import sinon from 'sinon'
-
 import expect from './Chai'
 import {
 	getLines,

@@ -406,7 +406,7 @@ describe('EngineAnalysis', () => {
 			const engine = await engineInit()
 			const emitter = engine.goInfinite()
 			const emitStub = sinon.spy(emitter, 'emit')
-			cpMock.stdout.emit('data', `bestmove e5e4`)
+			cpMock.stdout.emit('data', 'bestmove e5e4')
 			emitStub.restore()
 			expect(emitStub.callCount).to.equal(1)
 		})

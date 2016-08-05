@@ -36,24 +36,24 @@ export function goCommand(options) {
 	commands.forEach((command) => {
 		if( ! options.hasOwnProperty(command) ) return
 		switch( command ) {
-		//array
-		case 'searchmoves':
-			if( options[command].length ) {
-				cmd += ' searchmoves ' + options[command].join(' ')
-			}
-			break
-		//bool
-		case 'ponder':
-		case 'infinite':
-			if( options[command] ) {
-				cmd += ` ${command}`
-			}
-			break
-		//rest are >= 0
-		default:
-			if( options[command] >= 0 ) {
-				cmd += ` ${command} ${options[command]}`
-			}
+			//array
+			case 'searchmoves':
+				if( options[command].length ) {
+					cmd += ' searchmoves ' + options[command].join(' ')
+				}
+				break
+			//bool
+			case 'ponder':
+			case 'infinite':
+				if( options[command] ) {
+					cmd += ` ${command}`
+				}
+				break
+			//rest are >= 0
+			default:
+				if( options[command] >= 0 ) {
+					cmd += ` ${command} ${options[command]}`
+				}
 		}
 	})
 
@@ -69,18 +69,18 @@ export function parseInfo(line) {
 		const parsed = val.exec(line)
 		if( ! parsed ) return
 		switch( key ) {
-		case 'score':
-			info[key] = {
-				unit: parsed[1],
-				value: parseFloat(parsed[2])
-			}
-			break
-		default:
-			if( INFO_NUMBER_TYPES.includes(key) ) {
-				info[key] = parseFloat(parsed[1])
-			} else {
-				info[key] = parsed[1]
-			}
+			case 'score':
+				info[key] = {
+					unit: parsed[1],
+					value: parseFloat(parsed[2])
+				}
+				break
+			default:
+				if( INFO_NUMBER_TYPES.includes(key) ) {
+					info[key] = parseFloat(parsed[1])
+				} else {
+					info[key] = parsed[1]
+				}
 		}
 	})
 	log('info', info, EOL)
@@ -121,25 +121,25 @@ export function parseOption(line) {
 	}
 
 	switch( parsed[2] ) {
-	case 'check':
-		option.default = parsed[3] === 'true'
-		break
-	case 'spin':
-		option.default = parseInt(parsed[3])
-		option.min = parseInt(parsed[4])
-		option.max = parseInt(parsed[5])
-		break
-	case 'combo':
-		log(parsed)
-		option.default = parsed[3]
-		option.options = parsed[6].split(/ ?var ?/g)
-		break //combo breaker?
-	case 'string':
-		option.default = parsed[3]
-		break
-	case 'button':
-		//no other info
-		break
+		case 'check':
+			option.default = parsed[3] === 'true'
+			break
+		case 'spin':
+			option.default = parseInt(parsed[3])
+			option.min = parseInt(parsed[4])
+			option.max = parseInt(parsed[5])
+			break
+		case 'combo':
+			log(parsed)
+			option.default = parsed[3]
+			option.options = parsed[6].split(/ ?var ?/g)
+			break //combo breaker?
+		case 'string':
+			option.default = parsed[3]
+			break
+		case 'button':
+			//no other info
+			break
 	}
 
 	return {

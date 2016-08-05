@@ -3,7 +3,7 @@ import {EOL} from 'os'
 import _ from 'lodash'
 import debug from 'debug'
 
-import {REGEX, INFO_NUMBER_TYPES} from './const'
+import {REGEX} from './const'
 import {
 	getLines,
 	parseInfo,

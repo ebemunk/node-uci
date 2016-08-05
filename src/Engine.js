@@ -3,11 +3,9 @@ import path from 'path'
 import {EOL} from 'os'
 import {EventEmitter} from 'events'
 
-import _ from 'lodash'
 import Promise from 'bluebird'
 import debug from 'debug'
 
-import {REGEX, INFO_NUMBER_TYPES} from './const'
 import EngineChain from './EngineChain'
 import {
 	getLines,
@@ -20,7 +18,6 @@ import {
 	initListener,
 	isreadyListener,
 	goListener,
-	goInfiniteListener,
 } from './listeners'
 
 const log = debug('uci:Engine')
@@ -81,7 +78,7 @@ export default class Engine {
 		if( ! this.proc )
 			throw new Error('cannot call "quit()": engine process not running')
 
-		const p = new Promise((resolve, reject) => {
+		const p = new Promise(resolve => {
 			this.proc.on('close', resolve)
 			this.write(`quit${EOL}`)
 		})
