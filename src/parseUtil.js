@@ -85,7 +85,6 @@ export function parseInfo(line) {
 	})
 	log('info', info, EOL)
 	if( _.isEmpty(info) ) {
-		console.warn('parseInfo() received line it couldnt parse: ', line)
 		return
 	}
 	return info

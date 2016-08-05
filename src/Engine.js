@@ -15,6 +15,7 @@ import {
 	parseOption,
 	goCommand,
 	parseInfo,
+	parseBestmove,
 	initListener,
 	createListener
 } from './parseUtil'
@@ -174,7 +175,7 @@ export default class Engine {
 		return this.sendCmd(`position ${cmd}`)
 	}
 
-	async go(options) {
+	async go(options = {}) {
 		if( ! this.proc )
 			throw new Error('cannot call "go()": engine process not running')
 		if( options.infinite )
@@ -196,15 +197,12 @@ export default class Engine {
 
 	goInfinite(options = {}) {
 		if( ! this.proc )
-			return reject(new Error('cannot call "goInfinite()": engine process not running'))
+			throw new Error('cannot call "goInfinite()": engine process not running')
 		if( options.depth )
-			return reject(new Error('goInfinite() does not support depth search, use go()'))
+			throw new Error('goInfinite() does not support depth search, use go()')
+
 		//set up emitter
 		this.emitter = new EventEmitter()
-		this.emitter.on('stop', () => {
-			//cleanup
-			this.proc.stdout.removeListener('data', listener)
-		})
 		const listener = buffer => {
 			const lines = getLines(buffer)
 			lines.forEach(line => {
@@ -219,6 +217,9 @@ export default class Engine {
 		options.infinite = true
 		const command = goCommand(options)
 		this.proc.stdout.on('data', listener)
+		this.emitter.on('stop', () => {
+			this.proc.stdout.removeListener('data', listener)
+		})
 		this.write(command)
 		return this.emitter
 	}

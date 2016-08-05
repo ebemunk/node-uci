@@ -1,4 +1,5 @@
 import {EOL} from 'os'
+import {EventEmitter} from 'events'
 
 import Promise from 'bluebird'
 import _ from 'lodash'
@@ -278,7 +279,7 @@ describe('EngineAnalysis', () => {
 	describe('go', () => {
 		it('should return a promise', async () => {
 			const engine = await engineInit()
-			const p = engine.go({depth: 20})
+			const p = engine.go()
 			expect(p).to.be.an.instanceof(Promise)
 		})
 
@@ -342,6 +343,80 @@ describe('EngineAnalysis', () => {
 			cpMock.stdout.emit('data', `bestmove e2e4 ponder e7e5${EOL}`)
 			await p
 			expect(cpMock.stdout.listenerCount('on')).to.be.equal(0)
+		})
+	})
+
+	describe('goInfinite', () => {
+		it('should return an EventEmitter', async () => {
+			const engine = await engineInit()
+			const emitter = engine.goInfinite()
+			expect(emitter).to.be.an.instanceof(EventEmitter)
+			expect(engine.emitter).to.equal(emitter)
+		})
+
+		it('should throw if process not running', () => {
+			let error
+			try {
+				new Engine('').goInfinite()
+			} catch (err) {
+				error = err
+			}
+			expect(error).to.exist
+		})
+
+		it('should throw if options.depth is set', async () => {
+			const engine = await engineInit()
+			let error
+			try {
+				engine.goInfinite({depth: 666})
+			} catch (err) {
+				error = err
+			}
+			expect(error).to.exist
+		})
+
+		it('should ignore unparseable info lines', async () => {
+			const engine = await engineInit()
+			const emitter = engine.goInfinite()
+			const emitStub = sinon.spy(emitter, 'emit')
+			cpMock.stdout.emit('data', 'info derpyherp 76 lolcakes 28')
+			emitStub.restore()
+			expect(emitStub.called).to.be.false
+		})
+
+		it('should emit for every info line received', async () => {
+			const engine = await engineInit()
+			const emitter = engine.goInfinite()
+			const emitStub = sinon.spy(emitter, 'emit')
+			cpMock.stdout.emit('data', `info score cp 34${EOL}info currmove 3`)
+			emitStub.restore()
+			expect(emitStub.callCount).to.equal(2)
+		})
+
+		it('should ignore unparseable bestmove lines', async () => {
+			const engine = await engineInit()
+			const emitter = engine.goInfinite()
+			const emitStub = sinon.spy(emitter, 'emit')
+			cpMock.stdout.emit('data', 'bestmove ')
+			emitStub.restore()
+			expect(emitStub.called).to.be.false
+		})
+
+		it('should emit for bestmove line', async () => {
+			const engine = await engineInit()
+			const emitter = engine.goInfinite()
+			const emitStub = sinon.spy(emitter, 'emit')
+			cpMock.stdout.emit('data', `bestmove e5e4`)
+			emitStub.restore()
+			expect(emitStub.callCount).to.equal(1)
+		})
+
+		it('should remove listener on stdout on stop', async () => {
+			const engine = await engineInit()
+			const emitter = engine.goInfinite()
+			emitter.emit('stop')
+			// 1 because of engineLog listener
+			expect(engine.proc.stdout.listenerCount('data')).to.equal(1)
 		})
 	})
 })
