@@ -67,7 +67,11 @@ export default class Engine {
 
 		const {id, options} = await p
 		if( id ) this.id = id
-		if( options) this.options = options
+		if( options ) {
+			Object.keys(options).forEach(key => {
+				this.options.set(key, options[key])
+			})
+		}
 
 		this.proc.stdout.removeListener('data', listener)
 

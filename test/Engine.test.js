@@ -11,7 +11,7 @@ import {childProcessMock} from './util'
 
 Promise.onPossiblyUnhandledRejection(_.noop)
 
-describe('EngineAnalysis', () => {
+describe('Engine', () => {
 	let cpMock
 
 	function engineInit() {
@@ -105,7 +105,8 @@ describe('EngineAnalysis', () => {
 			cpMock.uciok()
 			await p
 			expect(e.id).to.have.keys('name', 'author')
-			expect(Object.keys(e.options)).to.have.length(5)
+			expect(e.options).to.be.an.instanceof(Map)
+			expect(e.options.size).to.equal(5)
 		})
 
 		it('should remove listener after resolving', async () => {
