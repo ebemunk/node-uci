@@ -14,11 +14,40 @@ import {
 	parseId,
 	parseOption,
 	goCommand,
-	parseInfo,initListener,createListener
+	parseInfo,
+	initListener,
+	createListener
 } from './parseUtil'
 
 const log = debug('uci:Engine')
 const engineLog = debug('uci:Engine:log')
+
+function fromEngineLog(lines) {
+	engineLog('from engine:', lines, EOL)
+}
+
+function isreadyListener(resolve, reject, result, line) {
+	if( line === 'readyok' ) {
+		resolve(true)
+	} else {
+		reject(new Error(`unexpected line: expecting "readyok", got: "${line}"`))
+	}
+}
+
+function goListener(resolve, reject, result, line) {
+	//init result
+	if( _.isEmpty(result) ) {
+		result.info = []
+	}
+	const bestmove = REGEX.bestmove.exec(line)
+	if( bestmove && bestmove[1] ) {
+		result.bestmove = bestmove[1]
+		if( bestmove[2] ) result.ponder = bestmove[2]
+		return resolve(result)
+	}
+	const info = parseInfo(line)
+	if( ! _.isEmpty(info) ) result.info.push(info)
+}
 
 export default class Engine {
 	constructor(filePath) {
@@ -50,10 +79,7 @@ export default class Engine {
 			this.proc
 			.on('close', reject)
 			.on('error', reject)
-
-			this.proc.stdout.on('data', lines => {
-				engineLog('from engine:', lines, EOL)
-			})
+			this.proc.stdout.on('data', fromEngineLog)
 
 			listener = createListener(initListener, resolve, reject)
 			this.proc.stdout.on('data', listener)
@@ -62,9 +88,11 @@ export default class Engine {
 		})
 
 		const {id, options} = await p
-		this.id = id
-		this.options = options
+		if( id ) this.id = id
+		if( options) this.options = options
+
 		this.proc.stdout.removeListener('data', listener)
+
 		return this
 	}
 
@@ -77,61 +105,60 @@ export default class Engine {
 			this.write(`quit${EOL}`)
 		})
 
-		const a = await p
-		console.log('fa',a);
+		await p
+		this.proc.stdout.removeListener('data', fromEngineLog)
 		this.proc.removeAllListeners()
-		console.log('deyleytin');
 		delete this.proc
+
 		return this
 	}
 
-	isready() {
-		return new Promise((resolve, reject) => {
-			if( ! this.proc )
-				return reject(new Error('cannot call "isready()": engine process not running'))
-			const listener = (buffer) => {
-				const lines = getLines(buffer)
-				lines.forEach(line => {
-					if( line === 'readyok') {
-						resolve(this)
-					} else {
-						reject(new Error(`unexpected line: expecting "readyok", got: "${line}"`))
-					}
-				})
-			}
+	async isready() {
+		if( ! this.proc )
+			throw new Error('cannot call "isready()": engine process not running')
+
+		let listener
+		const p = new Promise((resolve, reject) => {
+			listener = createListener(isreadyListener, resolve, reject)
 			this.proc.stdout.once('data', listener)
 			this.write(`isready${EOL}`)
+
+			resolve(this)
 		})
+
+		return p
 	}
 
-	sendCmd(cmd) {
+	async sendCmd(cmd) {
 		if( ! this.proc )
-			return Promise.reject(new Error(`cannot call "${cmd}()": engine process not running`))
+			throw new Error(`cannot call "${cmd}()": engine process not running`)
 
 		log('sendCmd', cmd)
 		this.write(`${cmd}${EOL}`)
+
 		return this.isready()
 	}
 
-	setoption(name, value) {
+	async setoption(name, value) {
 		let cmd = `name ${name}`
 		if( value ) cmd += ` value ${value}`
+
 		return this.sendCmd(`setoption ${cmd}`)
-		.then(p => {
+		.then(() => {
 			this.options.set(name, value)
-			return p
+			return this
 		})
 	}
 
-	ucinewgame() {
+	async ucinewgame() {
 		return this.sendCmd('ucinewgame')
 	}
 
-	ponderhit() {
+	async ponderhit() {
 		return this.sendCmd('ponderhit')
 	}
 
-	position(fen, moves) {
+	async position(fen, moves) {
 		let cmd
 		if( fen === 'startpos' ) {
 			cmd = 'startpos'
@@ -147,37 +174,24 @@ export default class Engine {
 		return this.sendCmd(`position ${cmd}`)
 	}
 
-	go(options) {
-		return new Promise((resolve, reject) => {
-			if( ! this.proc )
-				return reject(new Error('cannot call "go()": engine process not running'))
-			if( options.infinite )
-				return reject(new Error('go() does not support infinite search, use goInfinite()'))
-			const infoArray = []
-			const listener = buffer => {
-				const lines = getLines(buffer)
-				lines.forEach(line => {
-					const bestmove = REGEX.bestmove.exec(line)
-					if( bestmove && bestmove[1] ) {
-						const result = {
-							bestmove: bestmove[1],
-							info: infoArray
-						}
-						if( bestmove[2] ) {
-							result.ponder = bestmove[2]
-						}
-						//cleanup
-						this.proc.stdout.removeListener('data', listener)
-						return resolve(result)
-					}
-					const info = parseInfo(line)
-					if( ! _.isEmpty(info) ) infoArray.push(info)
-				})
-			}
-			const command = goCommand(options)
+	async go(options) {
+		if( ! this.proc )
+			throw new Error('cannot call "go()": engine process not running')
+		if( options.infinite )
+			throw new Error('go() does not support infinite search, use goInfinite()')
+
+		let listener
+		const result = await new Promise((resolve, reject) => {
+			listener = createListener(goListener, resolve, reject)
 			this.proc.stdout.on('data', listener)
+
+			const command = goCommand(options)
 			this.write(command)
 		})
+
+		//cleanup
+		this.proc.stdout.removeListener('data', listener)
+		return result
 	}
 
 	goInfinite(options = {}) {

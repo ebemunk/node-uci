@@ -33,7 +33,7 @@ describe('EngineAnalysis', () => {
 		})
 	})
 
-	describe.only('init', () => {
+	describe('init', () => {
 		it('should return a promise', () => {
 			const p = new Engine('').init()
 			expect(p).to.be.an.instanceof(Promise)
@@ -138,7 +138,6 @@ describe('EngineAnalysis', () => {
 			p = p.quit()
 			cpMock.emit('close')
 			await p
-			console.log(p);
 			expect(p.proc).to.be.undefined
 			expect(cpMock.stdout.listenerCount('data')).to.equal(0)
 		})
@@ -237,7 +236,7 @@ describe('EngineAnalysis', () => {
 			it('should update this.options with new option on success', async () => {
 				let p = engine.setoption('opt', -24)
 				cpMock.readyok()
-				p = await p
+				await p
 				expect(engine.options.get('opt')).to.equal(-24)
 			})
 		})

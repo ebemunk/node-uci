@@ -104,7 +104,8 @@ export function parseBestmove(line) {
 	return parsed
 }
 
-export function createListener(fn, resolve, reject) { return (buffer) => {
+export function createListener(fn, resolve, reject) {
+	return (buffer) => {
 		const lines = getLines(buffer)
 		const result = {}
 		const partialFn = _.partial(fn, resolve, reject, result)
