@@ -13,11 +13,11 @@
 - [x] uci
 - [ ] debug
 - [x] isready
-- [x] setoption name [value]
+- [x] setoption
 - [ ] register
 - [x] ucinewgame
 - [x] position
-- [x] go (except infinite)
+- [x] go
 - [x] stop
 - [x] ponderhit
 - [x] quit
