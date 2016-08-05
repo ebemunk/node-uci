@@ -224,22 +224,21 @@ export default class Engine {
 		return this.emitter
 	}
 
-	stop() {
-		return new Promise((resolve, reject) => {
-			const listener = buffer => {
-				const lines = getLines(buffer)
-				lines.forEach(line => {
-					const bestmove = parseBestmove(line)
-					if( bestmove ) {
-						this.proc.stdout.removeListener('data', listener)
-						return resolve(bestmove)
-					}
-				})
-			}
+	async stop() {
+		if( ! this.emitter )
+			throw new Error('cannot call "stop()": goInfinite() is not in progress')
 
+		let listener
+		const result = await new Promise((resolve, reject) => {
+			listener = createListener(goListener, resolve, reject)
 			this.proc.stdout.on('data', listener)
+
 			this.write(`stop${EOL}`)
 			this.emitter.emit('stop')
 		})
+
+		//cleanup
+		this.proc.stdout.removeListener('data', listener)
+		return result
 	}
 }

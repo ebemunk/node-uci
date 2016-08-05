@@ -419,6 +419,37 @@ describe('EngineAnalysis', () => {
 			expect(engine.proc.stdout.listenerCount('data')).to.equal(1)
 		})
 	})
+
+	describe('stop', () => {
+		it('should reject if emitter is not available', () => {
+			const p = new Engine('').stop()
+			return expect(p).to.be.rejected
+		})
+
+		it('should return a promise', async () => {
+			const engine = await engineInit()
+			engine.goInfinite()
+			const p = engine.stop()
+			expect(p).to.be.an.instanceof(Promise)
+		})
+
+		it('should return the bestmove', async () => {
+			const engine = await engineInit()
+			engine.goInfinite()
+			const p = engine.stop()
+			cpMock.stdout.emit('data', `info score cp 3${EOL}bestmove d7d6`)
+			const result = await p
+			expect(result).to.deep.equal({
+				bestmove: 'd7d6',
+				info: [{
+					score: {
+						unit: 'cp',
+						value: 3
+					}
+				}]
+			})
+		})
+	})
 })
 
 /* eslint-disable */
