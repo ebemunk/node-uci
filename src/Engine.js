@@ -11,43 +11,23 @@ import {REGEX, INFO_NUMBER_TYPES} from './const'
 import EngineChain from './EngineChain'
 import {
 	getLines,
-	parseId,
-	parseOption,
 	goCommand,
 	parseInfo,
 	parseBestmove,
-	initListener,
-	createListener
 } from './parseUtil'
+import {
+	createListener,
+	initListener,
+	isreadyListener,
+	goListener,
+	goInfiniteListener,
+} from './listeners'
 
 const log = debug('uci:Engine')
 const engineLog = debug('uci:Engine:log')
 
 function fromEngineLog(lines) {
 	engineLog('from engine:', lines, EOL)
-}
-
-function isreadyListener(resolve, reject, result, line) {
-	if( line === 'readyok' ) {
-		resolve(true)
-	} else {
-		reject(new Error(`unexpected line: expecting "readyok", got: "${line}"`))
-	}
-}
-
-function goListener(resolve, reject, result, line) {
-	//init result
-	if( _.isEmpty(result) ) {
-		result.info = []
-	}
-	const bestmove = REGEX.bestmove.exec(line)
-	if( bestmove && bestmove[1] ) {
-		result.bestmove = bestmove[1]
-		if( bestmove[2] ) result.ponder = bestmove[2]
-		return resolve(result)
-	}
-	const info = parseInfo(line)
-	if( ! _.isEmpty(info) ) result.info.push(info)
 }
 
 export default class Engine {

@@ -85,6 +85,7 @@ export function parseInfo(line) {
 	})
 	log('info', info, EOL)
 	if( _.isEmpty(info) ) {
+		log('parseInfo cannot parse:', info, EOL)
 		return
 	}
 	return info
@@ -101,15 +102,6 @@ export function parseBestmove(line) {
 		parsed.ponder = bestmove[2]
 	}
 	return parsed
-}
-
-export function createListener(fn, resolve, reject) {
-	return (buffer) => {
-		const lines = getLines(buffer)
-		const result = {}
-		const partialFn = _.partial(fn, resolve, reject, result)
-		lines.forEach(partialFn)
-	}
 }
 
 //parse an "id" command
@@ -153,39 +145,5 @@ export function parseOption(line) {
 	return {
 		key: parsed[1],
 		value: option
-	}
-}
-
-export function initListener(resolve, reject, result, line) {
-	const cmdType = _.get(REGEX.cmdType.exec(line), 1)
-	if( ! cmdType ) {
-		//couldn't parse, ignore
-		log('init() ignoring:', line, EOL)
-		return
-	}
-
-	switch( cmdType ) {
-		case 'id':
-			try {
-				const id = parseId(line)
-				_.set(result, `id.${id.key}`, id.value)
-				log('id:', id, EOL)
-			} catch (err) {
-				log('id: ignoring: parse error', EOL)
-			}
-			break
-		case 'option':
-			try {
-				const option = parseOption(line)
-				_.set(result, `options.${option.key}`, option.value)
-				log('option:', option, EOL)
-			} catch (err) {
-				log('option: ignoring: parse error', EOL)
-			}
-			break
-		case 'uciok':
-			log('uciok')
-			resolve(result)
-			break
 	}
 }

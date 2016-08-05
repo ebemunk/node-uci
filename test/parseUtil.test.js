@@ -10,6 +10,7 @@ import {
 	parseOption,
 	goCommand,
 	parseInfo,
+	parseBestmove,
 } from '../src/parseUtil'
 
 describe('parseUtil', () => {
@@ -196,6 +197,34 @@ describe('parseUtil', () => {
 				time: 16,
 				pv: 'g1f3 d7d5 d2d4 g8f6 f3e5 b8c6 e2e3 e7e6'
 			})
+		})
+
+		it('should return nothing if no parsable info found', () => {
+			let parsed = parseInfo('info lol kekek haha')
+			expect(parsed).to.be.undefined
+		})
+	})
+
+	describe('parseBestmove', () => {
+		it('should parse bestmove correctly', () => {
+			const bestmove = parseBestmove('bestmove e4e5')
+			expect(bestmove).to.deep.equal({
+				bestmove: 'e4e5'
+			})
+			expect(bestmove).to.not.contain.property('ponder')
+		})
+
+		it('should include ponder if present', () => {
+			const bestmove = parseBestmove('bestmove b1c3 ponder b8c6')
+			expect(bestmove).to.deep.equal({
+				bestmove: 'b1c3',
+				ponder: 'b8c6'
+			})
+		})
+
+		it('should return undefined if not parseable', () => {
+			const bestmove = parseBestmove('lolol ehehah')
+			expect(bestmove).to.be.undefined
 		})
 	})
 })
