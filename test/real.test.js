@@ -2,10 +2,10 @@
 import {Engine} from '../src'
 
 /* eslint-disable */
-const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
-// const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
+// const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
+const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
 
-describe.skip('real', () => {
+describe('real', () => {
 	describe('promise/async', () => {
 		it('promise/async usage', async () => {
 			const engine = new Engine(enginePath)
@@ -36,6 +36,16 @@ describe.skip('real', () => {
 	})
 
 	describe('chain', () => {
-
+		it.only('chain usage', function(done) {
+			this.timeout(10000)
+			const engine = new Engine(enginePath)
+			engine.chain()
+			.init()
+			.go({depth: 15})
+			.commit()
+			.then((a,b,c) => {
+				done()
+			})
+		})
 	})
 })

@@ -26,13 +26,13 @@ export default class EngineChain {
 	chain(fn) {
 		return () => {
 			let p = ::this._engine[fn]
-			this._queue.push(p)
+			this._queue.push([p, ...arguments])
 			return this
 		}
 	}
 
 	commit() {
-		return Promise.mapSeries(this._queue, fn => fn())
+		return Promise.mapSeries(this._queue, fn => fn[0](...fn[1]))
 		.then(() => this._engine)
 	}
 }
