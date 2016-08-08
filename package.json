@@ -1,6 +1,6 @@
 {
   "name": "node-uci",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Universal Chess Interface",
   "main": "lib/index.js",
   "scripts": {
@@ -59,10 +59,13 @@
       "stage-0"
     ],
     "plugins": [
-      ["transform-runtime", {
-        "polyfill": true,
-        "regenerator": true
-      }]
+      [
+        "transform-runtime",
+        {
+          "polyfill": true,
+          "regenerator": true
+        }
+      ]
     ],
     "env": {
       "test": {
