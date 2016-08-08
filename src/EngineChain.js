@@ -9,7 +9,7 @@ const CHAINABLE = [
 	'ucinewgame',
 	'quit',
 	'position',
-	'go'
+	'go',
 ]
 
 export default class EngineChain {
