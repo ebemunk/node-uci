@@ -1,5 +1,5 @@
 //testing with real engines
-import Engine from '../src'
+import {Engine} from '../src'
 
 /* eslint-disable */
 const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'

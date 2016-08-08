@@ -4,7 +4,7 @@ import {EOL} from 'os'
 
 import sinon from 'sinon'
 
-import Engine from '../src'
+import {Engine} from '../src'
 
 export function childProcessMock() {
 	const stdoutMock = new stream.Readable()
@@ -19,10 +19,10 @@ export function childProcessMock() {
 		},
 		uciok: () => cpMock.stdout.emit('data', `uciok${EOL}`),
 		readyok: () => cpMock.stdout.emit('data', `readyok${EOL}`),
-		destroy: () => Engine.__ResetDependency__('spawn')
+		destroy: () => Engine.__RewireAPI__.__ResetDependency__('spawn')
 	})
 
-	Engine.__Rewire__('spawn', () => cpMock)
+	Engine.__RewireAPI__.__Rewire__('spawn', () => cpMock)
 
 	return cpMock
 }

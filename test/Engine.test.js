@@ -6,8 +6,10 @@ import _ from 'lodash'
 import sinon from 'sinon'
 
 import expect from './Chai'
-import Engine from '../src'
+import {Engine} from '../src'
 import {childProcessMock} from './util'
+
+const NativePromise = global.Promise
 
 Promise.onPossiblyUnhandledRejection(_.noop)
 
@@ -37,7 +39,7 @@ describe('Engine', () => {
 	describe('init', () => {
 		it('should return a promise', () => {
 			const p = new Engine('').init()
-			expect(p).to.be.an.instanceof(Promise)
+			expect(p).to.be.an.instanceof(NativePromise)
 		})
 
 		it('should reject if "error" is sent', () => {
@@ -121,7 +123,7 @@ describe('Engine', () => {
 	describe('quit', () => {
 		it('should return a promise', () => {
 			const p = new Engine('').quit()
-			expect(p).to.be.an.instanceof(Promise)
+			expect(p).to.be.an.instanceof(NativePromise)
 		})
 
 		it('should reject if process not running', () => {
@@ -156,7 +158,7 @@ describe('Engine', () => {
 	describe('isready', () => {
 		it('should return a promise', () => {
 			const p = new Engine('').isready()
-			expect(p).to.be.an.instanceof(Promise)
+			expect(p).to.be.an.instanceof(NativePromise)
 		})
 
 		it('should reject if process not running', () => {
@@ -189,7 +191,7 @@ describe('Engine', () => {
 	describe('sendCmd', () => {
 		it('should return a promise', () => {
 			const p = new Engine('').sendCmd('test')
-			expect(p).to.be.an.instanceof(Promise)
+			expect(p).to.be.an.instanceof(NativePromise)
 		})
 
 		it('should reject if process not running', () => {
@@ -281,7 +283,7 @@ describe('Engine', () => {
 		it('should return a promise', async () => {
 			const engine = await engineInit()
 			const p = engine.go()
-			expect(p).to.be.an.instanceof(Promise)
+			expect(p).to.be.an.instanceof(NativePromise)
 		})
 
 		it('should reject if infinite flag is set', () => {
@@ -431,7 +433,7 @@ describe('Engine', () => {
 			const engine = await engineInit()
 			engine.goInfinite()
 			const p = engine.stop()
-			expect(p).to.be.an.instanceof(Promise)
+			expect(p).to.be.an.instanceof(NativePromise)
 		})
 
 		it('should return the bestmove', async () => {
