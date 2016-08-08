@@ -2,14 +2,15 @@
   "name": "node-uci",
   "version": "0.0.1",
   "description": "Universal Chess Interface",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "lint": "eslint .",
     "test": "cross-env NODE_ENV=test mocha",
     "test:watch": "npm test -- --watch",
     "test:cov": "cross-env NODE_ENV=test istanbul cover _mocha",
     "pretest:ci": "npm run lint",
-    "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter"
+    "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter",
+    "build": "cross-env NODE_ENV=production babel src --out-dir lib"
   },
   "repository": {
     "type": "git",
@@ -24,15 +25,18 @@
   "author": "ebemunk",
   "license": "MIT",
   "dependencies": {
+    "babel-runtime": "^6.11.6",
     "bluebird": "^3.4.0",
     "debug": "^2.2.0",
     "lodash": "^4.13.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.11.4",
     "babel-core": "^6.9.1",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-rewire": "^1.0.0-rc-3",
+    "babel-plugin-transform-runtime": "^6.12.0",
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
@@ -41,21 +45,25 @@
     "chai-as-promised": "^5.3.0",
     "chai-properties": "^1.2.1",
     "codeclimate-test-reporter": "^0.3.3",
-    "cross-env": "^1.0.8",
+    "cross-env": "^2.0.0",
     "eslint": "^3.1.1",
     "istanbul": "^1.0.0-alpha.2",
-    "mocha": "^2.5.3",
+    "mocha": "^3.0.1",
     "rimraf": "^2.5.2",
     "sinon": "^1.17.4",
-    "sinon-chai": "^2.8.0",
-    "webpack": "^1.13.1"
+    "sinon-chai": "^2.8.0"
   },
   "babel": {
     "presets": [
       "es2015",
       "stage-0"
     ],
-    "plugins": [],
+    "plugins": [
+      ["transform-runtime", {
+        "polyfill": true,
+        "regenerator": true
+      }]
+    ],
     "env": {
       "test": {
         "plugins": [
@@ -79,7 +87,9 @@
       "indent": [
         "error",
         "tab",
-        {"SwitchCase": 1}
+        {
+          "SwitchCase": 1
+        }
       ],
       "linebreak-style": [
         "error",
