@@ -9,7 +9,6 @@ const CHAINABLE = [
 	'ucinewgame',
 	'quit',
 	'position',
-	'goInfinite',
 	'go'
 ]
 
