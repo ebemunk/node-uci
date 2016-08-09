@@ -100,15 +100,14 @@ export default class Engine {
 			throw new Error('cannot call "isready()": engine process not running')
 
 		let listener
-		const p = new Promise((resolve, reject) => {
+		await new Promise((resolve, reject) => {
 			listener = createListener(isreadyListener, resolve, reject)
 			this.proc.stdout.once('data', listener)
 			this.write(`isready${EOL}`)
-
-			resolve(this)
+			resolve()
 		})
 
-		return p
+		return this
 	}
 
 	async sendCmd(cmd) {
@@ -125,11 +124,10 @@ export default class Engine {
 		let cmd = `name ${name}`
 		if( value ) cmd += ` value ${value}`
 
-		return this.sendCmd(`setoption ${cmd}`)
-		.then(() => {
-			this.options.set(name, value)
-			return this
-		})
+		await this.sendCmd(`setoption ${cmd}`)
+		this.options.set(name, value)
+
+		return this
 	}
 
 	async ucinewgame() {
