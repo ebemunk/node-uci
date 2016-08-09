@@ -5,7 +5,7 @@ import {Engine} from '../src'
 const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
 // const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
 
-describe.skip('real', () => {
+describe('real', () => {
 	describe('promise/async', () => {
 		it('promise/async usage', async () => {
 			const engine = new Engine(enginePath)
@@ -36,6 +36,24 @@ describe.skip('real', () => {
 	})
 
 	describe('chain', () => {
-
+		it.only('chain usage', (done) => {
+			const engine = new Engine(enginePath)
+			engine.chain()
+			.init()
+			.setoption('MultiPV', 3)
+			.position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3')
+			.go({depth: 15})
+			.commit()
+			.then((a,b,c) => {
+				console.log('BITENZZz');
+				console.log(a);
+				console.log(b);
+				console.log(c);
+				done()
+			})
+			.catch(err => {
+				console.log(err.stack);
+			})
+		})
 	})
 })
