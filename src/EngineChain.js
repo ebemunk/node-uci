@@ -1,10 +1,12 @@
 import Promise from 'bluebird'
 import debug from 'debug'
+import {last} from 'lodash'
 
 const log = debug('uci:EngineChain')
 
 const CHAINABLE = [
 	'init',
+	'setoption',
 	'isready',
 	'ucinewgame',
 	'quit',
@@ -23,16 +25,20 @@ export default class EngineChain {
 		})
 	}
 
+	//returns a function which puts the Engine call and args in the queue
 	chain(fn) {
-		return () => {
-			let p = ::this._engine[fn]
-			this._queue.push(p)
+		const self = this
+		return function () {
+			this._queue.push([::self._engine[fn], ...arguments])
 			return this
 		}
 	}
 
-	commit() {
-		return Promise.mapSeries(this._queue, fn => fn())
-		.then(() => this._engine)
+	async commit() {
+		const results = await Promise.mapSeries(this._queue, ([fn, params]) => {
+			return fn(params)
+		})
+
+		return last(results)
 	}
 }
