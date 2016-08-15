@@ -5,7 +5,7 @@ import {Engine} from '../src'
 const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
 // const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
 
-describe('real', () => {
+describe.skip('real', () => {
 	describe('promise/async', () => {
 		it('promise/async usage', async () => {
 			const engine = new Engine(enginePath)
@@ -36,7 +36,7 @@ describe('real', () => {
 	})
 
 	describe('chain', () => {
-		it.only('chain usage', (done) => {
+		it('chain usage', (done) => {
 			const engine = new Engine(enginePath)
 			engine.chain()
 			.init()
@@ -54,6 +54,20 @@ describe('real', () => {
 			.catch(err => {
 				console.log(err.stack);
 			})
+		})
+	})
+
+	describe('new', () => {
+		let engine
+		it('t', async () => {
+			engine = new Engine(enginePath)
+			await engine.propashambles()
+			// let q = await engine.go({depth: 20})
+			// console.log('qqq',q);
+		})
+
+		after(async () => {
+			await engine.quit()
 		})
 	})
 })

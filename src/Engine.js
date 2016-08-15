@@ -5,6 +5,7 @@ import {EventEmitter} from 'events'
 
 import Promise from 'bluebird'
 import debug from 'debug'
+import _ from 'lodash'
 
 import EngineChain from './EngineChain'
 import {
@@ -12,6 +13,7 @@ import {
 	goCommand,
 	parseInfo,
 	parseBestmove,
+	parseId,initReducer
 } from './parseUtil'
 import {
 	createListener,
@@ -19,6 +21,7 @@ import {
 	isreadyListener,
 	goListener,
 } from './listeners'
+import {REGEX, INFO_NUMBER_TYPES} from './const'
 
 const log = debug('uci:Engine')
 const engineLog = debug('uci:Engine:log')
@@ -37,6 +40,29 @@ export default class Engine {
 		this.options = new Map()
 	}
 
+	async getBufferUntil(condition) {
+		const lines = []
+		let listener
+		const p = new Promise((resolve, reject) => {
+			listener = buffer => {
+				buffer
+				.split(/\r?\n/g)
+				.filter(line => !!line.length)
+				.forEach(line => {
+					if( condition(line) ) return resolve()
+					lines.push(line)
+				})
+			}
+			this.proc.stdout.on('data', listener)
+			//reject if something goes wrong during buffering
+			this.proc.once('error', reject)
+			this.proc.once('close', reject)
+		})
+		await p
+		this.proc.stdout.removeListener('data', listener)
+		return lines
+	}
+
 	write(command) {
 		this.proc.stdin.write(command)
 		engineLog('to engine:', command, EOL)
@@ -47,6 +73,30 @@ export default class Engine {
 	}
 
 	async init() {
+		if( this.proc )
+			throw new Error('cannot call "init()": already initialized')
+		//set up spawn
+		this.proc = spawn(this.filePath)
+		this.proc.stdout.setEncoding('utf8')
+		//log buffer from engine
+		this.proc.stdout.on('data', fromEngineLog)
+		//send command to engine
+		this.write(`uci${EOL}`)
+		//parse lines
+		const lines = await this.getBufferUntil(line => line === 'uciok')
+		const {id, options} = lines.reduce(initReducer, {})
+		//set id and options
+		if( id ) this.id = id
+		if( options ) {
+			//put options to Map
+			Object.keys(options).forEach(key => {
+				this.options.set(key, options[key])
+			})
+		}
+		return this
+	}
+
+	async init2() {
 		if( this.proc )
 			throw new Error('cannot call "init()": already initialized')
 
@@ -163,7 +213,10 @@ export default class Engine {
 		let listener
 		const result = await new Promise((resolve, reject) => {
 			listener = createListener(goListener, resolve, reject)
-			this.proc.stdout.on('data', listener)
+			// this.proc.stdout.on('data', listener)
+			this.proc.stdout.on('data', g => {
+				console.log('data', g);
+			})
 
 			const command = goCommand(options)
 			this.write(command)

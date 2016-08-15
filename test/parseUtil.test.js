@@ -40,16 +40,14 @@ describe('parseUtil', () => {
 		it('should parse "name"', () => {
 			const r = parseId('id name Stockfish 7 64')
 			expect(r).to.be.deep.equal({
-				key: 'name',
-				value: 'Stockfish 7 64'
+				name: 'Stockfish 7 64'
 			})
 		})
 
 		it('should parse "author"', () => {
 			const r = parseId('id author T. Romstad, M. Costalba, J. Kiiski, G. Linscott')
 			expect(r).to.be.deep.equal({
-				key: 'author',
-				value: 'T. Romstad, M. Costalba, J. Kiiski, G. Linscott'
+				author: 'T. Romstad, M. Costalba, J. Kiiski, G. Linscott'
 			})
 		})
 	})
@@ -62,8 +60,7 @@ describe('parseUtil', () => {
 		it('should parse "check"', () => {
 			const r = parseOption('option name Nullmove type check default true')
 			expect(r).to.have.properties({
-				key: 'Nullmove',
-				value: {
+				'Nullmove': {
 					type: 'check',
 					default: true
 				}
@@ -73,8 +70,7 @@ describe('parseUtil', () => {
 		it('should parse "spin"', () => {
 			const r = parseOption('option name Selectivity type spin default 2 min 0 max 4')
 			expect(r).to.have.properties({
-				key: 'Selectivity',
-				value: {
+				'Selectivity': {
 					type: 'spin',
 					default: 2,
 					min: 0,
@@ -86,8 +82,7 @@ describe('parseUtil', () => {
 		it('should parse "combo"', () => {
 			const r = parseOption('option name Style type combo default Normal var Solid var Normal var Risky')
 			expect(r).to.have.properties({
-				key: 'Style',
-				value: {
+				'Style': {
 					type: 'combo',
 					default: 'Normal',
 					options: ['Solid', 'Normal', 'Risky']
@@ -98,8 +93,7 @@ describe('parseUtil', () => {
 		it('should parse "string"', () => {
 			const r = parseOption('option name NalimovPath type string default c:\\')
 			expect(r).to.have.properties({
-				key: 'NalimovPath',
-				value: {
+				'NalimovPath': {
 					type: 'string',
 					default: 'c:\\'
 				}
@@ -109,8 +103,7 @@ describe('parseUtil', () => {
 		it('should parse "button"', () => {
 			const r = parseOption('option name Clear Hash type button')
 			expect(r).to.have.properties({
-				key: 'Clear Hash',
-				value: {
+				'Clear Hash': {
 					type: 'button'
 				}
 			})

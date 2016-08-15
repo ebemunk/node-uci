@@ -107,15 +107,17 @@ export function parseBestmove(line) {
 //parse an "id" command
 export function parseId(line) {
 	const parsed = REGEX.id.exec(line)
+	if( ! parsed || ! parsed[1] || ! parsed[2] ) return null
 	return {
-		key: parsed[1],
-		value: parsed[2]
+		[parsed[1]]: parsed[2]
 	}
 }
 
 //parse an "option" command
 export function parseOption(line) {
 	const parsed = REGEX.option.exec(line)
+	if( ! parsed ) return null
+
 	const option = {
 		type: parsed[2]
 	}
@@ -130,7 +132,6 @@ export function parseOption(line) {
 			option.max = parseInt(parsed[5])
 			break
 		case 'combo':
-			log(parsed)
 			option.default = parsed[3]
 			option.options = parsed[6].split(/ ?var ?/g)
 			break //combo breaker?
@@ -143,7 +144,25 @@ export function parseOption(line) {
 	}
 
 	return {
-		key: parsed[1],
-		value: option
+		[parsed[1]]: option
 	}
+}
+
+export function initReducer(result, line) {
+	const cmdType = _.get(REGEX.cmdType.exec(line), 1)
+	switch( cmdType ) {
+		case 'id':
+			result.id = {
+				...result.id,
+				...parseId(line),
+			}
+			break
+		case 'option':
+			result.options = {
+				...result.options,
+				...parseOption(line)
+			}
+			break
+	}
+	return result
 }
