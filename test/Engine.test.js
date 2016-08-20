@@ -101,7 +101,7 @@ describe('Engine', () => {
 			const p = e.init()
 			cpMock.stdout.emit('data', data.join(EOL))
 			cpMock.uciok()
-			let z = await p
+			await p
 			expect(e.id).to.have.keys('name', 'author')
 			expect(e.options).to.be.an.instanceof(Map)
 			expect(e.options.size).to.equal(5)

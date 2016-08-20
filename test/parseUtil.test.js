@@ -2,7 +2,6 @@ import {EOL} from 'os'
 
 import expect from './Chai'
 import {
-	getLines,
 	parseId,
 	parseOption,
 	goCommand,

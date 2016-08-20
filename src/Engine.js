@@ -5,7 +5,6 @@ import {EventEmitter} from 'events'
 
 import Promise from 'bluebird'
 import debug from 'debug'
-import _ from 'lodash'
 
 import EngineChain from './EngineChain'
 import {
@@ -15,7 +14,7 @@ import {
   parseInfo,
   parseBestmove,
 } from './parseUtil'
-import {REGEX, INFO_NUMBER_TYPES} from './const'
+import {REGEX} from './const'
 
 const log = debug('uci:Engine')
 const engineLog = debug('uci:Engine:log')
@@ -77,9 +76,9 @@ export default class Engine {
 		//log buffer from engine
 		this.proc.stdout.on('data', fromEngineLog)
 		//send command to engine
-		this.write(`uci`)
+		this.write('uci')
 		//parse lines
-		const lines = await this.getBufferUntil(line => line === `uciok`)
+		const lines = await this.getBufferUntil(line => line === 'uciok')
 		const {id, options} = lines.reduce(initReducer, {
 			id: {},
 			options: {}
@@ -101,7 +100,7 @@ export default class Engine {
 		//send quit cmd and resolve when closed
 		await new Promise(resolve => {
 			this.proc.on('close', resolve)
-			this.write(`quit`)
+			this.write('quit')
 		})
 		//cleanup
 		this.proc.stdout.removeListener('data', fromEngineLog)
@@ -114,8 +113,8 @@ export default class Engine {
 		if( ! this.proc )
 			throw new Error('cannot call "isready()": engine process not running')
 		//send isready and wait for the response
-		this.write(`isready`)
-		await this.getBufferUntil(line => line === `readyok`)
+		this.write('isready')
+		await this.getBufferUntil(line => line === 'readyok')
 		return this
 	}
 
@@ -190,9 +189,9 @@ export default class Engine {
 		//set up emitter
 		this.emitter = new EventEmitter()
 		const listener = buffer => {
-      buffer
-      .split(/\r?\n/g)
-      .filter(line => !!line.length)
+			buffer
+			.split(/\r?\n/g)
+			.filter(line => !!line.length)
 			.forEach(line => {
 				const info = parseInfo(line)
 				if( info )
@@ -216,14 +215,14 @@ export default class Engine {
 		if( ! this.emitter )
 			throw new Error('cannot call "stop()": goInfinite() is not in progress')
     //send the stop message & end goInfinite() listener
-		this.write(`stop`)
+		this.write('stop')
 		this.emitter.emit('stop')
-    //same idea as go(), only we expect just bestmove line here
-    const lines = await this.getBufferUntil(line => REGEX.bestmove.test(line))
-    const result = lines.reduce(goReducer, {
-      bestmove: null,
-      info: []
-    })
+		//same idea as go(), only we expect just bestmove line here
+		const lines = await this.getBufferUntil(line => REGEX.bestmove.test(line))
+		const result = lines.reduce(goReducer, {
+			bestmove: null,
+			info: []
+		})
 		return result
 	}
 }
