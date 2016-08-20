@@ -29,14 +29,14 @@ export default class EngineChain {
 	chain(fn) {
 		const self = this
 		return function () {
-			this._queue.push([::self._engine[fn], ...arguments])
+			this._queue.push([::self._engine[fn], [...arguments]])
 			return this
 		}
 	}
 
 	async commit() {
 		const results = await Promise.mapSeries(this._queue, ([fn, params]) => {
-			return fn(params)
+			return fn(...params)
 		})
 
 		return last(results)
