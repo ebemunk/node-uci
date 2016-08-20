@@ -9,18 +9,12 @@ import _ from 'lodash'
 
 import EngineChain from './EngineChain'
 import {
-	getLines,
 	goCommand,
-	parseInfo,
-	parseBestmove,
-	parseId,initReducer
+	initReducer,
+	goReducer,
+  parseInfo,
+  parseBestmove,
 } from './parseUtil'
-import {
-	createListener,
-	initListener,
-	isreadyListener,
-	goListener,
-} from './listeners'
 import {REGEX, INFO_NUMBER_TYPES} from './const'
 
 const log = debug('uci:Engine')
@@ -44,13 +38,14 @@ export default class Engine {
 		const lines = []
 		let listener
 		const p = new Promise((resolve, reject) => {
+			//listener gets new lines until condition is true
 			listener = buffer => {
 				buffer
 				.split(/\r?\n/g)
 				.filter(line => !!line.length)
 				.forEach(line => {
-					if( condition(line) ) return resolve()
 					lines.push(line)
+					if( condition(line) ) return resolve()
 				})
 			}
 			this.proc.stdout.on('data', listener)
@@ -59,12 +54,13 @@ export default class Engine {
 			this.proc.once('close', reject)
 		})
 		await p
+		//cleanup
 		this.proc.stdout.removeListener('data', listener)
 		return lines
 	}
 
 	write(command) {
-		this.proc.stdin.write(command)
+		this.proc.stdin.write(`${command}${EOL}`)
 		engineLog('to engine:', command, EOL)
 	}
 
@@ -81,10 +77,13 @@ export default class Engine {
 		//log buffer from engine
 		this.proc.stdout.on('data', fromEngineLog)
 		//send command to engine
-		this.write(`uci${EOL}`)
+		this.write(`uci`)
 		//parse lines
-		const lines = await this.getBufferUntil(line => line === 'uciok')
-		const {id, options} = lines.reduce(initReducer, {})
+		const lines = await this.getBufferUntil(line => line === `uciok`)
+		const {id, options} = lines.reduce(initReducer, {
+			id: {},
+			options: {}
+		})
 		//set id and options
 		if( id ) this.id = id
 		if( options ) {
@@ -96,87 +95,48 @@ export default class Engine {
 		return this
 	}
 
-	async init2() {
-		if( this.proc )
-			throw new Error('cannot call "init()": already initialized')
-
-		let listener
-		const p = new Promise((resolve, reject) => {
-			this.proc = spawn(this.filePath)
-			this.proc.stdout.setEncoding('utf8')
-			this.proc
-			.on('close', reject)
-			.on('error', reject)
-			this.proc.stdout.on('data', fromEngineLog)
-
-			listener = createListener(initListener, resolve, reject)
-			this.proc.stdout.on('data', listener)
-
-			this.write(`uci${EOL}`)
-		})
-
-		const {id, options} = await p
-		if( id ) this.id = id
-		if( options ) {
-			Object.keys(options).forEach(key => {
-				this.options.set(key, options[key])
-			})
-		}
-
-		this.proc.stdout.removeListener('data', listener)
-
-		return this
-	}
-
 	async quit() {
 		if( ! this.proc )
 			throw new Error('cannot call "quit()": engine process not running')
-
-		const p = new Promise(resolve => {
+		//send quit cmd and resolve when closed
+		await new Promise(resolve => {
 			this.proc.on('close', resolve)
-			this.write(`quit${EOL}`)
+			this.write(`quit`)
 		})
-
-		await p
+		//cleanup
 		this.proc.stdout.removeListener('data', fromEngineLog)
 		this.proc.removeAllListeners()
 		delete this.proc
-
 		return this
 	}
 
 	async isready() {
 		if( ! this.proc )
 			throw new Error('cannot call "isready()": engine process not running')
-
-		let listener
-		await new Promise((resolve, reject) => {
-			listener = createListener(isreadyListener, resolve, reject)
-			this.proc.stdout.once('data', listener)
-			this.write(`isready${EOL}`)
-			resolve()
-		})
-
+		//send isready and wait for the response
+		this.write(`isready`)
+		await this.getBufferUntil(line => line === `readyok`)
 		return this
 	}
 
 	async sendCmd(cmd) {
 		if( ! this.proc )
 			throw new Error(`cannot call "${cmd}()": engine process not running`)
-
+		//send cmd to engine
 		log('sendCmd', cmd)
-		this.write(`${cmd}${EOL}`)
-
+		this.write(`${cmd}`)
+		//return after ready - avoids pitfalls for commands
+		//that dont return a response
 		return this.isready()
 	}
 
 	async setoption(name, value) {
+		//construct command
 		let cmd = `name ${name}`
 		if( value ) cmd += ` value ${value}`
-
+		//send and wait for response
 		await this.sendCmd(`setoption ${cmd}`)
 		this.options.set(name, value)
-
 		return this
 	}
 
@@ -189,41 +149,36 @@ export default class Engine {
 	}
 
 	async position(fen, moves) {
+		//can be startpos or fen string
 		let cmd
 		if( fen === 'startpos' ) {
 			cmd = 'startpos'
 		} else {
 			cmd = `fen ${fen}`
 		}
-
+		//add moves if provided
 		if( moves && moves.length ) {
 			const movesStr = moves.join(' ')
 			cmd += ` moves ${movesStr}`
 		}
-
+		//send to engine
 		return this.sendCmd(`position ${cmd}`)
 	}
 
-	async go(options = {}) {
+	async go(options) {
 		if( ! this.proc )
 			throw new Error('cannot call "go()": engine process not running')
 		if( options.infinite )
 			throw new Error('go() does not support infinite search, use goInfinite()')
-
-		let listener
-		const result = await new Promise((resolve, reject) => {
-			listener = createListener(goListener, resolve, reject)
-			// this.proc.stdout.on('data', listener)
-			this.proc.stdout.on('data', g => {
-				console.log('data', g);
-			})
-
-			const command = goCommand(options)
-			this.write(command)
+		//construct command and send
+		const command = goCommand(options)
+		this.write(command)
+		//parse lines
+		const lines = await this.getBufferUntil(line => REGEX.bestmove.test(line))
+		const result = lines.reduce(goReducer, {
+			bestmove: null,
+			info: []
 		})
-
-		//cleanup
-		this.proc.stdout.removeListener('data', listener)
 		return result
 	}
 
@@ -232,12 +187,13 @@ export default class Engine {
 			throw new Error('cannot call "goInfinite()": engine process not running')
 		if( options.depth )
 			throw new Error('goInfinite() does not support depth search, use go()')
-
 		//set up emitter
 		this.emitter = new EventEmitter()
 		const listener = buffer => {
-			const lines = getLines(buffer)
-			lines.forEach(line => {
+      buffer
+      .split(/\r?\n/g)
+      .filter(line => !!line.length)
+			.forEach(line => {
 				const info = parseInfo(line)
 				if( info )
 					return this.emitter.emit('data', info)
@@ -259,18 +215,15 @@ export default class Engine {
 	async stop() {
 		if( ! this.emitter )
 			throw new Error('cannot call "stop()": goInfinite() is not in progress')
-
-		let listener
-		const result = await new Promise((resolve, reject) => {
-			listener = createListener(goListener, resolve, reject)
-			this.proc.stdout.on('data', listener)
-
-			this.write(`stop${EOL}`)
-			this.emitter.emit('stop')
-		})
-
-		//cleanup
-		this.proc.stdout.removeListener('data', listener)
+    //send the stop message & end goInfinite() listener
+		this.write(`stop`)
+		this.emitter.emit('stop')
+    //same idea as go(), only we expect just bestmove line here
+    const lines = await this.getBufferUntil(line => REGEX.bestmove.test(line))
+    const result = lines.reduce(goReducer, {
+      bestmove: null,
+      info: []
+    })
 		return result
 	}
 }

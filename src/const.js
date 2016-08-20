@@ -1,6 +1,6 @@
 //dem regexes
 export const REGEX = {
-	cmdType: /^(id|option|uciok$)/,
+	cmdType: /^(id|option|uciok$|info|bestmove)/,
 	id: /^id (name|author) (.+)$/,
 	option: /^option name (.+) type (\w+)(?: default ([A-Za-z0-9._\\\:<>/]+))?(?: min (-?\w+))?(?: max (-?\w+))?(?: var (.+))*$/,
 	bestmove: /^bestmove (\w+)(?: ponder (\w+))?$/,

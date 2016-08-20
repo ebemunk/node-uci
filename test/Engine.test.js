@@ -275,13 +275,7 @@ describe('Engine', () => {
 		})
 	})
 
-	describe.skip('go', () => {
-		it('should return a promise', async () => {
-			const engine = await engineInit()
-			const p = engine.go()
-			expect(p).to.be.an.instanceof(NativePromise)
-		})
-
+	describe('go', () => {
 		it('should reject if infinite flag is set', () => {
 			const p = new Engine('').go({infinite: true})
 			return expect(p).to.be.rejected

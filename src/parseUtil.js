@@ -7,14 +7,6 @@ import {REGEX, INFO_NUMBER_TYPES} from './const'
 
 const log = debug('uci:parseUtil')
 
-//get a Buffer and split the newlines
-export function getLines(buffer) {
-	const lines = buffer
-	.split(/\r?\n/g)
-	.filter(line => !!line.length)
-	return lines
-}
-
 //construct go command from options
 export function goCommand(options) {
 	let cmd = 'go'
@@ -102,6 +94,22 @@ export function parseBestmove(line) {
 		parsed.ponder = bestmove[2]
 	}
 	return parsed
+}
+
+export function goReducer(result ,line) {
+	const cmdType = _.get(REGEX.cmdType.exec(line), 1)
+	switch( cmdType ) {
+		case 'bestmove':
+			const best = parseBestmove(line)
+			if( best.bestmove ) result.bestmove = best.bestmove
+			if( best.ponder ) result.ponder = best.ponder
+			break
+		case 'info':
+			const info = parseInfo(line)
+			if( info ) result.info.push(info)
+			break
+	}
+	return result
 }
 
 //parse an "id" command

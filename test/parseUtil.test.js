@@ -11,27 +11,6 @@ import {
 } from '../src/parseUtil'
 
 describe('parseUtil', () => {
-	describe('getLines', () => {
-		it('should throw if no param given', () => {
-			expect(() => getLines()).to.throw
-		})
-
-		it('should always return an array', () => {
-			const r = getLines('')
-			expect(r).to.be.an.array
-		})
-
-		it('should split by newline', () => {
-			const r = getLines('1\n2\n3')
-			expect(r.length).to.equal(3)
-		})
-
-		it('should not contain empty lines', () => {
-			const r = getLines('1\n\n\n2\n\n3\n')
-			expect(r.length).to.equal(3)
-		})
-	})
-
 	describe('parseId', () => {
 		it('should throw if invalid cmd', () => {
 			expect(() => parseId('id lololo kekeke')).to.throw
