@@ -9,8 +9,6 @@ import expect from './Chai'
 import {Engine} from '../src'
 import {childProcessMock} from './util'
 
-const NativePromise = global.Promise
-
 Promise.onPossiblyUnhandledRejection(_.noop)
 
 describe('Engine', () => {
@@ -117,11 +115,6 @@ describe('Engine', () => {
 	})
 
 	describe('quit', () => {
-		it('should return a promise', () => {
-			const p = new Engine('').quit()
-			expect(p).to.be.an.instanceof(NativePromise)
-		})
-
 		it('should reject if process not running', () => {
 			const p = new Engine('').quit()
 			return expect(p).to.be.rejected
@@ -152,11 +145,6 @@ describe('Engine', () => {
 	})
 
 	describe('isready', () => {
-		it('should return a promise', () => {
-			const p = new Engine('').isready()
-			expect(p).to.be.an.instanceof(NativePromise)
-		})
-
 		it('should reject if process not running', () => {
 			const p = new Engine('').isready()
 			return expect(p).to.be.rejected
@@ -185,11 +173,6 @@ describe('Engine', () => {
 	})
 
 	describe('sendCmd', () => {
-		it('should return a promise', () => {
-			const p = new Engine('').sendCmd('test')
-			expect(p).to.be.an.instanceof(NativePromise)
-		})
-
 		it('should reject if process not running', () => {
 			const p = new Engine('').sendCmd('test')
 			return expect(p).to.be.rejected
@@ -417,13 +400,6 @@ describe('Engine', () => {
 		it('should reject if emitter is not available', () => {
 			const p = new Engine('').stop()
 			return expect(p).to.be.rejected
-		})
-
-		it('should return a promise', async () => {
-			const engine = await engineInit()
-			engine.goInfinite()
-			const p = engine.stop()
-			expect(p).to.be.an.instanceof(NativePromise)
 		})
 
 		it('should return the bestmove', async () => {
