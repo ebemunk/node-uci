@@ -6,7 +6,7 @@ import _ from 'lodash'
 import sinon from 'sinon'
 
 import expect from './Chai'
-import {Engine} from '../src'
+import {Engine, EngineChain} from '../src'
 import {childProcessMock} from './util'
 
 Promise.onPossiblyUnhandledRejection(_.noop)
@@ -31,6 +31,17 @@ describe('Engine', () => {
 	describe('constructor', () => {
 		it('should throw if path is empty', () => {
 			expect(() => new Engine()).to.throw
+		})
+	})
+
+	describe('getBufferUntil')
+
+	describe('write')
+
+	describe('chain', () => {
+		it('should return an instance of EngineChain', () => {
+			const chain = new Engine('').chain()
+			expect(chain).to.be.an.instanceof(EngineChain)
 		})
 	})
 
