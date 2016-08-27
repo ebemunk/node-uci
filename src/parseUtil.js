@@ -49,7 +49,7 @@ export function goCommand(options) {
 		}
 	})
 
-	return `${cmd}${EOL}`
+	return `${cmd}`
 }
 
 //parse an "info" command

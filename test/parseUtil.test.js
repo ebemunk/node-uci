@@ -1,5 +1,3 @@
-import {EOL} from 'os'
-
 import expect from './Chai'
 import {
 	parseId,
@@ -97,30 +95,30 @@ describe('parseUtil', () => {
 				searchmoves: {obj: 'yes'},
 				infinite: false
 			})
-			expect(cmd).to.equal(`go${EOL}`)
+			expect(cmd).to.equal('go')
 		})
 
 		it('should not validate options', () => {
 			//infinite & depth are incompatible, we don't care
 			const cmd = goCommand({infinite: true, depth: 3})
-			expect(cmd).to.equal(`go depth 3 infinite${EOL}`)
+			expect(cmd).to.equal('go depth 3 infinite')
 		})
 
 		it('should append searchmoves correctly', () => {
 			const cmd = goCommand({
 				searchmoves: ['e2e4', 'd7d5', 'e4d5', 'd8d5']
 			})
-			expect(cmd).to.equal(`go searchmoves e2e4 d7d5 e4d5 d8d5${EOL}`)
+			expect(cmd).to.equal('go searchmoves e2e4 d7d5 e4d5 d8d5')
 		})
 
 		it('should include ponder and inifinite flag', () => {
 			const cmd = goCommand({ponder: 27, infinite: true})
-			expect(cmd).to.equal(`go ponder infinite${EOL}`)
+			expect(cmd).to.equal('go ponder infinite')
 		})
 
 		it('should include ponder and infinite only if true', () => {
 			const cmd = goCommand({ponder: false, infinite: NaN})
-			expect(cmd).to.equal(`go${EOL}`)
+			expect(cmd).to.equal('go')
 		})
 
 		it('should include all the rest of the options if they are > 0', () => {
