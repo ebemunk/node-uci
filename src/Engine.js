@@ -36,7 +36,9 @@ export default class Engine {
 	async getBufferUntil(condition) {
 		const lines = []
 		let listener
+		let reject_ref
 		const p = new Promise((resolve, reject) => {
+			reject_ref = reject
 			//listener gets new lines until condition is true
 			listener = buffer => {
 				buffer
@@ -55,6 +57,8 @@ export default class Engine {
 		await p
 		//cleanup
 		this.proc.stdout.removeListener('data', listener)
+		this.proc.removeListener('error', reject_ref)
+		this.proc.removeListener('close', reject_ref)
 		return lines
 	}
 
