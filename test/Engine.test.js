@@ -34,9 +34,9 @@ describe('Engine', () => {
 		})
 	})
 
-	describe('getBufferUntil')
+	describe('getBufferUntil', () => {})
 
-	describe('write')
+	describe('write', () => {})
 
 	describe('chain', () => {
 		it('should return an instance of EngineChain', () => {
