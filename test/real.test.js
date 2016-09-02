@@ -13,7 +13,7 @@ describe('real', () => {
 			await engine.setoption('MultiPV', '4')
 			await engine.isready()
 			console.log('engine ready', engine.id, engine.options)
-			const go = await engine.go({depth: 15})
+			const go = await engine.go({depth: 4})
 			console.log('go', go);
 			await engine.quit()
 		})
@@ -36,15 +36,20 @@ describe('real', () => {
 	})
 
 	describe('chain', () => {
-		it.only('chain usage', function(done) {
-			this.timeout(10000)
+		it('chain usage', (done) => {
 			const engine = new Engine(enginePath)
 			engine.chain()
 			.init()
+			.setoption('MultiPV', 3)
+			.position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3')
 			.go({depth: 15})
-			.commit()
-			.then((a,b,c) => {
+			.then(result => {
+				console.log('FIN');
+				console.log(result);
 				done()
+			})
+			.catch(err => {
+				console.log(err.stack);
 			})
 		})
 	})

@@ -7,14 +7,6 @@ import {REGEX, INFO_NUMBER_TYPES} from './const'
 
 const log = debug('uci:parseUtil')
 
-//get a Buffer and split the newlines
-export function getLines(buffer) {
-	const lines = buffer
-	.split(/\r?\n/g)
-	.filter(line => !!line.length)
-	return lines
-}
-
 //construct go command from options
 export function goCommand(options) {
 	let cmd = 'go'
@@ -57,7 +49,7 @@ export function goCommand(options) {
 		}
 	})
 
-	return `${cmd}${EOL}`
+	return `${cmd}`
 }
 
 //parse an "info" command
@@ -104,18 +96,38 @@ export function parseBestmove(line) {
 	return parsed
 }
 
+export function goReducer(result ,line) {
+	const cmdType = _.get(REGEX.cmdType.exec(line), 1)
+	switch( cmdType ) {
+		case 'bestmove': {
+			const best = parseBestmove(line)
+			if( best.bestmove ) result.bestmove = best.bestmove
+			if( best.ponder ) result.ponder = best.ponder
+			break
+		}
+		case 'info': {
+			const info = parseInfo(line)
+			if( info ) result.info.push(info)
+			break
+		}
+	}
+	return result
+}
+
 //parse an "id" command
 export function parseId(line) {
 	const parsed = REGEX.id.exec(line)
+	if( ! parsed || ! parsed[1] || ! parsed[2] ) return null
 	return {
-		key: parsed[1],
-		value: parsed[2]
+		[parsed[1]]: parsed[2]
 	}
 }
 
 //parse an "option" command
 export function parseOption(line) {
 	const parsed = REGEX.option.exec(line)
+	if( ! parsed ) return null
+
 	const option = {
 		type: parsed[2]
 	}
@@ -130,7 +142,6 @@ export function parseOption(line) {
 			option.max = parseInt(parsed[5])
 			break
 		case 'combo':
-			log(parsed)
 			option.default = parsed[3]
 			option.options = parsed[6].split(/ ?var ?/g)
 			break //combo breaker?
@@ -143,7 +154,25 @@ export function parseOption(line) {
 	}
 
 	return {
-		key: parsed[1],
-		value: option
+		[parsed[1]]: option
 	}
+}
+
+export function initReducer(result, line) {
+	const cmdType = _.get(REGEX.cmdType.exec(line), 1)
+	switch( cmdType ) {
+		case 'id':
+			result.id = {
+				...result.id,
+				...parseId(line),
+			}
+			break
+		case 'option':
+			result.options = {
+				...result.options,
+				...parseOption(line)
+			}
+			break
+	}
+	return result
 }

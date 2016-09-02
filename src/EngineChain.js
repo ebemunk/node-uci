@@ -1,10 +1,14 @@
 import Promise from 'bluebird'
 import debug from 'debug'
+import {last} from 'lodash'
+
+import Engine from './Engine'
 
 const log = debug('uci:EngineChain')
 
 const CHAINABLE = [
 	'init',
+	'setoption',
 	'isready',
 	'ucinewgame',
 	'quit',
@@ -14,25 +18,36 @@ const CHAINABLE = [
 
 export default class EngineChain {
 	constructor(engine) {
+		if( ! engine || ! (engine instanceof Engine) )
+			throw new Error('EngineChain requires a valid Engine.')
+		//init
 		log('chain init')
 		this._engine = engine
 		this._queue = []
-
-		CHAINABLE.forEach(fn => {
-			this[fn] = this.chain(fn)
+		//construct chain functions
+		CHAINABLE.forEach(funcName => {
+			this[funcName] = this.chain(funcName)
 		})
 	}
 
-	chain(fn) {
-		return () => {
-			let p = ::this._engine[fn]
-			this._queue.push([p, ...arguments])
-			return this
+	//returns a function which puts the Engine call and args in the queue
+	chain(funcName) {
+		const self = this
+		return function () {
+			this._queue.push([::self._engine[funcName], [...arguments]])
+			if( funcName === 'go' ) {
+				return this.exec()
+			} else {
+				return this
+			}
 		}
 	}
 
-	commit() {
-		return Promise.mapSeries(this._queue, fn => fn[0](...fn[1]))
-		.then(() => this._engine)
+	async exec() {
+		const results = await Promise.map(this._queue, ([fn, params]) => {
+			return fn(...params)
+		}, {concurrency: 1})
+		this._queue = []
+		return last(results)
 	}
 }
