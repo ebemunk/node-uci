@@ -9,8 +9,8 @@ const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
 const moves = ['e2e4', 'e7e5', 'b1c3', 'b8c6', 'd2d3', 'd7d6']
 
 /* eslint-disable */
-describe('playground', () => {
-	it.only('evaluator', async () => {
+describe.skip('playground', () => {
+	it('evaluator', async () => {
 		const engine = new Engine(enginePath)
 		const wat = await Evaluator.evaluate(engine, moves, {reverse:false})
 		console.log(wat);

@@ -5,7 +5,7 @@ import {Engine} from '../src'
 // const enginePath = '/home/derpatron/Downloads/stockfish-7-linux/Linux/stockfish'
 const enginePath = '/Users/bugrafirat/Downloads/stockfish-7-mac/Mac/stockfish-7-64'
 
-describe('real', () => {
+describe.skip('real', () => {
 	describe('promise/async', () => {
 		it('promise/async usage', async () => {
 			const engine = new Engine(enginePath)
