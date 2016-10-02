@@ -7,7 +7,19 @@ import {REGEX, INFO_NUMBER_TYPES} from './const'
 
 const log = debug('uci:parseUtil')
 
-//construct go command from options
+/**
+ * construct go command from options
+ * @param  {Object} options options object
+ * @param  {String[]} options.searchmoves array of strings containing moves to search
+ * @return {String} complete `go` command given the options
+ * @example
+ * let cmd = goCommand({
+ *   depth: 12, ponder: true
+ * })
+ * console.log(cmd)
+ * //"go depth 12 ponder"
+ * @private
+ */
 export function goCommand(options) {
 	let cmd = 'go'
 	const commands = [
