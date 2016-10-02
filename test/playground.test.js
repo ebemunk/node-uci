@@ -29,6 +29,14 @@ const game1 = `[Event "Casual game"]
 
 /* eslint-disable */
 describe.skip('playground', () => {
+// describe('playground', () => {
+	it('test', async () => {
+	// it.only('test', async () => {
+		const engine = new Engine(enginePath)
+		const res = await engine.chain().init().go({depth: 3})
+		console.log(res);
+	})
+
 	it('evaluator', async () => {
 		const engine = new Engine(enginePath)
 		const game = new Chess()
