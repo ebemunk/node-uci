@@ -27,12 +27,13 @@ const CHAINABLE = [
  * - position
  * - go
  *
- * `go` is a special case that ends the chain (by calling {@link EngineChain#exec}),
+ * `go` is a special case that ends the chain by calling {@link #EngineChain#exec},
  * and returns the search result.
  * @param {Engine} engine - an {@link Engine} instance
  * @example
  * const engine = new Engine(enginePath)
- * engine.chain()
+ * const chain = new EngineChain(engine)
+ * // OR: const chain = engine.chain()
  * .init()
  * .setoption('MultiPV', 3)
  * .position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3')
