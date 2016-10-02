@@ -192,5 +192,10 @@ describe('parseUtil', () => {
 			const bestmove = parseBestmove('lolol ehehah')
 			expect(bestmove).to.be.undefined
 		})
+
+		it('should accept (none) as a bestmove', () => {
+			const bestmove = parseBestmove('bestmove (none)')
+			expect(bestmove).to.be.ok
+		})
 	})
 })
