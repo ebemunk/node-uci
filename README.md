@@ -8,4 +8,29 @@ node-uci is an implementation of the [Universal Chess Interface](http://www.shre
 
 [Usage examples and documentation](https://ebemunk.github.io/node-uci/)
 
+TLDR;
+```javascript
+import {Engine} from 'node-uci'
+
+// async/await
+const engine = new Engine('engine/executable/path')
+await engine.init()
+await engine.setoption('MultiPV', '4')
+await engine.isready()
+console.log('engine ready', engine.id, engine.options)
+const result = await engine.go({depth: 4})
+console.log('result', result);
+await engine.quit()
+
+//promises with chain
+const engine = new Engine('engine/executable/path')
+engine.chain()
+.init()
+.setoption('MultiPV', 3)
+.position('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3')
+.go({depth: 15})
+.then(result => {
+	console.log(result);
+})
+```
 PRs always welcome
