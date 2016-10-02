@@ -11,6 +11,8 @@ node-uci is an implementation of the [Universal Chess Interface](http://www.shre
 TLDR;
 ```javascript
 import {Engine} from 'node-uci'
+// or
+const Engine = require('node-uci').Engine
 
 // async/await
 const engine = new Engine('engine/executable/path')
@@ -18,7 +20,7 @@ await engine.init()
 await engine.setoption('MultiPV', '4')
 await engine.isready()
 console.log('engine ready', engine.id, engine.options)
-const result = await engine.go({depth: 4})
+const result = await engine.go({nodes: 2500000})
 console.log('result', result);
 await engine.quit()
 
