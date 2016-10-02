@@ -188,8 +188,6 @@ export default class Engine {
 	goInfinite(options = {}) {
 		if( ! this.proc )
 			throw new Error('cannot call "goInfinite()": engine process not running')
-		if( options.depth )
-			throw new Error('goInfinite() does not support depth search, use go()')
 		//set up emitter
 		this.emitter = new EventEmitter()
 		const listener = buffer => {

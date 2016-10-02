@@ -351,17 +351,6 @@ describe('Engine', () => {
 			expect(error).to.exist
 		})
 
-		it('should throw if options.depth is set', async () => {
-			const engine = await engineInit()
-			let error
-			try {
-				engine.goInfinite({depth: 666})
-			} catch (err) {
-				error = err
-			}
-			expect(error).to.exist
-		})
-
 		it('should ignore unparseable info lines', async () => {
 			const engine = await engineInit()
 			const emitter = engine.goInfinite()
