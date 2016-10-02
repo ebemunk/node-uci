@@ -11,7 +11,7 @@
     "pretest:ci": "npm run lint",
     "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter",
     "build": "rimraf lib && cross-env NODE_ENV=production babel src --out-dir lib",
-    "docs": "documentation build src/index.js -f html -o docs -g",
+    "docs": "rimraf docs && documentation build src/index.js -f html -o docs -g",
     "docs:watch": "documentation serve src/index.js -f html -o docs -g --watch src"
   },
   "repository": {
