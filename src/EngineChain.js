@@ -87,9 +87,9 @@ export default class EngineChain {
 	 * @return {any} - last return value from the queued {@link Engine} method
 	 */
 	async exec() {
-		const results = await Promise.map(this._queue, ([fn, params]) => {
+		const results = await Promise.mapSeries(this._queue, ([fn, params]) => {
 			return fn(...params)
-		}, {concurrency: 1})
+		})
 		this._queue = []
 		return last(results)
 	}
