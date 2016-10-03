@@ -1,6 +1,6 @@
 {
   "name": "node-uci",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Universal Chess Interface protocol implementation for node.js",
   "main": "lib/index.js",
   "scripts": {
