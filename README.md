@@ -6,9 +6,13 @@ node-uci is an implementation of the [Universal Chess Interface](http://www.shre
 [![Code Climate](https://codeclimate.com/github/ebemunk/node-uci/badges/gpa.svg)](https://codeclimate.com/github/ebemunk/node-uci)
 [![Test Coverage](https://codeclimate.com/github/ebemunk/node-uci/badges/coverage.svg)](https://codeclimate.com/github/ebemunk/node-uci/coverage)
 
+## Install
+Through npm with `npm install node-uci`.
+
+## Usage / Docs
 [Usage examples and documentation](https://ebemunk.github.io/node-uci/)
 
-TLDR;
+## TLDR;
 ```javascript
 import {Engine} from 'node-uci'
 // or
@@ -35,4 +39,9 @@ engine.chain()
 	console.log(result);
 })
 ```
+
+## License
+MIT
+
+## Contribute
 PRs always welcome
