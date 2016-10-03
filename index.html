@@ -185,7 +185,7 @@
       Engine
     </h3>
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/5251d418d3cef647c650891136c50a2b05cab972/src/Engine.js#L81-L479'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/628ecf328178ed1f25c048510fbe8b838504b69b/src/Engine.js#L81-L479'>
       <span>src/Engine.js</span>
       </a>
     
@@ -1551,7 +1551,7 @@ See <a href="#Engine#goInfinite">#Engine#goInfinite</a> for usage example.</p>
       EngineChain
     </h3>
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/5251d418d3cef647c650891136c50a2b05cab972/src/EngineChain.js#L44-L95'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/628ecf328178ed1f25c048510fbe8b838504b69b/src/EngineChain.js#L45-L96'>
       <span>src/EngineChain.js</span>
       </a>
     
@@ -1569,7 +1569,7 @@ See <a href="#Engine#goInfinite">#Engine#goInfinite</a> for usage example.</p>
 <li>position</li>
 <li>go</li>
 </ul>
-<p><code>go</code> is a special case that ends the chain (by calling <a href="#enginechainexec">EngineChain#exec</a>),
+<p><code>go</code> is a special case that ends the chain by calling <a href="#EngineChain#exec">#EngineChain#exec</a>,
 and returns the search result.</p>
 
 
@@ -1611,7 +1611,8 @@ and returns the search result.</p>
     
       
       <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">const</span> engine = <span class="hljs-keyword">new</span> Engine(enginePath)
-engine.chain()
+<span class="hljs-keyword">const</span> chain = <span class="hljs-keyword">new</span> EngineChain(engine)
+<span class="hljs-comment">// OR: const chain = engine.chain()</span>
 .init()
 .setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs-number">3</span>)
 .position(<span class="hljs-string">'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3'</span>)
