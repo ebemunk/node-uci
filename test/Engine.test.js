@@ -1,15 +1,11 @@
 import {EOL} from 'os'
 import {EventEmitter} from 'events'
 
-import Promise from 'bluebird'
-import _ from 'lodash'
 import sinon from 'sinon'
 
 import expect from './Chai'
 import {Engine, EngineChain} from '../src'
 import {childProcessMock} from './util'
-
-Promise.onPossiblyUnhandledRejection(_.noop)
 
 describe('Engine', () => {
 	let cpMock
@@ -144,14 +140,6 @@ describe('Engine', () => {
 			await p
 			expect(p.proc).to.be.undefined
 			expect(cpMock.stdout.listenerCount('data')).to.equal(0)
-		})
-
-		it('should resolve (code, signal)', async () => {
-			let p = await engineInit()
-			p = p.quit()
-			cpMock.emit('close', 0, 'sig')
-			await p
-			expect(p).to.eventually.deep.equal([0, 'sig'])
 		})
 	})
 

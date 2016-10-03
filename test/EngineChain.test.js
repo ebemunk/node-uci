@@ -48,9 +48,9 @@ describe('EngineChain', () => {
 		})
 
 		it('chained function should call exec() if funcName === go', () => {
-			const spy = sinon.spy(chain, 'exec')
+			const stub = sinon.stub(chain, 'exec')
 			chain.go()
-			expect(spy).to.have.been.called
+			expect(stub).to.have.been.called
 		})
 	})
 
