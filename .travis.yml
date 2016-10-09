@@ -9,3 +9,7 @@ script:
 addons:
   code_climate:
     repo_token: 021623ddc84333ae17afad25ec5391d51b61f7766d58bc3d4e695cb93ac1f2cd
+
+branches:
+  only:
+  - master
