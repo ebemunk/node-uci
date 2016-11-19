@@ -28,9 +28,12 @@
   "license": "MIT",
   "dependencies": {
     "babel-runtime": "^6.11.6",
+    "babel-template": "^6.16.0",
+    "babel-types": "^6.19.0",
     "bluebird": "^3.4.0",
     "debug": "^2.2.0",
-    "lodash": "^4.13.1"
+    "lodash": "^4.13.1",
+    "webpack": "^1.13.3"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
