@@ -1,4 +1,0 @@
---reporter min
---compilers js:babel-register
---require babel-polyfill
-test/**/*.test.js
