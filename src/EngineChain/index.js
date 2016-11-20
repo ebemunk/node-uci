@@ -2,7 +2,7 @@ import Promise from 'bluebird'
 import debug from 'debug'
 import {last} from 'lodash'
 
-import Engine from './Engine'
+import Engine from '../Engine'
 
 const log = debug('uci:EngineChain')
 
@@ -87,7 +87,7 @@ export default class EngineChain {
 	 * @return {any} - last return value from the queued {@link Engine} method
 	 */
 	async exec() {
-		const results = await Promise.mapSeries(this._queue, ([fn, params]) => {
+		const results = Promise.mapSeries(this._queue, ([fn, params]) => {
 			return fn(...params)
 		})
 		this._queue = []

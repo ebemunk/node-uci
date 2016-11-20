@@ -6,15 +6,15 @@ import {EventEmitter} from 'events'
 import Promise from 'bluebird'
 import debug from 'debug'
 
-import EngineChain from './EngineChain'
+import EngineChain from '../EngineChain'
 import {
 	goCommand,
 	initReducer,
 	goReducer,
   parseInfo,
   parseBestmove,
-} from './parseUtil'
-import {REGEX} from './const'
+} from '../parseUtil'
+import {REGEX} from '../const'
 
 const log = debug('uci:Engine')
 const engineLog = debug('uci:Engine:log')

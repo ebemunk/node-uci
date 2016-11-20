@@ -3,7 +3,7 @@ import {get} from 'lodash'
 import {REGEX} from '../const'
 import {parseId, parseOption} from './'
 
-export function initReducer(result, line) {
+export default function initReducer(result, line) {
 	const cmdType = get(REGEX.cmdType.exec(line), 1)
 	switch( cmdType ) {
 		case 'id':
