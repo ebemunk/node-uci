@@ -10,7 +10,9 @@
     "test:cov": "npm test -- --coverage",
     "pretest:ci": "npm run lint",
     "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter",
-    "build": "rimraf lib && cross-env NODE_ENV=production rollup -c",
+    "build": "rimraf lib",
+    "build-rollup": "cross-env NODE_ENV=production rollup -c",
+    "build-webpack": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "docs": "rimraf docs && documentation build src/index.js -f html -o docs -g",
     "docs:watch": "documentation serve src/index.js -f html -o docs -g --watch src"
   },
@@ -27,11 +29,13 @@
   "author": "ebemunk",
   "license": "MIT",
   "dependencies": {
+    "babel-loader": "^6.2.8",
     "babel-runtime": "^6.11.6",
     "bluebird": "^3.4.0",
     "debug": "^2.2.0",
     "lodash": "^4.13.1",
-    "rollup-plugin-uglify": "^1.0.1"
+    "rollup-plugin-uglify": "^1.0.1",
+    "webpack": "2.1.0-beta.27"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
