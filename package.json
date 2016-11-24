@@ -3,6 +3,7 @@
   "version": "1.2.1",
   "description": "Universal Chess Interface protocol implementation for node.js",
   "main": "lib/index.js",
+  "jsnext:main": "src/index.js",
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
@@ -10,7 +11,7 @@
     "test:cov": "npm test -- --coverage",
     "pretest:ci": "npm run lint",
     "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter",
-    "build": "rimraf lib",
+    "build": "rimraf lib && yarn build-rollup",
     "build-rollup": "cross-env NODE_ENV=production rollup -c",
     "build-webpack": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "docs": "rimraf docs && documentation build src/index.js -f html -o docs -g",
