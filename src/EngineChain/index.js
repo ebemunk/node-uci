@@ -1,6 +1,6 @@
 import Promise from 'bluebird'
 import debug from 'debug'
-import {last} from 'lodash'
+import last from 'lodash/last'
 
 import Engine from '../Engine'
 
