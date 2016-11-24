@@ -4,7 +4,7 @@ import nodeResolve from 'rollup-plugin-node-resolve'
 import uglify from 'rollup-plugin-uglify'
 
 const pkg = require('./package.json')
-const external = Object.keys(pkg.dependencies)
+// const external = Object.keys(pkg.dependencies)
 
 export default {
 	entry: 'src/index.js',
@@ -22,19 +22,18 @@ export default {
 		}),
 		uglify()
 	],
-	external: external,
+	external: [
+		'child_process',
+		'path',
+		'os',
+		'events'
+	],
 	targets: [
 		{
-			// dest: pkg['main'],
-			dest: 'lib/index-rollup.js',
-			format: 'cjs',
-			moduleName: 'node-uci',
+			dest: pkg['main'],
+			format: 'umd',
+			moduleName: 'uci',
 			sourceMap: true
-		},
-		// {
-		// 	dest: pkg['jsnext:main'],
-		// 	format: 'es',
-		// 	sourceMap: true
-		// }
+		}
 	]
 }
