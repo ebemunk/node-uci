@@ -1,4 +1,5 @@
-import {forEach, isEmpty} from 'lodash'
+import forEach from 'lodash/forEach'
+import isEmpty from 'lodash/isEmpty'
 
 import {REGEX, INFO_NUMBER_TYPES} from '../const'
 

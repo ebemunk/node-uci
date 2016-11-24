@@ -3,6 +3,7 @@
   "version": "1.2.1",
   "description": "Universal Chess Interface protocol implementation for node.js",
   "main": "lib/index.js",
+  "jsnext:main": "src/index.js",
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
@@ -10,7 +11,9 @@
     "test:cov": "npm test -- --coverage",
     "pretest:ci": "npm run lint",
     "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter",
-    "build": "rimraf lib && cross-env NODE_ENV=production babel src --out-dir lib",
+    "build": "rimraf lib && yarn build-rollup",
+    "build-rollup": "cross-env NODE_ENV=production rollup -c",
+    "build-webpack": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "docs": "rimraf docs && documentation build src/index.js -f html -o docs -g",
     "docs:watch": "documentation serve src/index.js -f html -o docs -g --watch src"
   },
@@ -37,10 +40,12 @@
     "babel-core": "^6.9.1",
     "babel-eslint": "^7.0.0",
     "babel-jest": "^17.0.2",
-    "babel-loader": "^6.2.4",
+    "babel-loader": "^6.2.8",
+    "babel-plugin-external-helpers": "^6.18.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.12.0",
     "babel-polyfill": "^6.9.1",
-    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
     "codeclimate-test-reporter": "^0.4.0",
@@ -48,21 +53,37 @@
     "documentation": "^4.0.0-beta10",
     "eslint": "^3.1.1",
     "jest": "^17.0.3",
-    "rimraf": "^2.5.2"
+    "rimraf": "^2.5.2",
+    "rollup": "^0.36.3",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-uglify": "^1.0.1",
+    "webpack": "2.1.0-beta.27"
   },
   "babel": {
-    "presets": [
-      "es2015",
-      "stage-0"
-    ],
+    "env": {
+      "test": {
+        "presets": [
+          "es2015",
+          "stage-0"
+        ]
+      },
+      "production": {
+        "presets": [
+          [
+            "es2015",
+            {
+              "modules": false
+            }
+          ],
+          "stage-0"
+        ]
+      }
+    },
     "plugins": [
-      [
-        "transform-runtime",
-        {
-          "polyfill": true,
-          "regenerator": true
-        }
-      ]
+      "external-helpers",
+      "transform-runtime"
     ]
   },
   "eslintConfig": {
