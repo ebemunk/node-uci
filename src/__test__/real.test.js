@@ -3,7 +3,7 @@ import { Engine } from '../'
 
 const enginePath = 'engines/stockfish-9-64'
 
-describe('komodo issue', () => {
+xdescribe('komodo issue', () => {
   it('does', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
     const komodo = new Engine('./engines/komodo')
