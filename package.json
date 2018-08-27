@@ -53,6 +53,7 @@
     "documentation": "^4.0.0-beta10",
     "eslint": "^3.1.1",
     "jest": "^17.0.3",
+    "prettier": "^1.13.2",
     "rimraf": "^2.5.2",
     "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.1",
