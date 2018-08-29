@@ -11,9 +11,7 @@
     "test:cov": "npm test -- --coverage",
     "pretest:ci": "npm run lint",
     "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter",
-    "build": "rimraf lib && yarn build-rollup",
-    "build-rollup": "cross-env NODE_ENV=production rollup -c",
-    "build-webpack": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "build": "rimraf lib && cross-env NODE_ENV=production rollup -c",
     "docs": "rimraf docs && documentation build src/index.js -f html -o docs -g",
     "docs:watch": "documentation serve src/index.js -f html -o docs -g --watch src"
   },
@@ -59,8 +57,7 @@
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "^5.0.5",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-plugin-uglify": "^1.0.1",
-    "webpack": "2.1.0-beta.27"
+    "rollup-plugin-uglify": "^1.0.1"
   },
   "babel": {
     "env": {
