@@ -2,9 +2,10 @@ import _ from 'lodash'
 import Promise from 'bluebird'
 // import {Chess} from 'chess.js'
 
-import {Engine, Evaluator} from '../'
+import { Engine, Evaluator } from '../'
 
-const enginePath = 'C:\\Users\\derp\\Downloads\\stockfish-7-win\\Windows\\stockfish.exe'
+const enginePath =
+  'C:\\Users\\derp\\Downloads\\stockfish-7-win\\Windows\\stockfish.exe'
 
 const moves = ['e2e4', 'e7e5', 'b1c3', 'b8c6', 'd2d3', 'd7d6']
 const game1 = `[Event "Casual game"]
@@ -27,60 +28,64 @@ const game1 = `[Event "Casual game"]
 
 /* eslint-disable */
 xdescribe('playground', () => {
-	it('test', async () => {
-	// it.only('test', async () => {
-		const engine = new Engine(enginePath)
-		const res = await engine.chain().init().go({depth: 3})
-		console.log(res);
-	})
+  it('test', async () => {
+    // it.only('test', async () => {
+    const engine = new Engine(enginePath)
+    const res = await engine
+      .chain()
+      .init()
+      .go({ depth: 3 })
+    console.log(res)
+  })
 
-	it('evaluator', async () => {
-		const engine = new Engine(enginePath)
-		const game = new Chess()
-		game.load_pgn(game1)
-		let gmoves = game.history({verbose: true})
-		.map(move => {
-			let str = `${move.from}${move.to}`
-			if( move.promotion ) str += move.promotion
-			return str
-		})
-		const wat = await Evaluator.evaluate(engine, gmoves, {reverse:false, depth:12})
-		// console.log(wat);
-		wat.map(hm => {
-			console.log('---');
-			console.log(hm);
-		})
-	})
+  it('evaluator', async () => {
+    const engine = new Engine(enginePath)
+    const game = new Chess()
+    game.load_pgn(game1)
+    let gmoves = game.history({ verbose: true }).map(move => {
+      let str = `${move.from}${move.to}`
+      if (move.promotion) str += move.promotion
+      return str
+    })
+    const wat = await Evaluator.evaluate(engine, gmoves, {
+      reverse: false,
+      depth: 12,
+    })
+    // console.log(wat);
+    wat.map(hm => {
+      console.log('---')
+      console.log(hm)
+    })
+  })
 
-	it('chain analysis', async () => {
-		const engine = new Engine(enginePath)
-		const chain = engine.chain()
-		await chain
-		.init()
-		.ucinewgame()
-		.exec()
-		const evals = await Promise.mapSeries(moves, (move, i) => {
-			const sliceIndex = reverse ? moves.length-i : i+1
-			return chain
-			.position('startpos', moves.slice(0, sliceIndex))
-			.go({depth})
-		})
-		.map((e, i) => {
-			const lastInfo = _.last(e.info)
-			return {
-				pv: lastInfo.pv,
-				score: lastInfo.score,
-				bestmove: e.bestmove,
-			}
-		})
-		// console.log(wat);
-		// console.log(wat[0]);
-		// console.log(evals);
-		const final = _.zipWith(moves, evals, (m, e) => ({
-			...e,
-			move: m,
-		}))
-		console.log(final);
-		engine.quit()
-	})
+  it('chain analysis', async () => {
+    const engine = new Engine(enginePath)
+    const chain = engine.chain()
+    await chain
+      .init()
+      .ucinewgame()
+      .exec()
+    const evals = await Promise.mapSeries(moves, (move, i) => {
+      const sliceIndex = reverse ? moves.length - i : i + 1
+      return chain
+        .position('startpos', moves.slice(0, sliceIndex))
+        .go({ depth })
+    }).map((e, i) => {
+      const lastInfo = _.last(e.info)
+      return {
+        pv: lastInfo.pv,
+        score: lastInfo.score,
+        bestmove: e.bestmove,
+      }
+    })
+    // console.log(wat);
+    // console.log(wat[0]);
+    // console.log(evals);
+    const final = _.zipWith(moves, evals, (m, e) => ({
+      ...e,
+      move: m,
+    }))
+    console.log(final)
+    engine.quit()
+  })
 })

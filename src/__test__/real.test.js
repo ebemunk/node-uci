@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 //testing with real engines
 import { Engine } from '../'
 
@@ -5,7 +7,7 @@ const enginePath = 'engines/stockfish-9-64'
 
 xdescribe('komodo issue', () => {
   it('does', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
+    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
     const komodo = new Engine('./engines/komodo')
     try {
       const rez = await komodo
