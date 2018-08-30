@@ -1,7 +1,8 @@
 import get from 'lodash/get'
 
 import { REGEX } from '../const'
-import { parseBestmove, parseInfo } from './'
+import parseBestmove from './parseBestmove'
+import parseInfo from './parseInfo'
 
 export default function goReducer(result, line) {
   const cmdType = get(REGEX.cmdType.exec(line), 1)

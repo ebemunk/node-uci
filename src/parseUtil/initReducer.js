@@ -1,7 +1,8 @@
 import get from 'lodash/get'
 
 import { REGEX } from '../const'
-import { parseId, parseOption } from './'
+import parseId from './parseId'
+import parseOption from './parseOption'
 
 export default function initReducer(result, line) {
   const cmdType = get(REGEX.cmdType.exec(line), 1)
