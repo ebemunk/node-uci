@@ -46,15 +46,4 @@ describe('EngineChain', () => {
       expect(chain.exec).toHaveBeenCalledTimes(1)
     })
   })
-
-  // does not work because of promise timing issues..
-  // describe('exec', () => {
-  // 	it('should drain the queue', async () => {
-  // 		const p = chain.init().exec()
-  // 		expect(chain._queue.length).toBe(1)
-  // 		cpMock.uciok()
-  // 		await p
-  // 		expect(chain._queue.length).toBe(0)
-  // 	})
-  // })
 })

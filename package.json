@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "test": "jest",
     "test:watch": "npm test -- --watch",
-    "test:cov": "npm test -- --coverage",
+    "test:coverage": "npm test -- --coverage",
     "pretest:ci": "npm run lint",
     "test:ci": "npm run test:cov && cat coverage/lcov.info | codeclimate-test-reporter",
     "build": "rimraf lib && cross-env NODE_ENV=production rollup -c",
