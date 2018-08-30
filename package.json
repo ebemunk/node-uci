@@ -57,36 +57,5 @@
     "rollup-plugin-commonjs": "9.1.6",
     "rollup-plugin-node-resolve": "3.3.0",
     "rollup-plugin-terser": "^2.0.2"
-  },
-  "babel": {
-    "env": {
-      "test": {
-        "presets": [
-          "es2015",
-          "stage-0"
-        ]
-      },
-      "production": {
-        "presets": [
-          [
-            "es2015",
-            {
-              "modules": false
-            }
-          ],
-          "stage-0"
-        ]
-      }
-    },
-    "plugins": [
-      "external-helpers",
-      "transform-runtime"
-    ]
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!**/__test__/**"
-    ]
   }
 }
