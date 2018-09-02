@@ -426,11 +426,11 @@ export default class Engine {
    * await engine.setoption('MultiPV', '3')
    * const emitter = engine.goInfinite()
    * emitter.on('data', a => {
-   *   console.log('data', a)s
+   *   console.log('data', a)
    * })
    * setTimeout(async () => {
    *   const bestmove = await engine.stop()
-   *   console.log('bestmove', bestmove)s
+   *   console.log('bestmove', bestmove)
    *   await engine.quit()
    * }, 5000)
    */
