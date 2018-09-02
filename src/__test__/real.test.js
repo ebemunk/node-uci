@@ -3,21 +3,27 @@
 //testing with real engines
 import { Engine } from '../'
 
-const enginePath = 'engines/stockfish-9-64'
+const komodoPath = 'engines/komodo-9.02-64-osx'
 
 xdescribe('komodo issue', () => {
+  const komodo = new Engine(komodoPath)
+
+  afterEach(async () => {
+    await komodo.quit()
+  })
+
   it('does', async () => {
-    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
-    const komodo = new Engine('./engines/komodo')
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
     try {
+      console.log('star')
       const rez = await komodo
         .chain()
         .init()
         .setoption('Threads', 8)
         // .setoption('Hash', 8192)
         // // .setoption('SyzygyPath', syzygy)
-        // .setoption('Ponder', false)
-        // .setoption('Minimal Reporting', 1)
+        // .setoption('Ponder', 'false')
+        .setoption('Minimal Reporting', 1)
         .position(
           'r1bqrnk1/1pp2ppp/3b4/2p1pN2/p3P1PP/3PBN2/PPPQ1P2/R3K2R b KQ - 0 14',
         )

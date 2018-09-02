@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`go should batch broken newlines - github issue #9 1`] = `
+Object {
+  "bestmove": "e2e4",
+  "info": Array [
+    Object {
+      "depth": 16,
+      "nps": 333,
+      "tbhits": 9,
+    },
+  ],
+}
+`;

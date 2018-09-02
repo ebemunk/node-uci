@@ -20,7 +20,7 @@ const log = debug('uci:Engine')
 const engineLog = debug('uci:Engine:log')
 
 function fromEngineLog(lines) {
-  engineLog('from engine:', lines, EOL)
+  engineLog('->', `${EOL}${lines}${EOL}`)
 }
 
 /**
@@ -122,14 +122,22 @@ export default class Engine {
     const p = new Promise((resolve, reject) => {
       reject_ref = reject
       //listener gets new lines until condition is true
+      let backlog = ''
       listener = buffer => {
-        buffer
-          .split(/\r?\n/g)
-          .filter(line => !!line.length)
-          .forEach(line => {
-            lines.push(line)
-            if (condition(line)) return resolve()
-          })
+        backlog += buffer
+
+        let n = backlog.indexOf('\n')
+        while (n > -1) {
+          lines.push(backlog.substring(0, n).trim())
+          backlog = backlog.substring(n + 1)
+          n = backlog.indexOf('\n')
+        }
+
+        if (condition(lines[lines.length - 1])) return resolve()
+        if (condition(backlog)) {
+          lines.push(backlog)
+          return resolve()
+        }
       }
       this.proc.stdout.on('data', listener)
       //reject if something goes wrong during buffering
@@ -152,7 +160,7 @@ export default class Engine {
    */
   write(command) {
     this.proc.stdin.write(`${command}${EOL}`)
-    engineLog('to engine:', command, EOL)
+    engineLog('<-', command, EOL)
   }
 
   /**

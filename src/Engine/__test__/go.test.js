@@ -81,4 +81,13 @@ describe('go', () => {
     await p
     expect(cpMock.stdout.listenerCount('on')).toBe(0)
   })
+
+  it('should batch broken newlines - github issue #9', async () => {
+    const engine = await engineInit(cpMock)
+    let p = engine.go({ depth: 2 })
+    cpMock.stdout.emit('data', 'info depth ')
+    cpMock.stdout.emit('data', `16 tbhits 9 nps 333${EOL}bestmove e2e4`)
+    p = await p
+    expect(p).toMatchSnapshot()
+  })
 })
