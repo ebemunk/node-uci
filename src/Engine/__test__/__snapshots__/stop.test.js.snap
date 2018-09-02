@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`stop should return the bestmove 1`] = `
+Object {
+  "bestmove": "d7d6",
+  "info": Array [
+    Object {
+      "score": Object {
+        "unit": "cp",
+        "value": 3,
+      },
+    },
+  ],
+}
+`;

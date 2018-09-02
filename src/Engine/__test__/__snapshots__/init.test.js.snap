@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`init should parse "id" and "options" correctly 1`] = `
+Array [
+  "name",
+  "author",
+]
+`;
+
+exports[`init should parse "id" and "options" correctly 2`] = `
+Array [
+  Array [
+    "Nullmove",
+    Object {
+      "default": true,
+      "type": "check",
+    },
+  ],
+  Array [
+    "Selectivity",
+    Object {
+      "default": 2,
+      "max": 4,
+      "min": 0,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "Style",
+    Object {
+      "default": "Normal",
+      "options": Array [
+        "Solid",
+        "Normal",
+        "Risky",
+      ],
+      "type": "combo",
+    },
+  ],
+  Array [
+    "NalimovPath",
+    Object {
+      "default": "c:\\\\",
+      "type": "string",
+    },
+  ],
+  Array [
+    "Clear Hash",
+    Object {
+      "type": "button",
+    },
+  ],
+]
+`;

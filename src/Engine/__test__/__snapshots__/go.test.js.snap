@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`go should batch broken newlines - github issue #9 1`] = `
+Object {
+  "bestmove": "e2e4",
+  "info": Array [
+    Object {
+      "depth": 16,
+      "nps": 333,
+      "tbhits": 9,
+    },
+  ],
+}
+`;
+
+exports[`go should ignore unparseable info lines 1`] = `
+Object {
+  "bestmove": "e2e4",
+  "info": Array [],
+}
+`;
+
+exports[`go should include ponder result if available 1`] = `
+Object {
+  "bestmove": "e2e4",
+  "info": Array [],
+  "ponder": "e7e5",
+}
+`;
+
+exports[`go should resolve bestmove object after "bestmove" 1`] = `
+Object {
+  "bestmove": "e2e4",
+  "info": Array [
+    Object {
+      "currmove": "e2e4",
+    },
+    Object {
+      "score": Object {
+        "unit": "mate",
+        "value": 3,
+      },
+      "tbhits": 7,
+    },
+  ],
+}
+`;
