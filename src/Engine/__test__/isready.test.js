@@ -19,6 +19,7 @@ describe('isready', () => {
   it('should send "isready" command to proc stdout', async () => {
     let p = await engineInit(cpMock)
     p.isready()
+
     expect(cpMock.stdin.write).toHaveBeenCalledWith(`isready${EOL}`)
   })
 
@@ -27,6 +28,7 @@ describe('isready', () => {
     p = p.isready()
     cpMock.readyok()
     p = await p
+
     expect(p).toBeInstanceOf(Engine)
   })
 })

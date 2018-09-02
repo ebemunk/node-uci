@@ -82,16 +82,18 @@ describe('init', () => {
     cpMock.uciok()
     await p
 
-    expect(Object.keys(e.id)).toContain('name', 'author')
-    expect(e.options).toBeInstanceOf(Map)
-    expect(e.options.size).toBe(5)
+    expect(Object.keys(e.id)).toMatchSnapshot()
+    expect(e.options).toMatchSnapshot()
   })
 
   it('should remove listener after resolving', async () => {
     const p = new Engine('').init()
+
     expect(cpMock.stdout.listenerCount('data')).toBe(2)
+
     cpMock.uciok()
     await p
+
     expect(cpMock.stdout.listenerCount('data')).toBe(1)
   })
 })

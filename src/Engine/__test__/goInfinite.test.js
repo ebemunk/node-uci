@@ -11,6 +11,7 @@ describe('goInfinite', () => {
   it('should return an EventEmitter', async () => {
     const engine = await engineInit(cpMock)
     const emitter = engine.goInfinite()
+
     expect(emitter).toBeInstanceOf(EventEmitter)
     expect(engine.emitter).toBe(emitter)
   })
@@ -28,6 +29,7 @@ describe('goInfinite', () => {
     const emitter = engine.goInfinite()
     emitter.emit = jest.fn()
     cpMock.stdout.emit('data', 'info derpyherp 76 lolcakes 28')
+
     expect(emitter.emit).not.toHaveBeenCalled()
   })
 
@@ -36,6 +38,7 @@ describe('goInfinite', () => {
     const emitter = engine.goInfinite()
     emitter.emit = jest.fn()
     cpMock.stdout.emit('data', `info score cp 34${EOL}info currmove 3`)
+
     expect(emitter.emit).toHaveBeenCalledTimes(2)
   })
 
@@ -44,6 +47,7 @@ describe('goInfinite', () => {
     const emitter = engine.goInfinite()
     emitter.emit = jest.fn()
     cpMock.stdout.emit('data', 'bestmove ')
+
     expect(emitter.emit).not.toHaveBeenCalled()
   })
 
@@ -52,6 +56,7 @@ describe('goInfinite', () => {
     const emitter = engine.goInfinite()
     emitter.emit = jest.fn()
     cpMock.stdout.emit('data', 'bestmove e5e4')
+
     expect(emitter.emit).toHaveBeenCalledTimes(1)
   })
 
@@ -59,6 +64,7 @@ describe('goInfinite', () => {
     const engine = await engineInit(cpMock)
     const emitter = engine.goInfinite()
     emitter.emit('stop')
+
     // 1 because of engineLog listener
     expect(engine.proc.stdout.listenerCount('data')).toBe(1)
   })

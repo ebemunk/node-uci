@@ -32,8 +32,8 @@ describe('go', () => {
       `info derpyherp 76 lolcakes 28${EOL}bestmove e2e4`,
     )
     p = await p
-    expect(Object.keys(p)).toContain('info')
-    expect(p.info.length).toBe(0)
+
+    expect(p).toMatchSnapshot()
   })
 
   it('should resolve bestmove object after "bestmove"', async () => {
@@ -44,22 +44,8 @@ describe('go', () => {
       `info currmove e2e4${EOL}info tbhits 7 score mate 3${EOL}bestmove e2e4${EOL}`,
     )
     p = await p
-    expect(p).toEqual({
-      bestmove: 'e2e4',
-      info: [
-        {
-          currmove: 'e2e4',
-        },
-        {
-          tbhits: 7,
-          score: {
-            unit: 'mate',
-            value: 3,
-          },
-        },
-      ],
-    })
-    expect(Object.keys(p)).not.toContain('ponder')
+
+    expect(p).toMatchSnapshot()
   })
 
   it('should include ponder result if available', async () => {
@@ -67,11 +53,8 @@ describe('go', () => {
     let p = engine.go({ depth: 5 })
     cpMock.stdout.emit('data', `bestmove e2e4 ponder e7e5${EOL}`)
     p = await p
-    expect(p).toEqual({
-      bestmove: 'e2e4',
-      ponder: 'e7e5',
-      info: [],
-    })
+
+    expect(p).toMatchSnapshot()
   })
 
   it('should remove listener after resolving', async () => {
@@ -79,6 +62,7 @@ describe('go', () => {
     let p = engine.go({ depth: 3 })
     cpMock.stdout.emit('data', `bestmove e2e4 ponder e7e5${EOL}`)
     await p
+
     expect(cpMock.stdout.listenerCount('on')).toBe(0)
   })
 
@@ -86,8 +70,10 @@ describe('go', () => {
     const engine = await engineInit(cpMock)
     let p = engine.go({ depth: 2 })
     cpMock.stdout.emit('data', 'info depth ')
-    cpMock.stdout.emit('data', `16 tbhits 9 nps 333${EOL}bestmove e2e4`)
+    cpMock.stdout.emit('data', `16 tbhits 9 nps 333${EOL}bes`)
+    cpMock.stdout.emit('data', 'tmove e2e4')
     p = await p
+
     expect(p).toMatchSnapshot()
   })
 })

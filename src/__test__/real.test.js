@@ -13,7 +13,7 @@ xdescribe('komodo issue', () => {
   })
 
   it('does', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
+    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
     try {
       console.log('star')
       const rez = await komodo

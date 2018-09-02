@@ -19,6 +19,7 @@ describe('quit', () => {
   it('should send "quit" command to proc stdout', async () => {
     const p = await engineInit(cpMock)
     p.quit()
+
     expect(cpMock.stdin.write).toHaveBeenCalledWith(`quit${EOL}`)
   })
 

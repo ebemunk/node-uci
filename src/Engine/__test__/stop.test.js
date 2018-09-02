@@ -21,16 +21,7 @@ describe('stop', () => {
     const p = engine.stop()
     cpMock.stdout.emit('data', `info score cp 3${EOL}bestmove d7d6`)
     const result = await p
-    expect(result).toEqual({
-      bestmove: 'd7d6',
-      info: [
-        {
-          score: {
-            unit: 'cp',
-            value: 3,
-          },
-        },
-      ],
-    })
+
+    expect(result).toMatchSnapshot()
   })
 })

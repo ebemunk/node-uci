@@ -121,8 +121,8 @@ export default class Engine {
     let reject_ref
     const p = new Promise((resolve, reject) => {
       reject_ref = reject
-      //listener gets new lines until condition is true
       let backlog = ''
+      //listener gets new lines until condition is true
       listener = buffer => {
         backlog += buffer
 
@@ -277,7 +277,7 @@ export default class Engine {
 
   /**
    * Sends the `setoption` command for given option name and its value.
-   * Does not validate parameters.
+   * Does not validate parameters. `value`, if given, is coerced into a string.
    * @param {string} name - name of the option property
    * @param {string} [value] - value of the option
    * @return {promise<Engine>} itself (the Engine instance)
@@ -302,7 +302,7 @@ export default class Engine {
   async setoption(name, value) {
     //construct command
     let cmd = `name ${name}`
-    if (value) cmd += ` value ${value}`
+    if (typeof value !== 'undefined') cmd += ` value ${value.toString()}`
     //send and wait for response
     await this.sendCmd(`setoption ${cmd}`)
     this.options.set(name, value)
