@@ -3,55 +3,31 @@
 //testing with real engines
 import { Engine } from '../'
 
-const komodoPath = 'engines/komodo-9.02-64-osx'
+const enginePath = 'engines/stockfish-9-64'
 
-xdescribe('komodo issue', () => {
-  const komodo = new Engine(komodoPath)
+describe('real engine', () => {
+  const engine = new Engine(enginePath)
+
+  beforeEach(async () => {
+    await engine.init()
+  })
 
   afterEach(async () => {
-    await komodo.quit()
+    await engine.quit()
   })
 
-  it('does', async () => {
-    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
-    try {
-      console.log('star')
-      const rez = await komodo
-        .chain()
-        .init()
-        .setoption('Threads', 8)
-        // .setoption('Hash', 8192)
-        // // .setoption('SyzygyPath', syzygy)
-        // .setoption('Ponder', 'false')
-        .setoption('Minimal Reporting', 1)
-        .position(
-          'r1bqrnk1/1pp2ppp/3b4/2p1pN2/p3P1PP/3PBN2/PPPQ1P2/R3K2R b KQ - 0 14',
-        )
-        // .go({ movetime: 10000 })
-        .go({ depth: 1 })
-
-      console.log('rez', rez)
-    } catch (e) {
-      console.log('eroz', e)
-    }
-  })
-})
-
-/* eslint-disable */
-xdescribe('real', () => {
   describe('promise/async', () => {
     it('promise/async usage', async () => {
-      const engine = new Engine(enginePath)
-      const rez = await engine.init()
+      // expect(engine.options.get('MultiPV')).toBe(undefined)
       await engine.setoption('MultiPV', '4')
-      await engine.isready()
+      // expect(engine.options['MultiPV']).toBe(4)
       console.log('engine ready', engine.id, engine.options)
       const go = await engine.go({ depth: 4 })
       console.log('go', go)
-      await engine.quit()
+      return expect(true).toBe(true)
     })
 
-    it('goinfinite usage', async () => {
+    xit('goinfinite usage', async () => {
       const engine = new Engine(enginePath)
       await engine.init()
       await engine.isready()
@@ -68,7 +44,7 @@ xdescribe('real', () => {
     })
   })
 
-  describe('chain', () => {
+  xdescribe('chain', () => {
     it('chain usage', done => {
       const engine = new Engine(enginePath)
       engine

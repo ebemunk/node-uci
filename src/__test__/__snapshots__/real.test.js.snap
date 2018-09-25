@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`real engine promise/async promise/async usage 1`] = `
+Array [
+  Array [
+    "Contempt",
+    Object {
+      "default": 20,
+      "max": 100,
+      "min": -100,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "Threads",
+    Object {
+      "default": 1,
+      "max": 512,
+      "min": 1,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "Hash",
+    Object {
+      "default": 16,
+      "max": 131072,
+      "min": 1,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "Clear Hash",
+    Object {
+      "type": "button",
+    },
+  ],
+  Array [
+    "Ponder",
+    Object {
+      "default": false,
+      "type": "check",
+    },
+  ],
+  Array [
+    "MultiPV",
+    "4",
+  ],
+  Array [
+    "Skill Level",
+    Object {
+      "default": 20,
+      "max": 20,
+      "min": 0,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "Move Overhead",
+    Object {
+      "default": 30,
+      "max": 5000,
+      "min": 0,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "Minimum Thinking Time",
+    Object {
+      "default": 20,
+      "max": 5000,
+      "min": 0,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "Slow Mover",
+    Object {
+      "default": 89,
+      "max": 1000,
+      "min": 10,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "nodestime",
+    Object {
+      "default": 0,
+      "max": 10000,
+      "min": 0,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "UCI_Chess960",
+    Object {
+      "default": false,
+      "type": "check",
+    },
+  ],
+  Array [
+    "SyzygyPath",
+    Object {
+      "default": "<empty>",
+      "type": "string",
+    },
+  ],
+  Array [
+    "SyzygyProbeDepth",
+    Object {
+      "default": 1,
+      "max": 100,
+      "min": 1,
+      "type": "spin",
+    },
+  ],
+  Array [
+    "Syzygy50MoveRule",
+    Object {
+      "default": true,
+      "type": "check",
+    },
+  ],
+  Array [
+    "SyzygyProbeLimit",
+    Object {
+      "default": 6,
+      "max": 6,
+      "min": 0,
+      "type": "spin",
+    },
+  ],
+]
+`;

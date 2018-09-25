@@ -29,7 +29,7 @@ async function getFromLichess(id) {
   return json
 }
 
-describe('playground', () => {
+xdescribe('playground', () => {
   // describe.only('playground', () => {
   const engine = new Engine(enginePath)
 
