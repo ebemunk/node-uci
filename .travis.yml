@@ -11,8 +11,8 @@ addons:
     - gcc-4.8
     - g++-4.8
 
-cache:
-  apt: true
+# cache:
+#   apt: true
 
 before_install:
   # - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
