@@ -1,28 +1,20 @@
 /* eslint-disable no-console */
 
-//testing with real engines
 import { Engine } from '../'
 
-const enginePath = 'engines/stockfish-9-64x'
+const enginePath = 'engines/stockfish-9-64'
 
 describe('real engine', () => {
-  const engine = new Engine(enginePath)
-
-  beforeEach(async () => {
-    await engine.init()
-  })
-
-  afterEach(async () => {
-    await engine.quit()
-  })
-
   describe('promise/async', () => {
     it('promise/async usage', async () => {
+      const engine = new Engine(enginePath)
+      await engine.init()
       expect(engine.options).toMatchSnapshot()
       await engine.setoption('MultiPV', '4')
       expect(engine.options).toMatchSnapshot()
       const go = await engine.go({ depth: 4 })
       expect(go).toBeDefined()
+      await engine.quit()
     })
 
     xit('goinfinite usage', async () => {
