@@ -49,7 +49,7 @@
     "documentation": "8.1.2",
     "eslint": "5.4.0",
     "eslint-config-prettier": "^3.0.1",
-    "jest": "23.5.0",
+    "jest": "^23.6.0",
     "prettier": "1.14.2",
     "rimraf": "2.6.2",
     "rollup": "0.65.0",
