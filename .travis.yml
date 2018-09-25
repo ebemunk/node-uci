@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "node"
+  - 'node'
 
 script:
   - npm run-script test:ci
@@ -12,5 +12,4 @@ addons:
 
 branches:
   except:
-  - eval
-  - gh-pages
+    - gh-pages
