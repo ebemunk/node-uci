@@ -3,7 +3,7 @@
 //testing with real engines
 import { Engine } from '../'
 
-const enginePath = 'engines/stockfish-9-64'
+const enginePath = 'engines/stockfish-9-64x'
 
 describe('real engine', () => {
   const engine = new Engine(enginePath)
