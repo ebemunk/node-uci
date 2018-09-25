@@ -7,8 +7,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
-    "test:watch": "yarn test -- --watch",
-    "test:coverage": "yarn test -- --coverage",
+    "test:watch": "yarn test --watch",
+    "test:coverage": "yarn test --coverage",
     "pretest:ci": "yarn lint",
     "test:ci": "yarn test:coverage && cat coverage/lcov.info | codeclimate-test-reporter",
     "build": "rimraf lib && cross-env NODE_ENV=production rollup -c",
