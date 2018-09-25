@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`setoption, ucinewgame, ponderhit, position setoption should coerce value into string 1`] = `
+Object {
+  "value": false,
+}
+`;
+
+exports[`setoption, ucinewgame, ponderhit, position setoption should update this.options with new option on success 1`] = `
+Object {
+  "value": -24,
+}
+`;

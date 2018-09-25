@@ -95,7 +95,7 @@ export default class Engine {
       name: null,
       author: null,
     }
-    this.options = new Map()
+    this.options = {}
   }
 
   /**
@@ -213,12 +213,7 @@ export default class Engine {
     })
     //set id and options
     if (id) this.id = id
-    if (options) {
-      //put options to Map
-      Object.keys(options).forEach(key => {
-        this.options.set(key, options[key])
-      })
-    }
+    if (options) this.options = options
     return this
   }
 
@@ -305,7 +300,10 @@ export default class Engine {
     if (typeof value !== 'undefined') cmd += ` value ${value.toString()}`
     //send and wait for response
     await this.sendCmd(`setoption ${cmd}`)
-    this.options.set(name, value)
+    this.options[name] = {
+      ...this.options[name],
+      value,
+    }
     return this
   }
 

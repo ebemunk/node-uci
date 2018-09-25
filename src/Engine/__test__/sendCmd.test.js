@@ -43,33 +43,34 @@ describe('setoption, ucinewgame, ponderhit, position', () => {
 
   describe('setoption', () => {
     it('should call this.sendCmd("setoption name <id>")', () => {
-      engine.setoption('optName')
+      engine.setoption('Ponder Hit')
 
-      expect(engine.sendCmd).toHaveBeenCalledWith('setoption name optName')
+      expect(engine.sendCmd).toHaveBeenCalledWith('setoption name Ponder Hit')
     })
 
     it('should call this.sendCmd("setoption name <id> value <x>")', () => {
-      engine.setoption('optName', '39')
+      engine.setoption('Ponder Hit', '39')
 
       expect(engine.sendCmd).toHaveBeenCalledWith(
-        'setoption name optName value 39',
+        'setoption name Ponder Hit value 39',
       )
     })
 
     it('should update this.options with new option on success', async () => {
-      let p = engine.setoption('opt', -24)
+      let p = engine.setoption('Ponder Hit', -24)
       cpMock.readyok()
       await p
 
-      expect(engine.options.get('opt')).toBe(-24)
+      expect(engine.options['Ponder Hit']).toMatchSnapshot()
     })
 
-    it('should coerce value into string")', () => {
-      engine.setoption('Ponder', false)
+    it('should coerce value into string', async () => {
+      await engine.setoption('Ponder', false)
 
       expect(engine.sendCmd).toHaveBeenCalledWith(
         'setoption name Ponder value false',
       )
+      expect(engine.options['Ponder']).toMatchSnapshot()
     })
   })
 
