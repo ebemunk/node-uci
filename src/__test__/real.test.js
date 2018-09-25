@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import { Engine } from '../'
+import Promise from 'bluebird'
 
 const enginePath = 'engines/stockfish-9-64'
 
@@ -17,20 +18,17 @@ describe('real engine', () => {
       await engine.quit()
     })
 
-    xit('goinfinite usage', async () => {
+    it('goinfinite usage', async () => {
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
+
       const engine = new Engine(enginePath)
       await engine.init()
-      await engine.isready()
-      await engine.setoption('MultiPV', '3')
-      const ee = engine.goInfinite()
-      ee.on('data', a => {
-        console.log(a)
-      })
-      setTimeout(async () => {
-        const bm = await engine.stop()
-        console.log('bestmove', bm)
-        await engine.quit()
-      }, 5000)
+      engine.goInfinite()
+      await Promise.delay(5000)
+      const bm = await engine.stop()
+      expect(bm.bestmove).toBeDefined()
+      expect(bm.info).toBeDefined()
+      await engine.quit()
     })
   })
 
