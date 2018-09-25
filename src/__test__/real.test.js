@@ -18,13 +18,11 @@ describe('real engine', () => {
 
   describe('promise/async', () => {
     it('promise/async usage', async () => {
-      // expect(engine.options.get('MultiPV')).toBe(undefined)
+      expect(engine.options).toMatchSnapshot()
       await engine.setoption('MultiPV', '4')
-      // expect(engine.options['MultiPV']).toBe(4)
-      console.log('engine ready', engine.id, engine.options)
+      expect(engine.options).toMatchSnapshot()
       const go = await engine.go({ depth: 4 })
-      console.log('go', go)
-      return expect(true).toBe(true)
+      expect(go).toMatchSnapshot()
     })
 
     xit('goinfinite usage', async () => {

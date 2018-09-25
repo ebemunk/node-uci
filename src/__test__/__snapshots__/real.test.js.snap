@@ -1,134 +1,415 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`real engine promise/async promise/async usage 1`] = `
-Array [
-  Array [
-    "Contempt",
+Object {
+  "Clear Hash": Object {
+    "type": "button",
+  },
+  "Contempt": Object {
+    "default": 20,
+    "max": 100,
+    "min": -100,
+    "type": "spin",
+  },
+  "Hash": Object {
+    "default": 16,
+    "max": 131072,
+    "min": 1,
+    "type": "spin",
+  },
+  "Minimum Thinking Time": Object {
+    "default": 20,
+    "max": 5000,
+    "min": 0,
+    "type": "spin",
+  },
+  "Move Overhead": Object {
+    "default": 30,
+    "max": 5000,
+    "min": 0,
+    "type": "spin",
+  },
+  "MultiPV": Object {
+    "default": 1,
+    "max": 500,
+    "min": 1,
+    "type": "spin",
+  },
+  "Ponder": Object {
+    "default": false,
+    "type": "check",
+  },
+  "Skill Level": Object {
+    "default": 20,
+    "max": 20,
+    "min": 0,
+    "type": "spin",
+  },
+  "Slow Mover": Object {
+    "default": 89,
+    "max": 1000,
+    "min": 10,
+    "type": "spin",
+  },
+  "Syzygy50MoveRule": Object {
+    "default": true,
+    "type": "check",
+  },
+  "SyzygyPath": Object {
+    "default": "<empty>",
+    "type": "string",
+  },
+  "SyzygyProbeDepth": Object {
+    "default": 1,
+    "max": 100,
+    "min": 1,
+    "type": "spin",
+  },
+  "SyzygyProbeLimit": Object {
+    "default": 6,
+    "max": 6,
+    "min": 0,
+    "type": "spin",
+  },
+  "Threads": Object {
+    "default": 1,
+    "max": 512,
+    "min": 1,
+    "type": "spin",
+  },
+  "UCI_Chess960": Object {
+    "default": false,
+    "type": "check",
+  },
+  "nodestime": Object {
+    "default": 0,
+    "max": 10000,
+    "min": 0,
+    "type": "spin",
+  },
+}
+`;
+
+exports[`real engine promise/async promise/async usage 2`] = `
+Object {
+  "Clear Hash": Object {
+    "type": "button",
+  },
+  "Contempt": Object {
+    "default": 20,
+    "max": 100,
+    "min": -100,
+    "type": "spin",
+  },
+  "Hash": Object {
+    "default": 16,
+    "max": 131072,
+    "min": 1,
+    "type": "spin",
+  },
+  "Minimum Thinking Time": Object {
+    "default": 20,
+    "max": 5000,
+    "min": 0,
+    "type": "spin",
+  },
+  "Move Overhead": Object {
+    "default": 30,
+    "max": 5000,
+    "min": 0,
+    "type": "spin",
+  },
+  "MultiPV": Object {
+    "default": 1,
+    "max": 500,
+    "min": 1,
+    "type": "spin",
+    "value": "4",
+  },
+  "Ponder": Object {
+    "default": false,
+    "type": "check",
+  },
+  "Skill Level": Object {
+    "default": 20,
+    "max": 20,
+    "min": 0,
+    "type": "spin",
+  },
+  "Slow Mover": Object {
+    "default": 89,
+    "max": 1000,
+    "min": 10,
+    "type": "spin",
+  },
+  "Syzygy50MoveRule": Object {
+    "default": true,
+    "type": "check",
+  },
+  "SyzygyPath": Object {
+    "default": "<empty>",
+    "type": "string",
+  },
+  "SyzygyProbeDepth": Object {
+    "default": 1,
+    "max": 100,
+    "min": 1,
+    "type": "spin",
+  },
+  "SyzygyProbeLimit": Object {
+    "default": 6,
+    "max": 6,
+    "min": 0,
+    "type": "spin",
+  },
+  "Threads": Object {
+    "default": 1,
+    "max": 512,
+    "min": 1,
+    "type": "spin",
+  },
+  "UCI_Chess960": Object {
+    "default": false,
+    "type": "check",
+  },
+  "nodestime": Object {
+    "default": 0,
+    "max": 10000,
+    "min": 0,
+    "type": "spin",
+  },
+}
+`;
+
+exports[`real engine promise/async promise/async usage 3`] = `
+Object {
+  "bestmove": "e2e4",
+  "info": Array [
     Object {
-      "default": 20,
-      "max": 100,
-      "min": -100,
-      "type": "spin",
+      "depth": 1,
+      "multipv": 1,
+      "nodes": 74,
+      "nps": 74000,
+      "pv": "e2e4",
+      "score": Object {
+        "unit": "cp",
+        "value": 112,
+      },
+      "seldepth": 1,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 1,
+      "multipv": 2,
+      "nodes": 74,
+      "nps": 74000,
+      "pv": "d2d4",
+      "score": Object {
+        "unit": "cp",
+        "value": 112,
+      },
+      "seldepth": 1,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 1,
+      "multipv": 3,
+      "nodes": 74,
+      "nps": 74000,
+      "pv": "e2e3",
+      "score": Object {
+        "unit": "cp",
+        "value": 100,
+      },
+      "seldepth": 1,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 1,
+      "multipv": 4,
+      "nodes": 74,
+      "nps": 74000,
+      "pv": "d2d3",
+      "score": Object {
+        "unit": "cp",
+        "value": 92,
+      },
+      "seldepth": 1,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 2,
+      "multipv": 1,
+      "nodes": 171,
+      "nps": 171000,
+      "pv": "e2e4 b7b6",
+      "score": Object {
+        "unit": "cp",
+        "value": 107,
+      },
+      "seldepth": 2,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 2,
+      "multipv": 2,
+      "nodes": 171,
+      "nps": 171000,
+      "pv": "d2d4 b7b6",
+      "score": Object {
+        "unit": "cp",
+        "value": 97,
+      },
+      "seldepth": 2,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 2,
+      "multipv": 3,
+      "nodes": 171,
+      "nps": 171000,
+      "pv": "e2e3 c7c6",
+      "score": Object {
+        "unit": "cp",
+        "value": 94,
+      },
+      "seldepth": 2,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 2,
+      "multipv": 4,
+      "nodes": 171,
+      "nps": 171000,
+      "pv": "d2d3 b7b6",
+      "score": Object {
+        "unit": "cp",
+        "value": 78,
+      },
+      "seldepth": 2,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 3,
+      "multipv": 1,
+      "nodes": 391,
+      "nps": 391000,
+      "pv": "e2e4 d7d6 d2d4",
+      "score": Object {
+        "unit": "cp",
+        "value": 144,
+      },
+      "seldepth": 3,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 3,
+      "multipv": 2,
+      "nodes": 391,
+      "nps": 391000,
+      "pv": "d2d4 e7e6 e2e4",
+      "score": Object {
+        "unit": "cp",
+        "value": 136,
+      },
+      "seldepth": 3,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 3,
+      "multipv": 3,
+      "nodes": 391,
+      "nps": 391000,
+      "pv": "e2e3 e7e6 d2d4",
+      "score": Object {
+        "unit": "cp",
+        "value": 88,
+      },
+      "seldepth": 3,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 3,
+      "multipv": 4,
+      "nodes": 391,
+      "nps": 391000,
+      "pv": "d2d3 e7e6 e2e4",
+      "score": Object {
+        "unit": "cp",
+        "value": 74,
+      },
+      "seldepth": 3,
+      "tbhits": 0,
+      "time": 1,
+    },
+    Object {
+      "depth": 4,
+      "multipv": 1,
+      "nodes": 965,
+      "nps": 482500,
+      "pv": "e2e4 e7e6 d2d4 d7d6",
+      "score": Object {
+        "unit": "cp",
+        "value": 137,
+      },
+      "seldepth": 4,
+      "tbhits": 0,
+      "time": 2,
+    },
+    Object {
+      "depth": 4,
+      "multipv": 2,
+      "nodes": 965,
+      "nps": 482500,
+      "pv": "d2d4 d7d5 c1g5 b7b5",
+      "score": Object {
+        "unit": "cp",
+        "value": 89,
+      },
+      "seldepth": 4,
+      "tbhits": 0,
+      "time": 2,
+    },
+    Object {
+      "depth": 4,
+      "multipv": 3,
+      "nodes": 965,
+      "nps": 482500,
+      "pv": "e2e3 e7e6 d2d4 d7d5",
+      "score": Object {
+        "unit": "cp",
+        "value": 28,
+      },
+      "seldepth": 4,
+      "tbhits": 0,
+      "time": 2,
+    },
+    Object {
+      "depth": 4,
+      "multipv": 4,
+      "nodes": 965,
+      "nps": 482500,
+      "pv": "g1f3 d7d5 d2d4 g8f6",
+      "score": Object {
+        "unit": "cp",
+        "value": 28,
+      },
+      "seldepth": 4,
+      "tbhits": 0,
+      "time": 2,
     },
   ],
-  Array [
-    "Threads",
-    Object {
-      "default": 1,
-      "max": 512,
-      "min": 1,
-      "type": "spin",
-    },
-  ],
-  Array [
-    "Hash",
-    Object {
-      "default": 16,
-      "max": 131072,
-      "min": 1,
-      "type": "spin",
-    },
-  ],
-  Array [
-    "Clear Hash",
-    Object {
-      "type": "button",
-    },
-  ],
-  Array [
-    "Ponder",
-    Object {
-      "default": false,
-      "type": "check",
-    },
-  ],
-  Array [
-    "MultiPV",
-    "4",
-  ],
-  Array [
-    "Skill Level",
-    Object {
-      "default": 20,
-      "max": 20,
-      "min": 0,
-      "type": "spin",
-    },
-  ],
-  Array [
-    "Move Overhead",
-    Object {
-      "default": 30,
-      "max": 5000,
-      "min": 0,
-      "type": "spin",
-    },
-  ],
-  Array [
-    "Minimum Thinking Time",
-    Object {
-      "default": 20,
-      "max": 5000,
-      "min": 0,
-      "type": "spin",
-    },
-  ],
-  Array [
-    "Slow Mover",
-    Object {
-      "default": 89,
-      "max": 1000,
-      "min": 10,
-      "type": "spin",
-    },
-  ],
-  Array [
-    "nodestime",
-    Object {
-      "default": 0,
-      "max": 10000,
-      "min": 0,
-      "type": "spin",
-    },
-  ],
-  Array [
-    "UCI_Chess960",
-    Object {
-      "default": false,
-      "type": "check",
-    },
-  ],
-  Array [
-    "SyzygyPath",
-    Object {
-      "default": "<empty>",
-      "type": "string",
-    },
-  ],
-  Array [
-    "SyzygyProbeDepth",
-    Object {
-      "default": 1,
-      "max": 100,
-      "min": 1,
-      "type": "spin",
-    },
-  ],
-  Array [
-    "Syzygy50MoveRule",
-    Object {
-      "default": true,
-      "type": "check",
-    },
-  ],
-  Array [
-    "SyzygyProbeLimit",
-    Object {
-      "default": 6,
-      "max": 6,
-      "min": 0,
-      "type": "spin",
-    },
-  ],
-]
+  "ponder": "e7e6",
+}
 `;
