@@ -3,10 +3,21 @@ language: node_js
 node_js:
   - 'node'
 
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-6
+    - g++-6
+
+cache:
+  apt: true
+
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update
-  - sudo apt-get install gcc-6 g++-6 -y
+  # - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  # - sudo apt-get update
+  # - sudo apt-get install gcc-6 g++-6 -y
   - ./get-engines.sh
 
 script:
