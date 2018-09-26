@@ -19,6 +19,7 @@ describe('real engine', () => {
     })
 
     it('goinfinite usage', async () => {
+      /* eslint-disable-next-line no-undef */
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
       const engine = new Engine(enginePath)
