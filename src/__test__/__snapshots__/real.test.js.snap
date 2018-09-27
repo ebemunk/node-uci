@@ -1,6 +1,279 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`real engine promise/async promise/async usage 1`] = `
+exports[`engines/komodo-9.02 promise/async promise/async usage 1`] = `
+Object {
+  "Best Book Line": Object {
+    "default": false,
+    "type": "check",
+  },
+  "Book File": Object {
+    "default": "komodo.bin",
+    "type": "string",
+  },
+  "Clear Hash": Object {
+    "type": "button",
+  },
+  "Hash": Object {
+    "default": 128,
+    "max": 65536,
+    "min": 1,
+    "type": "spin",
+  },
+  "Hash File Name": Object {
+    "default": "<empty>",
+    "type": "string",
+  },
+  "King Safety": Object {
+    "default": 65,
+    "max": 200,
+    "min": 0,
+    "type": "spin",
+  },
+  "Load Hash from File": Object {
+    "type": "button",
+  },
+  "Log File": Object {
+    "default": "<empty>",
+    "type": "string",
+  },
+  "Minimal Reporting": Object {
+    "default": false,
+    "type": "check",
+  },
+  "MultiPV": Object {
+    "default": 1,
+    "max": 218,
+    "min": 1,
+    "type": "spin",
+  },
+  "Null Move Pruning": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Overhead ms": Object {
+    "default": 30,
+    "max": 50000,
+    "min": 0,
+    "type": "spin",
+  },
+  "OwnBook": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Ponder": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Reduction": Object {
+    "default": 0,
+    "max": 150,
+    "min": -1000,
+    "type": "spin",
+  },
+  "Save Hash to File": Object {
+    "type": "button",
+  },
+  "Selectivity": Object {
+    "default": 80,
+    "max": 200,
+    "min": 10,
+    "type": "spin",
+  },
+  "Syzygy 50 Move Rule": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Syzygy Probe Depth": Object {
+    "default": 2,
+    "max": 99,
+    "min": 0,
+    "type": "spin",
+  },
+  "Syzygy Probe Limit": Object {
+    "default": 6,
+    "max": 6,
+    "min": 0,
+    "type": "spin",
+  },
+  "SyzygyPath": Object {
+    "default": "<empty>",
+    "type": "string",
+  },
+  "Table Memory": Object {
+    "default": 64,
+    "max": 256,
+    "min": 1,
+    "type": "spin",
+  },
+  "Threads": Object {
+    "default": 1,
+    "max": 64,
+    "min": 1,
+    "type": "spin",
+  },
+  "Time Usage": Object {
+    "default": 0,
+    "max": 9,
+    "min": -9,
+    "type": "spin",
+  },
+  "UCI_AnalyseMode": Object {
+    "default": false,
+    "type": "check",
+  },
+  "UCI_Chess960": Object {
+    "default": false,
+    "type": "check",
+  },
+  "Use Lmr": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Use Syzygy": Object {
+    "default": true,
+    "type": "check",
+  },
+}
+`;
+
+exports[`engines/komodo-9.02 promise/async promise/async usage 2`] = `
+Object {
+  "Best Book Line": Object {
+    "default": false,
+    "type": "check",
+  },
+  "Book File": Object {
+    "default": "komodo.bin",
+    "type": "string",
+  },
+  "Clear Hash": Object {
+    "type": "button",
+  },
+  "Hash": Object {
+    "default": 128,
+    "max": 65536,
+    "min": 1,
+    "type": "spin",
+  },
+  "Hash File Name": Object {
+    "default": "<empty>",
+    "type": "string",
+  },
+  "King Safety": Object {
+    "default": 65,
+    "max": 200,
+    "min": 0,
+    "type": "spin",
+  },
+  "Load Hash from File": Object {
+    "type": "button",
+  },
+  "Log File": Object {
+    "default": "<empty>",
+    "type": "string",
+  },
+  "Minimal Reporting": Object {
+    "default": false,
+    "type": "check",
+  },
+  "MultiPV": Object {
+    "default": 1,
+    "max": 218,
+    "min": 1,
+    "type": "spin",
+    "value": "4",
+  },
+  "Null Move Pruning": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Overhead ms": Object {
+    "default": 30,
+    "max": 50000,
+    "min": 0,
+    "type": "spin",
+  },
+  "OwnBook": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Ponder": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Reduction": Object {
+    "default": 0,
+    "max": 150,
+    "min": -1000,
+    "type": "spin",
+  },
+  "Save Hash to File": Object {
+    "type": "button",
+  },
+  "Selectivity": Object {
+    "default": 80,
+    "max": 200,
+    "min": 10,
+    "type": "spin",
+  },
+  "Syzygy 50 Move Rule": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Syzygy Probe Depth": Object {
+    "default": 2,
+    "max": 99,
+    "min": 0,
+    "type": "spin",
+  },
+  "Syzygy Probe Limit": Object {
+    "default": 6,
+    "max": 6,
+    "min": 0,
+    "type": "spin",
+  },
+  "SyzygyPath": Object {
+    "default": "<empty>",
+    "type": "string",
+  },
+  "Table Memory": Object {
+    "default": 64,
+    "max": 256,
+    "min": 1,
+    "type": "spin",
+  },
+  "Threads": Object {
+    "default": 1,
+    "max": 64,
+    "min": 1,
+    "type": "spin",
+  },
+  "Time Usage": Object {
+    "default": 0,
+    "max": 9,
+    "min": -9,
+    "type": "spin",
+  },
+  "UCI_AnalyseMode": Object {
+    "default": false,
+    "type": "check",
+  },
+  "UCI_Chess960": Object {
+    "default": false,
+    "type": "check",
+  },
+  "Use Lmr": Object {
+    "default": true,
+    "type": "check",
+  },
+  "Use Syzygy": Object {
+    "default": true,
+    "type": "check",
+  },
+}
+`;
+
+exports[`engines/stockfish-9-64 promise/async promise/async usage 1`] = `
 Object {
   "Clear Hash": Object {
     "type": "button",
@@ -90,7 +363,7 @@ Object {
 }
 `;
 
-exports[`real engine promise/async promise/async usage 2`] = `
+exports[`engines/stockfish-9-64 promise/async promise/async usage 2`] = `
 Object {
   "Clear Hash": Object {
     "type": "button",
