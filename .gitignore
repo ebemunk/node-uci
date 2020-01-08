@@ -6,3 +6,4 @@ coverage/
 .vscode/
 engines/
 tmp/
+.upgreat/
