@@ -16,7 +16,7 @@ export default function goCommand(options) {
   ]
 
   commands.forEach(command => {
-    if (!options.hasOwnProperty(command)) return
+    if (!Object.prototype.hasOwnProperty.call(options, command)) return
     switch (command) {
       //array
       case 'searchmoves':

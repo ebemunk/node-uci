@@ -12,13 +12,15 @@ export default {
       runtimeHelpers: true,
       exclude: 'node_modules/**',
     }),
-    nodeResolve(),
+    nodeResolve({
+      preferBuiltins: true,
+    }),
     commonjs({
       include: 'node_modules/**',
     }),
     terser(),
   ],
-  external: ['child_process', 'path', 'os', 'events', 'tty', 'util'],
+  external: ['child_process', 'path', 'os', 'events', 'tty', 'util', 'async_hooks'],
   output: {
     file: pkg['main'],
     format: 'cjs',
