@@ -1,14 +1,14 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-  <meta charset='utf-8' />
+  <meta charset='utf-8'>
   <title>node-uci 1.3.1 | Documentation</title>
-  <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
-  <link href='assets/style.css' type='text/css' rel='stylesheet' />
-  <link href='assets/github.css' type='text/css' rel='stylesheet' />
-  <link href='assets/split.css' type='text/css' rel='stylesheet' />
   <meta name='description' content='Universal Chess Interface protocol implementation for node.js'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
 </head>
 <body class='documentation m0'>
     <div class='flex'>
@@ -161,7 +161,7 @@
             </ul>
           </div>
           <div class='mt1 h6 quiet'>
-            <a href='http://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
           </div>
         </div>
       </div>
@@ -178,7 +178,7 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L81-L484'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L81-L484'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -216,10 +216,7 @@ for sending commands and mechanisms for parsing responses.</p>
 <li>✓ option</li>
 </ul>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new Engine(filePath: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-   
   
   
 
@@ -300,7 +297,7 @@ engine.chain()
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L118-L153'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L118-L153'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -310,10 +307,7 @@ engine.chain()
   <p>Retireve the proc buffer until condition is true.
 You shouldn't need to use this normally.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>getBufferUntil(condition: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>></div>
-   
   
   
 
@@ -376,6 +370,8 @@ myEngine.getBufferUntil(<span class="hljs-function"><span class="hljs-keyword">f
   
 
   
+
+  
 </section>
 
       </div>
@@ -395,7 +391,7 @@ myEngine.getBufferUntil(<span class="hljs-function"><span class="hljs-keyword">f
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L161-L164'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L161-L164'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -405,10 +401,7 @@ myEngine.getBufferUntil(<span class="hljs-function"><span class="hljs-keyword">f
   <p>Writes command to engine process. Normally you shouldn't need to use this.
 Does not validate string, use with caution or engine may have undefined behavior.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>write(command: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
-   
   
   
 
@@ -456,6 +449,8 @@ Does not validate string, use with caution or engine may have undefined behavior
   
 
   
+
+  
 </section>
 
       </div>
@@ -475,7 +470,7 @@ Does not validate string, use with caution or engine may have undefined behavior
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L176-L178'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L176-L178'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -484,10 +479,7 @@ Does not validate string, use with caution or engine may have undefined behavior
 
   <p>Returns a new <a href="#enginechain">EngineChain</a> using this engine.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>chain(): <a href="#enginechain">EngineChain</a></div>
-   
   
   
 
@@ -532,6 +524,8 @@ Does not validate string, use with caution or engine may have undefined behavior
   
 
   
+
+  
 </section>
 
       </div>
@@ -551,7 +545,7 @@ Does not validate string, use with caution or engine may have undefined behavior
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L199-L223'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L199-L223'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -561,10 +555,7 @@ Does not validate string, use with caution or engine may have undefined behavior
   <p>Initializes the engine process and handshakes with the UCI protocol.
 When this is done, <a href="#Engine#id">#Engine#id</a> and <a href="#Engine#options">#Engine#options</a> are populated.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>init(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;<a href="#engine">Engine</a>></div>
-   
   
   
 
@@ -623,6 +614,8 @@ myEngine.init()
   
 
   
+
+  
 </section>
 
       </div>
@@ -642,7 +635,7 @@ myEngine.init()
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L230-L243'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L230-L243'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -651,10 +644,7 @@ myEngine.init()
 
   <p>Sends a quit message to the engine process, and cleans up.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>quit(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;<a href="#engine">Engine</a>></div>
-   
   
   
 
@@ -696,6 +686,8 @@ myEngine.init()
   
 
   
+
+  
 </section>
 
       </div>
@@ -715,7 +707,7 @@ myEngine.init()
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L250-L257'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L250-L257'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -724,10 +716,7 @@ myEngine.init()
 
   <p>Sends UCI <code>isready</code> command to the engine. Promise resolves after <code>readyok</code> is received.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>isready(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;<a href="#engine">Engine</a>></div>
-   
   
   
 
@@ -769,6 +758,8 @@ myEngine.init()
   
 
   
+
+  
 </section>
 
       </div>
@@ -788,7 +779,7 @@ myEngine.init()
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L267-L276'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L267-L276'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -799,10 +790,7 @@ myEngine.init()
 Some commands in the UCI protocol do not require responses (like <code>setoption</code>).
 So, to be sure, <a href="#engineisready">Engine#isready</a> is invoked to determine when it's safe to continue.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>sendCmd(cmd: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;<a href="#engine">Engine</a>></div>
-   
   
   
 
@@ -858,6 +846,8 @@ So, to be sure, <a href="#engineisready">Engine#isready</a> is invoked to determ
   
 
   
+
+  
 </section>
 
       </div>
@@ -877,7 +867,7 @@ So, to be sure, <a href="#engineisready">Engine#isready</a> is invoked to determ
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L302-L310'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L302-L310'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -887,10 +877,7 @@ So, to be sure, <a href="#engineisready">Engine#isready</a> is invoked to determ
   <p>Sends the <code>setoption</code> command for given option name and its value.
 Does not validate parameters. <code>value</code>, if given, is coerced into a string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>setoption(name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, value: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;<a href="#engine">Engine</a>></div>
-   
   
   
 
@@ -975,6 +962,8 @@ myEngine.setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs
   
 
   
+
+  
 </section>
 
       </div>
@@ -994,7 +983,7 @@ myEngine.setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L317-L319'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L317-L319'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -1003,10 +992,7 @@ myEngine.setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs
 
   <p>Sends <code>ucinewgame</code> command to engine process.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ucinewgame(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;<a href="#engine">Engine</a>></div>
-   
   
   
 
@@ -1039,6 +1025,8 @@ myEngine.setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs
 </li>
       
     </ul>
+  
+
   
 
   
@@ -1067,7 +1055,7 @@ myEngine.setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L326-L328'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L326-L328'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -1076,10 +1064,7 @@ myEngine.setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs
 
   <p>Sends <code>ponderhit</code> command to engine process.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ponderhit(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;<a href="#engine">Engine</a>></div>
-   
   
   
 
@@ -1121,6 +1106,8 @@ myEngine.setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs
   
 
   
+
+  
 </section>
 
       </div>
@@ -1140,7 +1127,7 @@ myEngine.setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L339-L354'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L339-L354'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -1150,10 +1137,7 @@ myEngine.setoption(<span class="hljs-string">'MultiPV'</span>, <span class="hljs
   <p>Sends <code>position</code> command to engine process.
 Does not validate inputs.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>position(fen: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, moves: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;<a href="#engine">Engine</a>></div>
-   
   
   
 
@@ -1223,6 +1207,8 @@ setting position via FEN
   
 
   
+
+  
 </section>
 
       </div>
@@ -1242,7 +1228,7 @@ setting position via FEN
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L397-L412'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L397-L412'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -1255,10 +1241,7 @@ Options have identical names as the UCI <code>go</code> options. See UCI protoco
 On completion, it returns an object containing the <code>bestmove</code> and an array of <code>info</code> objects,
 these <code>info</code> objects have properties that correspond to the UCI protocol.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>go(options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;{bestmove: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, info: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>}></div>
-   
   
   
 
@@ -1461,6 +1444,8 @@ myEngine.init()
   
 
   
+
+  
 </section>
 
       </div>
@@ -1480,7 +1465,7 @@ myEngine.init()
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L437-L461'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L437-L461'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -1489,10 +1474,7 @@ myEngine.init()
 
   <p>Special case of <a href="#Engine#go">#Engine#go</a> with <code>infinite</code> search enabled.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>goInfinite(options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>): EventEmitter</div>
-   
   
   
 
@@ -1580,6 +1562,8 @@ setTimeout(<span class="hljs-keyword">async</span> () =&gt; {
   
 
   
+
+  
 </section>
 
       </div>
@@ -1599,7 +1583,7 @@ setTimeout(<span class="hljs-keyword">async</span> () =&gt; {
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/Engine/index.js#L470-L483'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/Engine/index.js#L470-L483'>
       <span>src/Engine/index.js</span>
       </a>
     
@@ -1610,10 +1594,7 @@ setTimeout(<span class="hljs-keyword">async</span> () =&gt; {
 reply with the <code>bestmove</code>, which is returned, along with any other <code>info</code> lines.
 See <a href="#Engine#goInfinite">#Engine#goInfinite</a> for usage example.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>stop(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">promise</a>&#x3C;{bestmove: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, info: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>}></div>
-   
   
   
 
@@ -1648,6 +1629,8 @@ See <a href="#Engine#goInfinite">#Engine#goInfinite</a> for usage example.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1658,8 +1641,11 @@ See <a href="#Engine#goInfinite">#Engine#goInfinite</a> for usage example.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -1672,7 +1658,7 @@ See <a href="#Engine#goInfinite">#Engine#goInfinite</a> for usage example.</p>
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/EngineChain/index.js#L45-L96'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/EngineChain/index.js#L45-L96'>
       <span>src/EngineChain/index.js</span>
       </a>
     
@@ -1693,10 +1679,7 @@ See <a href="#Engine#goInfinite">#Engine#goInfinite</a> for usage example.</p>
 <p><code>go</code> is a special case that ends the chain by calling <a href="#EngineChain#exec">#EngineChain#exec</a>,
 and returns the search result.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new EngineChain(engine: <a href="#engine">Engine</a>)</div>
-   
   
   
 
@@ -1767,7 +1750,7 @@ and returns the search result.</p>
   <div class='clearfix'>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/67b127991b599df08f249a13c734ae699364579e/src/EngineChain/index.js#L89-L95'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/ebemunk/node-uci/blob/2bb4b183e00eda6529000541abf0ca5a47bcb043/src/EngineChain/index.js#L89-L95'>
       <span>src/EngineChain/index.js</span>
       </a>
     
@@ -1777,10 +1760,7 @@ and returns the search result.</p>
   <p>Execute each chained item serially. This ends the chain, and returns the
 last return value from the <a href="#engine">Engine</a>.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>exec(): any</div>
-   
   
   
 
@@ -1816,6 +1796,8 @@ last return value from the <a href="#engine">Engine</a>.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1826,8 +1808,11 @@ last return value from the <a href="#engine">Engine</a>.</p>
   
 
   
+
+  
 </section>
 
+          
         
       </div>
     </div>
