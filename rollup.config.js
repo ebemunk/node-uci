@@ -20,7 +20,15 @@ export default {
     }),
     terser(),
   ],
-  external: ['child_process', 'path', 'os', 'events', 'tty', 'util', 'async_hooks'],
+  external: [
+    'child_process',
+    'path',
+    'os',
+    'events',
+    'tty',
+    'util',
+    'async_hooks',
+  ],
   output: {
     file: pkg['main'],
     format: 'cjs',
