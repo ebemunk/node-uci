@@ -4,7 +4,7 @@
 export const REGEX = {
   cmdType: /^(id|option|uciok$|info|bestmove)/,
   id: /^id (name|author) (.+)$/,
-  option: /^option name (.+) type (\w+)(?: default ([A-Za-z0-9._\\\:<>/]+))?(?: min (-?\w+))?(?: max (-?\w+))?(?: var (.+))*$/,
+  option: /^option name (.+) type (\w+)(?: default ([A-Za-z0-9._\\\:<>/-]+))?(?: min (-?\w+))?(?: max (-?\w+))?(?: var (.+))*$/,
   bestmove: /^bestmove ([A-Za-z0-9\(\)]+)(?: ponder (\w+))?$/,
   info: {
     depth: /\bdepth (\d+)/,
