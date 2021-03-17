@@ -237,7 +237,11 @@ export default class Engine {
     })
     //cleanup
     this.proc.stdout.removeListener('data', fromEngineLog)
-    this.proc.removeAllListeners()
+    try {
+      this.proc.removeAllListeners()
+    } catch(error) {
+      log("Error calling this.proc.removeAllListeners(): " + error)
+    }
     delete this.proc
     return this
   }
