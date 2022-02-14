@@ -96,6 +96,7 @@ export default class Engine {
       author: null,
     }
     this.options = new Map()
+    this.onDataAction = fromEngineLog
   }
 
   /**
@@ -202,7 +203,7 @@ export default class Engine {
     this.proc = spawn(this.filePath)
     this.proc.stdout.setEncoding('utf8')
     //log buffer from engine
-    this.proc.stdout.on('data', fromEngineLog)
+    this.proc.stdout.on('data', this.onDataAction)
     //send command to engine
     this.write('uci')
     //parse lines
